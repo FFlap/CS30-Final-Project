@@ -58,45 +58,18 @@ void level1() {
 
 
     //Death Zone
-    aObject object = new aObject("deathZone", 240, 655, 87, 5);
-   object.display();
+    ArrayList<aObject> objects = new ArrayList<aObject>();
+    objects.add(new aObject("deathZone", 240, 655, 87, 5));
 
-
-
-    //Portals
-    fill(0, 101, 255);
-    rect(327, 553, 10, 60);
-    fill(255);
-    rect(327, 558, 5, 50);
-    if (player.boxY <= 612 && player.boxY >= 545 && player.boxX > 326 && player.boxX < 358) {
-      player.boxX = 550;
-      player.boxY = 645;
-    }
-
-    fill(255, 154, 0);
-    rect(481, 660, 60, 10);
-    fill(255);
-    rect(486, 660, 50, 5);
-
-    if (player.boxY <= 669 && player.boxY >= 640 && player.boxX >= 480 && player.boxX <= 540) {
-      player.boxX = 170;
-      player.boxY = 580;
-    }
-
-
-
+    //Portal
+    objects.add(new aObject("portal", 327, 553, 580, 660, 373, 645, 170, 580));
 
     //End
-    fill(218, 165, 32);
-    rect(327, 351, 35, 9);
-    if (player.boxY < 350 && player.boxX >= 350 && player.boxX <= 360 && level == 1) {
-      level++;
-      levelTimer = 0;
-      if (level >= levelUnlocked) {
-        json = new JSONObject();
-        json.setInt("levelUnlocked", level);
-        saveJSONObject(json, "data/data.json");
-      }
+    objects.add(new aObject("podium", 327, 351));
+
+
+    for (aObject obj : objects) {
+      obj.display();
     }
   }
 }
