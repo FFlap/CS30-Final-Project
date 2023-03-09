@@ -11,7 +11,31 @@ public class aPlatform {
     this.platformColor = platformColor;
   }
 
+/*
 
+ Checks Number Meaning :
+ 
+ Check 1 = Ground
+ 
+ Check 2 = Platform 1
+ 
+ Check 3 = Platform 2
+ 
+ Check 4 = Platform 3
+ 
+ Check 5 = Platform 4
+ 
+ Check 6 = Platform 5
+ 
+ Check 7 = Platform 1 Level 2
+ 
+ Check 8 = Platform 2 Level 2
+ 
+ Check 9 = Platform 3 Level 2
+ 
+ Check 999 = Just a of range platform check to see if the player is in the air now
+ etc...
+ */
 
   public void display() {
     fill(platformColor);
