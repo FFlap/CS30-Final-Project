@@ -70,7 +70,7 @@ public class aObject {
       fill(218, 165, 32);
       rect(setX, setY, 35, 9);
 
-      if (player.boxY <= setY + 10 &&  player.boxY >= setY - 10 && player.boxX >= setX - 20 && player.boxX <= setX + 35) {
+      if (player.boxY <= setY + 15 &&  player.boxY >= setY - 25 && player.boxX >= setX - 15 && player.boxX <= setX + 30) {
         level++;
         levelTimer = 0;
         if (level >= levelUnlocked) {

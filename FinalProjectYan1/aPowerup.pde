@@ -2,34 +2,40 @@ public class aPowerup {
   private int setX, setY;
   private String setType;
   private boolean activatedPowerup;
-  public aPowerup(String setType, int setX, int setY, boolean activatedPowerup) {
+  public aPowerup(String setType, int setX, int setY) {
     this.setType = setType;
     this.setX = setX;
     this.setY = setY;
-    this.activatedPowerup = activatedPowerup;
   }
 
   public void display() {
     switch(setType) {
 
     case "highJump":
-    if(!activatedPowerup){
-      fill(255, 0, 0);
-      rect(setX, setY, 20, 20);
-      if(player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 15 && player.boxY >= setY - 15) {
-          higherjump = true;
+
+      if (activatedPowerup == false && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
+        activatedPowerup = true;
       }
-    } else {
-      
-     jumpheight = 21;
-      
-    }
-      
-    
+
+      if (activatedPowerup == true) {
+        player.maxJumpHeight = 21;
+      } else {
+        fill(255, 0, 0);
+        rect(setX, setY, 20, 20);
+      }
+
+
+
       break;
 
     default:
       println("Invalid setType");
+    }
+  }
+
+  public void data() {
+    if (levelTimer % 100 == 0) {
+      println("Time: " + levelTimer/100 + "s Check: " +  activatedPowerup);
     }
   }
 }

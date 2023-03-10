@@ -1,4 +1,7 @@
 void LevelReset() {
+  platforms.clear();
+  objects.clear();
+  powerups.clear();
   higherjump = false;
   higherjump2 = false;
    player.maxJumpHeight = 15;

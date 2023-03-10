@@ -7,6 +7,11 @@ PImage titleImage, endImage, comingImage, world1;
 //Player
 aPlayer player = new aPlayer(335, 640, 15, 20, 10);
 
+ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
+ArrayList<aObject> objects = new ArrayList<aObject>();
+ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
+
+
 //Previous Variables
 float boxX, boxY, jump, jumpheight, boxsize;
 boolean moveleft, moveright, platform, jumpboolean, landed, higherjump, higherjump2, projectilemove = false;
