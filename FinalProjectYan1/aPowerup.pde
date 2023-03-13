@@ -1,7 +1,7 @@
 public class aPowerup {
-  private int setX, setY, setPowerupValue, glassesPowerup;
+  private float setX, setY, setPowerupValue, glassesPowerup, projectileAngle, projectileTimer;
   private String setType;
-  private boolean activatedPowerup;
+  private boolean activatedPowerup, projectileMove;
   public aPowerup() {
   }
   public aPowerup(String setType, int setX, int setY) {
@@ -30,6 +30,10 @@ public class aPowerup {
     } else if (glassesPowerup == 1) {
       glassesPowerup = 2;
     }
+  }
+
+  public void setProjectileAngle(float projectileX, float projectileY, int projectileMouseX, int projectileMouseY) {
+    projectileAngle = atan2(projectileMouseY - projectileY, projectileMouseX - projectileX);
   }
 
   public void display() {
@@ -81,6 +85,8 @@ public class aPowerup {
       break;
 
 
+
+
     case "levelUnlock":
       if (activatedPowerup ==  false) {
         fill(#FFDF24);
@@ -101,6 +107,44 @@ public class aPowerup {
       }
 
       break;
+
+    case "projectile":
+      if (activatedPowerup ==  false) {
+        fill(#7B4CEA);
+        rect(setX, setY, 20, 20);
+        fill(#151515);
+        rect(setX + 5, setY + 5, 10, 10);
+      } else {
+        fill(255);
+        textSize(15);
+        text("Click anywhere you want to shoot!", 230, 430);
+        if (projectileMove == true) {
+
+
+          projectileTimer++;
+          if (projectileTimer == 50) {
+            projectileMove = false;
+            projectileTimer = 0;
+          }
+
+          //Projectile
+          fill(#7B4CEA);
+          rectMode(CENTER);
+          rect(projectileX, projectileY, 20, 20);
+          rectMode(CORNER);
+
+          projectileSpeedX = setPowerupValue * cos(projectileAngle);
+
+          projectileSpeedY = setPowerupValue * sin(projectileAngle);
+          projectileX += projectileSpeedX;
+
+          projectileY += projectileSpeedY;
+        }
+      }
+
+      break;
+
+
     default:
       println("Invalid setType");
     }

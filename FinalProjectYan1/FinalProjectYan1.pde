@@ -111,8 +111,8 @@ void draw() {
   level4();
   level5();
 
-   level6();
-     /*
+  level6();
+  /*
    level7();
    level8();
    level9();
@@ -222,12 +222,13 @@ public void mousePressed() {
 
 
   if (projectilePowercheck == true) {
-
+    for (aPowerup pow : powerups) {
+      if (pow.getType() == "projectile") {
+        pow.setProjectileAngle(player.boxX, player.boxY, mouseX, mouseY);
+        break;
+      }
+    }
     projectilemove = true;
-    projectileX = player.boxX;
-    projectileY = player.boxY;
-    projectileMouseX = mouseX;
-    projectileMouseY = mouseY;
-    projectileangle = atan2(projectileMouseY - projectileY, projectileMouseX - projectileX);
+
   }
 }//end mousePressed

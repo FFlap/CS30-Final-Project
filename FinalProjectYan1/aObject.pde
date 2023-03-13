@@ -1,5 +1,5 @@
 public class aObject {
-  private int setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue;
+  private int setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, projectileTargetCheck;
   private String setType;
 
 
@@ -82,7 +82,32 @@ public class aObject {
       }
 
       break;
+    case "projectileTarget":
+    fill(#FF3E3E);
+    rect(setX, setY, setL, setW);
+    fill(255);
+    rect(setX + 10, setY + 10, setL - 20, setW -20);
+    fill(#FF3E3E);
+    rect(setX + 15, setY + 15, setL - 30, setW -30);
 
+    if ( projectileY <= (setY + setW) && projectileY >= (setY - boxsize) && projectileX >= (setX - boxsize) && projectileX <= (setX + setL)  + boxsize && projectileTargetCheck >= 0) {
+      if (projectileY <= (setY + setW) && projectileY >= (setY - boxsize) && projectileX >= (setX - boxsize) && projectileX <= (setX + setL)  + boxsize && projectileTargetCheck == 1) {
+        projectileTargetCheck = 0;
+      } else {
+        projectileTargetCheck = 1;
+      }
+    }
+
+
+
+    if (projectileY <= (setY + setW) && projectileY >= (setY - boxsize) && projectileX >= (setX - boxsize) && projectileX <= (setX + setL)  + boxsize) {
+      projectilemove = false;
+      projectileX = 0;
+      projectileY = 0;
+    }
+    
+    
+    break;
 
     case "podium": 
       fill(218, 165, 32);
