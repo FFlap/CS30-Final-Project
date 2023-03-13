@@ -5,10 +5,14 @@ PImage titleImage, endImage, comingImage, world1;
 
 
 //Player
-aPlayer player = new aPlayer(335, 640, 15, 20, 10);
+aPlayer player = new aPlayer(335, 640, 20, 20, 10);
 
+//Ground
+aPlatform ground = new aPlatform(-40, 660, 780, 45, #32CD32);
 ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
+ArrayList<aPlatform> tempPlatforms = new ArrayList<aPlatform>();
 ArrayList<aObject> objects = new ArrayList<aObject>();
+ArrayList<aObject> tempObjects = new ArrayList<aObject>();
 ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
 
 
@@ -64,8 +68,8 @@ float platformStart1916 = 900;
 
 int wave = 1;
 int timer = 0;
-int glassespower = 0;
-int level = 0;
+boolean glassespower = false;
+int level = -1;
 int levelSelect = 0;
 float levelTimer = 0;
 
@@ -91,8 +95,7 @@ void draw() {
 
   //player.data();
 
-  //Ground
-  aPlatform ground = new aPlatform(-40, 660, 740, 45, 1, #32CD32);
+
   ground.display();
 
   //Starting Screen
@@ -104,11 +107,12 @@ void draw() {
 
   level1();
   level2();
-    /*
-   level3();
-   level4();
-   level5();
+  level3();
+  level4();
+  level5();
+
    level6();
+     /*
    level7();
    level8();
    level9();
@@ -154,13 +158,15 @@ public void keyPressed() {
 
 
 
-    if (( key == 'R' && glassespower >= 1)|| key == 'r' && glassespower >= 1) {
-      if (glassespower == 2) {
-        glassespower = 1;
-      } else {
-        glassespower = 2;
+    if ( key == 'R' || key == 'r') {
+      for (aPowerup pow : powerups) {
+        if (pow.getType() == "glasses") {
+          pow.glassesPowerupToggle();
+          break;
+        }
       }
     }
+
 
     //Movement
     if (  key == 'w' || key == 'W' || keyCode == UP || key ==  ' ') {
@@ -188,7 +194,7 @@ public void keyPressed() {
     }
 
     if ( key == 'h' || key == 'H') {
-      player.maxJumpHeight++;
+      player.jump++;
     }
     if (!GUI.getPauseMenu()) {
       if ( key == 'l' || key == 'L') {

@@ -66,7 +66,7 @@ public class aGUI {
           text("Box X Value: " + player.boxX, 0, 60);
           text("Box Y Value: " + player.boxY, 0, 75);
           text("Speed: " + player.speed, 0, 90);
-          text("Jump Height: " + player.maxJumpHeight, 0, 105);
+          text("Jump Height: " + player.jump, 0, 105);
           text("Platform "+ check, 0, 120);
           text("Level Select State: " + levelSelect, 0, 135);
           text("To Increase Speed Press: P", 0, 165);
@@ -649,7 +649,7 @@ public class aGUI {
     if  (mY <= 450 && mY >= 350 && mX > 100 && mX < 300 && level == 10) {
       level = 1;
       higherjump = false;
-      player.maxJumpHeight = 15;
+      player.jump = 15;
       player.jump = 15;
       player.boxX = 50;
       player.boxY = 640;

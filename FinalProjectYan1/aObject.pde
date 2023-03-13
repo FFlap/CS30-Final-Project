@@ -1,5 +1,5 @@
 public class aObject {
-  private int setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2;
+  private int setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue;
   private String setType;
 
 
@@ -7,6 +7,13 @@ public class aObject {
     this.setX = setX;
     this.setY = setY;
     this.setType = setType;
+  }
+
+  public aObject(String setType, int setX, int setY, int objectValue) {
+    this.setX = setX;
+    this.setY = setY;
+    this.setType = setType;
+    this.objectValue = objectValue;
   }
 
   public aObject(String setType, int setX, int setY, int setL, int setW) {
@@ -47,7 +54,7 @@ public class aObject {
       fill(255);
       rect(setX, setY + 5, 5, 50);
 
-      if (player.boxY <= (setY + 60) && player.boxY >= setY - 10 && player.boxX > setX && player.boxX < (setX + 10)) {
+      if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
         player.boxX = setTeleportX;
         player.boxY = setTeleportY;
       }
@@ -57,11 +64,22 @@ public class aObject {
       fill(255);
       rect(setX2 + 5, setY2, 50, 5);
 
-      if (player.boxY <= setY2 + 30 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 20 && player.boxX <= setX2 + 50) {
+      if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
         player.boxX = setTeleportX2;
         player.boxY = setTeleportY2;
       }
 
+
+      break;
+
+    case "jumpBoost":
+      fill(#4DCEFF);
+      rect(setX, setY, 35, 9);
+      if (player.boxY <= setY + 15 &&  player.boxY >= setY - 25 && player.boxX >= setX - 15 && player.boxX <= setX + 30) {
+        player.jump = objectValue;
+        player.jump();
+        player.jump = 15;
+      }
 
       break;
 

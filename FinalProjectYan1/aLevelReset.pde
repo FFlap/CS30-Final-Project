@@ -2,12 +2,13 @@ void LevelReset() {
   platforms.clear();
   objects.clear();
   powerups.clear();
+  tempPlatforms.clear();
+  tempObjects.clear();
   higherjump = false;
   higherjump2 = false;
-   player.maxJumpHeight = 15;
-   player.boxSize = 20;
-   player.speed = 10;
-   player.jump = 15; 
+  player.jump = 15;
+  player.boxSize = 20;
+  player.speed = 10; 
   projectilemove = false;
   levelkeycheck = false;
   projectilePowercheck = false;
@@ -20,16 +21,15 @@ void LevelReset() {
   projectileSpeed = 6;
   wave = 1;
   timer = 0;
-  glassespower = 0;
   platformstart = 120;
-  
-platformstart = 120;
-platformMove = 1;
-platformstart2 = 120;
-platformMove2 = 1;
-platformstart3 = 300;
-platformMove3 = 1;
-  
+
+  platformstart = 120;
+  platformMove = 1;
+  platformstart2 = 120;
+  platformMove2 = 1;
+  platformstart3 = 300;
+  platformMove3 = 1;
+
   platformStart192 = -150;
 
   platformStart193 = -450;

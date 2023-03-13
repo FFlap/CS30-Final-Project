@@ -8,11 +8,11 @@ void level2() {
       player.boxX = 50;
       player.boxY = 640;
       //Platforms
-      platforms.add(new aPlatform(450, 580, 120, 30, 7, 128));
-      platforms.add(new aPlatform(40, 480, 120, 30, 8, 128));
-      platforms.add(new aPlatform(220, 330, 120, 30, 9, 128));
+      platforms.add(new aPlatform(450, 580, 120, 30,128));
+      platforms.add(new aPlatform(40, 480, 120, 30,128));
+      platforms.add(new aPlatform(220, 330, 120, 30,128));
       //High Jump
-      powerups.add(new aPowerup("highJump", 500, 560));
+      powerups.add(new aPowerup("highJump", 500, 560, 15));
       //End
       objects.add(new aObject("podium", 260, 321));
     }

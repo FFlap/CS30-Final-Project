@@ -7,11 +7,11 @@ void level1() {
       player.boxX = 50;
       player.boxY = 640;
       //Platforms
-      platforms.add(new aPlatform(140, 600, 100, 60, 2, 128));
-      platforms.add(new aPlatform(450, 580, 120, 30, 3, 128));
-      platforms.add(new aPlatform(590, 500, 120, 30, 4, 128));
-      platforms.add(new aPlatform(500, 450, 30, 30, 5, 128));
-      platforms.add(new aPlatform(415, 400, 30, 30, 6, 128));
+      platforms.add(new aPlatform(140, 600, 100, 60,128));
+      platforms.add(new aPlatform(450, 580, 120, 30,128));
+      platforms.add(new aPlatform(590, 500, 120, 30, 128));
+      platforms.add(new aPlatform(500, 450, 30, 30,128));
+      platforms.add(new aPlatform(415, 400, 30, 30,128));
       //Death Zone
       objects.add(new aObject("deathZone", 240, 655, 87, 5));
 

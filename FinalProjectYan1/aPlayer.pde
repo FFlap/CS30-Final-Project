@@ -1,5 +1,5 @@
 public class aPlayer {
-  private float boxX, boxY, jump, maxJumpHeight;
+  private float boxX, boxY, jump, velocityY;
   private int boxSize, speed;
   private boolean jumpToggle, moveRight, moveLeft = false;
 
@@ -9,7 +9,6 @@ public class aPlayer {
     this.boxX = boxX;
     this.boxY = boxY;
     this.jump = jump;
-    this.maxJumpHeight = jump;
     this.boxSize = boxSize;
     this.speed = speed;
   }
@@ -23,7 +22,10 @@ public class aPlayer {
   }
 
   public void jump() {
-    jumpToggle = true;
+    if (!jumpToggle) { // Only jump if not currently jumping
+      jumpToggle = true;
+      velocityY = -jump;
+    }
   }
 
   public void  stopLeft() {
@@ -51,19 +53,16 @@ public class aPlayer {
     }
 
 
-    //Jump
-    if (jumpToggle == true) {
-      jump--;
-      boxY = boxY - jump;
-      //println(jump);
-    }
 
-    if (jump <= - maxJumpHeight) {
-      jumpToggle = false;
-      // println("Jump equal to -15!");
-      jump = maxJumpHeight;
+    // Jump
+    velocityY += 0.5;
+    boxY += velocityY;
+
+    if (!jumpToggle) {
+      jumpToggle = true;
     }
   }
+
 
 
 
