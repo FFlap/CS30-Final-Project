@@ -5,14 +5,12 @@ PImage titleImage, endImage, comingImage, world1;
 
 
 //Player
-aPlayer player = new aPlayer(335, 640, 20, 20, 10);
+aPlayer player = new aPlayer(20, 20, 10);
 
 //Ground
-aPlatform ground = new aPlatform(-40, 660, 780, 45, #32CD32);
+aPlatform ground = new aPlatform(0, -40, 660, 780, 45, #32CD32);
 ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
-ArrayList<aPlatform> tempPlatforms = new ArrayList<aPlatform>();
 ArrayList<aObject> objects = new ArrayList<aObject>();
-ArrayList<aObject> tempObjects = new ArrayList<aObject>();
 ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
 
 
@@ -36,7 +34,6 @@ boolean ToolTip = true;
 //Projectile
 boolean projectilePowercheck;
 int projectileTargetCheck;
-float projectileX, projectileY, projectileMouseX, projectileMouseY, projectileSpeedX, projectileSpeedY, projectileangle, projectileTimer;
 int projectilesize = 20;
 float projectileSpeed = 6;
 
@@ -100,20 +97,17 @@ void draw() {
 
   //Starting Screen
   level0();
-
-
+  
   // Levels
-
-
   level1();
   level2();
   level3();
   level4();
   level5();
-
   level6();
+  level7();
+
   /*
-   level7();
    level8();
    level9();
    level10();
@@ -211,24 +205,20 @@ public void keyPressed() {
 
 
 public void mousePressed() {
-  projectileTimer = 0;
+
   println("Mouse is at x: " + mouseX);
   println("Mouse is at y: " + mouseY);
   println();
   GUI.setMouseValues(mouseX, mouseY);
   GUI.checkClick();
 
-
-
-
-  if (projectilePowercheck == true) {
     for (aPowerup pow : powerups) {
-      if (pow.getType() == "projectile") {
-        pow.setProjectileAngle(player.boxX, player.boxY, mouseX, mouseY);
+      if (pow.getType() == "projectile" && pow.activatedPowerup == true) {
+        pow.projectileTimer = 0;
+        pow.setProjectileAngle(mouseX, mouseY);
+        pow.projectileMove = true;
         break;
       }
     }
-    projectilemove = true;
-
-  }
+  
 }//end mousePressed

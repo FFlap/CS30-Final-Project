@@ -2,8 +2,6 @@ void LevelReset() {
   platforms.clear();
   objects.clear();
   powerups.clear();
-  tempPlatforms.clear();
-  tempObjects.clear();
   higherjump = false;
   higherjump2 = false;
   player.jump = 15;
@@ -13,10 +11,6 @@ void LevelReset() {
   levelkeycheck = false;
   projectilePowercheck = false;
   projectileTargetCheck = 0;
-  projectileX = 0;
-  projectileY = 0;
-  projectileMouseX = 0;
-  projectileMouseY = 0;
   projectilesize = 20;
   projectileSpeed = 6;
   wave = 1;

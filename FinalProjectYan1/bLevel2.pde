@@ -8,13 +8,13 @@ void level2() {
       player.boxX = 50;
       player.boxY = 640;
       //Platforms
-      platforms.add(new aPlatform(450, 580, 120, 30,128));
-      platforms.add(new aPlatform(40, 480, 120, 30,128));
-      platforms.add(new aPlatform(220, 330, 120, 30,128));
+      platforms.add(new aPlatform(0,450, 580, 120, 30,128));
+      platforms.add(new aPlatform(0,40, 480, 120, 30,128));
+      platforms.add(new aPlatform(0,220, 330, 120, 30,128));
       //High Jump
-      powerups.add(new aPowerup("highJump", 500, 560, 15));
+      powerups.add(new aPowerup("highJump", 0,500, 560, 15));
       //End
-      objects.add(new aObject("podium", 260, 321));
+      objects.add(new aObject("podium", 0,260, 321));
     }
 
     levelTimer++;
@@ -32,7 +32,9 @@ void level2() {
 
     //Platforms
     for (aPlatform plat : platforms) {
-      plat.display();
+      if (plat.visibility == 0) { 
+        plat.display();
+      }
     }
 
 
@@ -43,7 +45,9 @@ void level2() {
 
     //Objects
     for (aObject obj : objects) {
-      obj.display();
+      if (obj.visibility == 0) { 
+        obj.display();
+      }
     }
   }
 }

@@ -1,18 +1,21 @@
 public class aPowerup {
-  private float setX, setY, setPowerupValue, glassesPowerup, projectileAngle, projectileTimer;
+  private float setX, setY, setPowerupValue, togglePowerup, visibility;
+  private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
   private String setType;
   private boolean activatedPowerup, projectileMove;
   public aPowerup() {
   }
-  public aPowerup(String setType, int setX, int setY) {
+  public aPowerup(String setType, int visibility, int setX, int setY) {
+    this.visibility = visibility;
     this.setType = setType;
     this.setX = setX;
     this.setY = setY;
   }
 
 
-  public aPowerup(String setType, int setX, int setY, int setPowerupValue) {
+  public aPowerup(String setType, int visibility, int setX, int setY, int setPowerupValue) {
     this.setType = setType;
+    this.visibility = visibility;
     this.setX = setX;
     this.setY = setY;
     this.setPowerupValue = setPowerupValue;
@@ -22,18 +25,28 @@ public class aPowerup {
     return setType;
   }
 
+  public float getProjectileX() {
+    return projectileX;
+  }
+
+  public float getProjectileY() {
+    return projectileY;
+  }
+
   public void glassesPowerupToggle() {
 
 
-    if (glassesPowerup == 2) {
-      glassesPowerup = 1;
-    } else if (glassesPowerup == 1) {
-      glassesPowerup = 2;
+    if (togglePowerup == 2) {
+      togglePowerup = 1;
+    } else if (togglePowerup == 1) {
+      togglePowerup = 2;
     }
   }
 
-  public void setProjectileAngle(float projectileX, float projectileY, int projectileMouseX, int projectileMouseY) {
-    projectileAngle = atan2(projectileMouseY - projectileY, projectileMouseX - projectileX);
+  public void setProjectileAngle(int projectileMouseX, int projectileMouseY) {
+    this.projectileX = player.boxX;
+    this.projectileY = player.boxY;
+    this.projectileAngle = atan2(projectileMouseY - projectileY, projectileMouseX - projectileX);
   }
 
   public void display() {
@@ -58,25 +71,26 @@ public class aPowerup {
 
     case "glasses":
 
-      if (glassesPowerup == 0) {
+      if (togglePowerup == 0) {
         fill(#FF9912);
         rect(setX, setY, 20, 20);
       }
 
-      if (glassesPowerup == 1) {
+      if (togglePowerup == 1) {
 
         fill(255);
         textSize(15);
         text("Toggle your glasses power On/Off \n by pressing R!", 420, 430);
-      } else if (glassesPowerup == 2) {
-
-        for (aPlatform plat : tempPlatforms) {
-          plat.display();
+      } else if (togglePowerup == 2) {
+        for (aObject obj : objects) {
+          if (obj.getType() == "projectileTarget") {
+            obj.objectToggle = 1;
+          }
         }
       }
 
-      if (glassesPowerup == 0 && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
-        glassesPowerup = 1;
+      if (togglePowerup == 0 && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
+        togglePowerup = 1;
       }
 
 
@@ -94,11 +108,15 @@ public class aPowerup {
         fill(#151515);
         rect(setX + 5, setY + 5, 10, 10);
       } else {
-        for (aPlatform plat : tempPlatforms) {
-          plat.display();
+        for (aPlatform plat : platforms) {
+          if (plat.visibility == 1) { 
+            plat.display();
+          }
         }
-        for (aObject obj : tempObjects) {
-          obj.display();
+        for (aObject obj : objects) {
+          if (obj.visibility == 1) { 
+            obj.display();
+          }
         }
       }
 
@@ -109,6 +127,10 @@ public class aPowerup {
       break;
 
     case "projectile":
+
+      if (activatedPowerup == false && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
+        activatedPowerup = true;
+      }
       if (activatedPowerup ==  false) {
         fill(#7B4CEA);
         rect(setX, setY, 20, 20);
@@ -118,6 +140,7 @@ public class aPowerup {
         fill(255);
         textSize(15);
         text("Click anywhere you want to shoot!", 230, 430);
+
         if (projectileMove == true) {
 
 
@@ -152,7 +175,7 @@ public class aPowerup {
 
   public void data() {
     if (levelTimer % 100 == 0) {
-      println("Time: " + levelTimer/100 + "s Check: " +  glassesPowerup);
+      println("Time: " + levelTimer/100 + "s Check: " +  togglePowerup);
     }
   }
 }

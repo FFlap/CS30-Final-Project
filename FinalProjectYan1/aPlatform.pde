@@ -1,8 +1,9 @@
 public class aPlatform {
-  private int platformX, platformY, platformW, platformL, platformColor ;
+  private int visibility , platformX, platformY, platformW, platformL, platformColor ;
   private boolean platformCheck;
 
-  public aPlatform(int platformX, int platformY, int platformL, int platformW, int platformColor) {
+  public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformColor) {
+    this.visibility = visibility;
     this.platformX = platformX;
     this.platformY = platformY;
     this.platformW = platformW;

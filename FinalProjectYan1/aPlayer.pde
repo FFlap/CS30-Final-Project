@@ -5,9 +5,7 @@ public class aPlayer {
 
 
 
-  public aPlayer(float boxX, float boxY, float jump, int boxSize, int speed) {
-    this.boxX = boxX;
-    this.boxY = boxY;
+  public aPlayer(float jump, int boxSize, int speed) {
     this.jump = jump;
     this.boxSize = boxSize;
     this.speed = speed;
