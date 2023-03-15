@@ -3,7 +3,7 @@ public void level0() {
 
 
   if (level == -1) {
- //Border
+    //Border
     if ( player. boxX >= 680 &&  player.boxY >= -10 &&  player.boxY < 700) {
       player.stopRight();
       player.boxX = 680;
@@ -18,9 +18,9 @@ public void level0() {
       LevelReset();
       player.boxX = 335;
       player.boxY = 640;
-      
-      platforms.add(new aPlatform(0, 300, 560, 300, 60, 128));
-      platforms.add(new aPlatform(0, 400, 360, 60, 200,128));
+
+      platforms.add(new aPlatform(0, 0, 400, 560, 300, 60, 128));
+      platforms.add(new aPlatform(0, 400, 360, 60, 200, 128));
     }
     levelTimer++;
 
