@@ -4,29 +4,36 @@
 void level9() {
 
 
-
-
-
-
-  if (levelTimer == 0) {
-    LevelReset();
-    boxX = 330;
-    boxY = 640;
-  }
-
   levelTimer++;
 
   if (level == 9) {
+
+
+
+
+
+
+
+
+
     //Border
-    if ( boxX >= 680 && boxY >= -10 && boxY < 700) {
-      moveright = false;
-      boxX = 680;
+    if ( player. boxX >= 680 &&  player.boxY >= -10 &&  player.boxY < 700) {
+      player.stopRight();
+      player.boxX = 680;
     }
 
-    if ( boxX <= 0 && boxY >= -10 && boxY < 700) {
-      moveleft = false;
-      boxX = 0;
+    if ( player. boxX <= 0 &&  player.boxY >= -10 &&  player.boxY < 700) {
+      player.stopLeft();
+      player.boxX = 0;
     }
+
+    if (levelTimer == 0) {
+      LevelReset();
+      player.boxX = 330;
+      player.boxY = 640;
+    }
+
+
     if (timer == 0) {
       wave = 1;
     }
@@ -49,18 +56,7 @@ void level9() {
 
     //Level Key
     if ( timer > 2125) {
-      int[] levelkey = {280, 501, 20, 20};
-      if (levelkeycheck ==  false) {
-        fill(#FFDF24);
-        rect(levelkey[0], levelkey[1], levelkey[2], levelkey[2]);
-        fill(#151515);
-        rect((levelkey[0] +(levelkey[2] /4)), (levelkey[1] + (levelkey[2] /4)), (levelkey[2] /2), (levelkey[2] /2 ));
-      }
-
-
-      if (levelkeycheck == false && boxX >= (levelkey[0] - boxsize)  && boxX <= (levelkey[0] + boxsize) && boxY <= (levelkey[1] + boxsize)  && boxY >= (levelkey[1] - boxsize)) {
-        levelkeycheck = true;
-      }
+      powerups.add(new aPowerup("levelUnlock", 0, 280, 501));
     }
 
 
@@ -144,93 +140,8 @@ void level9() {
         fill(#A07F12);
         triangle(410, 470, 410, 550, 470, 510);
 
-
-        float[] platform198 = {0, 660.01, 200, 50, 42};
-        fill(#3AA54B);
-        rect(platform198[0], platform198[1], platform198[2], platform198[3]);
-
-
-        if (boxY <= (platform198[1] + boxsize)  && boxY >= (platform198[1] - boxsize) && boxX > (platform198[0] - boxsize) && boxX < (platform198[0] + platform198[2])) {
-          platform = true;
-        } else {
-          platform = false;
-        }
-
-        if (platform == true) {
-          check = platform198[4];
-          boxY =  (platform198[1] - boxsize);
-        }
-
-        if (boxY <= (platform198[1] + platform198[3] - boxsize) && boxY >= (platform198[1] - boxsize) && boxX >= (platform198[0] - boxsize) && boxX <= (platform198[0] - boxsize /2 )) {
-          moveright = false;
-          boxX = (platform198[0] - boxsize);
-        }
-
-        if (boxY <= (platform198[1] + platform198[3] - boxsize) && boxY >= (platform198[1] - boxsize) && boxX <= (platform198[0] + platform198[2]) && boxX >= (platform198[0] + (platform198[2]) - boxsize /2 )) {
-          moveleft = false;
-          boxX = (platform198[0] + (platform198[2]));
-        }
-
-
-
-        if (boxY <= (platform198[1] +  platform198[3]) && boxY >= (platform198[1] + boxsize)  && boxX > (platform198[0] - boxsize) && boxX < (platform198[0] + platform198[2])) {
-          jump = -7;
-        }
-
-        if ( boxX >= (platform198[0] + platform198[2]) && check == platform198[4]|| boxX <= (platform198[0] - boxsize) && check == platform198[4]) {
-          check = 999;
-          jump = -7;
-          jumpboolean = true;
-        }
-
-        if (check == 999 && jump < jumpheight) {
-          jump = -7;
-          jumpboolean = true;
-        }
-
-
-        float[] platform199 = {510, 660.01, 200, 50, 42};
-        fill(#3AA54B);
-        rect(platform199[0], platform199[1], platform199[2], platform199[3]);
-
-
-        if (boxY <= (platform199[1] + boxsize)  && boxY >= (platform199[1] - boxsize) && boxX > (platform199[0] - boxsize) && boxX < (platform199[0] + platform199[2])) {
-          platform = true;
-        } else {
-          platform = false;
-        }
-
-        if (platform == true) {
-          check = platform199[4];
-          boxY =  (platform199[1] - boxsize);
-        }
-
-        if (boxY <= (platform199[1] + platform199[3] - boxsize) && boxY >= (platform199[1] - boxsize) && boxX >= (platform199[0] - boxsize) && boxX <= (platform199[0] - boxsize /2 )) {
-          moveright = false;
-          boxX = (platform199[0] - boxsize);
-        }
-
-        if (boxY <= (platform199[1] + platform199[3] - boxsize) && boxY >= (platform199[1] - boxsize) && boxX <= (platform199[0] + platform199[2]) && boxX >= (platform199[0] + (platform199[2]) - boxsize /2 )) {
-          moveleft = false;
-          boxX = (platform199[0] + (platform199[2]));
-        }
-
-
-
-        if (boxY <= (platform199[1] +  platform199[3]) && boxY >= (platform199[1] + boxsize)  && boxX > (platform199[0] - boxsize) && boxX < (platform199[0] + platform199[2])) {
-          jump = -7;
-        }
-
-        if ( boxX >= (platform199[0] + platform199[2]) && check == platform199[4]|| boxX <= (platform199[0] - boxsize) && check == platform199[4]) {
-          check = 999;
-          jump = -7;
-          jumpboolean = true;
-        }
-
-        if (check == 999 && jump < jumpheight) {
-          jump = -7;
-          jumpboolean = true;
-        }
+        platforms.add(new aPlatform(0, 0, 660, 200, 50, #008080));
+        platforms.add(new aPlatform(0, 510, 660, 200, 50, #008080));
       }
     }
 

@@ -19,7 +19,7 @@ public void level0() {
       player.boxX = 335;
       player.boxY = 640;
 
-      platforms.add(new aPlatform(0, 0, 400, 560, 300, 60, 128));
+      platforms.add(new aPlatform(0, 200, 400, 560, 300, 60,1, 128));
       platforms.add(new aPlatform(0, 400, 360, 60, 200, 128));
     }
     levelTimer++;
