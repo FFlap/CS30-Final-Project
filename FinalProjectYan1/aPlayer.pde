@@ -41,13 +41,14 @@ public class aPlayer {
     strokeWeight(0);
     rect(player.boxX, player.boxY, player.boxSize, player.boxSize);
 
-
     if (moveRight == true) {
       boxX = boxX +  speed;
+      boxX = constrain(boxX , 0, width - boxSize);
     }
 
     if (moveLeft == true) {
       boxX = boxX - speed;
+      boxX = constrain(boxX, 0, width - boxSize);
     }
 
 

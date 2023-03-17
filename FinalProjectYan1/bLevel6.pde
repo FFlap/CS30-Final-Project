@@ -5,16 +5,7 @@ void level6() {
 
 
 
-    //Border
-    if ( player. boxX >= 680 &&  player.boxY >= -10 &&  player.boxY < 700) {
-      player.stopRight();
-      player.boxX = 680;
-    }
 
-    if ( player. boxX <= 0 &&  player.boxY >= -10 &&  player.boxY < 700) {
-      player.stopLeft();
-      player.boxX = 0;
-    }
 
 
     if (levelTimer == 0) {

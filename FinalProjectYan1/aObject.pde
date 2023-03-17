@@ -1,7 +1,9 @@
 public class aObject {
-  private int visibility, setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue;
+  private int visibility, setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, setDistance;
   private int objectToggle = 1;
+  private float objectSpeed;
   private String setType;
+  private boolean objectSwitch;
 
   public aObject(String setType, int visibility, int setX, int setY) {
     this.visibility = visibility;
@@ -18,6 +20,15 @@ public class aObject {
     this.objectValue = objectValue;
   }
 
+  public aObject(String setType, int visibility, int setX, int setY, int setDistance, float objectSpeed) {
+    this.visibility = visibility;
+    this.setX = setX;
+    this.setY = setY;
+    this.setType = setType;
+    this.setDistance = setDistance;
+    this.objectSpeed = objectSpeed;
+  }
+
   public aObject(String setType, int visibility, int setX, int setY, int setL, int setW) {
     this.visibility = visibility;
     this.setX = setX;
@@ -25,6 +36,17 @@ public class aObject {
     this.setW = setW;
     this.setL = setL;
     this.setType = setType;
+  }
+
+  public aObject(String setType, int visibility, int setX, int setY, int setL, int setW, int setDistance, float objectSpeed) {
+    this.visibility = visibility;
+    this.setX = setX;
+    this.setY = setY;
+    this.setW = setW;
+    this.setL = setL;
+    this.setType = setType;
+    this.setDistance = setDistance;
+    this.objectSpeed = objectSpeed;
   }
 
   public aObject(String setType, int visibility, int setX, int setY, int setX2, int setY2, int setTeleportX, int setTeleportY, int setTeleportX2, int setTeleportY2  ) {
@@ -45,11 +67,25 @@ public class aObject {
     return setType;
   }
 
-  public void display() { 
+  public void display() {
+
+    if (setDistance >= 1 ) {
+      if (setX <= setDistance && objectSwitch == true) {
+        setX += objectSpeed;
+      } else if (setX >= setDistance && objectSwitch == true) {
+        objectSwitch = false;
+        setX -= objectSpeed;
+      } else if (setX >= platformStart && objectSwitch == false) {
+        setX -= objectSpeed;
+      } else if (setX <= platformStart && objectSwitch == false) {
+        objectSwitch = true;
+        setX += objectSpeed;
+      }
+    }
 
     switch(setType) {
 
-    case "deathZone": 
+    case "deathZone":
       fill(255, 0, 0);
       rect(setX, setY, setL, setW);
       if (player.boxY >= setY - 15 && player.boxY <= (setY + setL) && player.boxX >= setX && player.boxX <= (setX + setL)) {
@@ -107,7 +143,7 @@ public class aObject {
 
             if (objectToggle == 2) {
               objectToggle = 1;
-            } else  {
+            } else {
               objectToggle = 2;
             }
 
@@ -115,35 +151,34 @@ public class aObject {
             pow.projectileX = 0;
             pow.projectileY = 0;
           }
-
         }
       }
 
       if (objectToggle == 1) {
         for (aPlatform plat : platforms) {
-          if (plat.visibility == 1) { 
+          if (plat.visibility == 1) {
             plat.display();
           }
         }
         //Objects
         for (aObject obj : objects) {
-          if (obj.visibility == 1) { 
+          if (obj.visibility == 1) {
             obj.display();
           }
         }
       }
 
 
-      if (objectToggle == 2) { 
+      if (objectToggle == 2) {
 
         for (aPlatform plat : platforms) {
-          if (plat.visibility == 2) { 
+          if (plat.visibility == 2) {
             plat.display();
           }
         }
         //Objects
         for (aObject obj : objects) {
-          if (obj.visibility == 2) { 
+          if (obj.visibility == 2) {
             obj.display();
           }
         }
@@ -154,7 +189,7 @@ public class aObject {
 
       break;
 
-    case "podium": 
+    case "podium":
       fill(218, 165, 32);
       rect(setX, setY, 35, 9);
 
