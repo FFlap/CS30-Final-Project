@@ -82,9 +82,15 @@ public class aPowerup {
         textSize(15);
         text("Toggle your glasses power On/Off \n by pressing R!", 420, 430);
       } else if (togglePowerup == 2) {
+        for (aPlatform plat : platforms) {
+          if (plat.visibility == 1) {
+            plat.display();
+          }
+        }
+        //Objects
         for (aObject obj : objects) {
-          if (obj.getType() == "projectileTarget") {
-            obj.objectToggle = 1;
+          if (obj.visibility == 1) {
+            obj.display();
           }
         }
       }

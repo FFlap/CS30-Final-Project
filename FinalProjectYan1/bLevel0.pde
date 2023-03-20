@@ -15,16 +15,6 @@ public void level0() {
     }
     levelTimer++;
 
-
-
-
-
-
-
-
-
-
-
     for (aPlatform plat : platforms) {
       plat.display();
       plat.data();

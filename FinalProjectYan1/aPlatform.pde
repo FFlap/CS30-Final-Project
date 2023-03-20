@@ -1,5 +1,5 @@
 public class aPlatform {
-  private int visibility, platformStart, platformX, platformX2, platformY, platformW, platformL, platformColor;
+  private int visibility, platformStart, platformX, platformY, platformW, platformL, platformStart, platformColor;
   float platformSpeed;
   private boolean platformCheck, platformSwitch;
   public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformColor) {
@@ -11,7 +11,7 @@ public class aPlatform {
     this.platformColor = platformColor;
   }
 
-  public aPlatform(int visibility, int platformX, int platformX2, int platformY, int platformL, int platformW, float platformSpeed, int platformColor) {
+  public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformStart, float platformSpeed, int platformColor) {
     this.visibility = visibility;
     this.platformX = platformX;
     this.platformStart = platformX;

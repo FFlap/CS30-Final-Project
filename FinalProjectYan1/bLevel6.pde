@@ -2,12 +2,6 @@ void level6() {
 
   if (level == 6) {
 
-
-
-
-
-
-
     if (levelTimer == 0) {
       LevelReset();
       jump = 15;

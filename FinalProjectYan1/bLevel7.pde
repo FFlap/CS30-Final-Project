@@ -2,9 +2,6 @@ void level7() {
 
   if (level == 7) {
 
-
-
-
     if (levelTimer == 0) {
       LevelReset();
       player.boxX = 330;

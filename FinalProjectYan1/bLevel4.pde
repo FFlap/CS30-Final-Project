@@ -13,8 +13,8 @@ void level4() {
       platforms.add(new aPlatform(0, 450, 610, 150, 50, #008080));
       platforms.add(new aPlatform(0, 560, 450, 150, 40, #008080));
       platforms.add(new aPlatform(0, 330, 330, 150, 40, #008080));
-      powerups.add(new aPowerup("highJump", 0, 170, 413, 5));
-      powerups.add(new aPowerup("highJump", 0, 350, 310, 6));
+      powerups.add(new aPowerup("highJump", 0, 170, 413, 15));
+      powerups.add(new aPowerup("highJump", 0, 350, 310, 18));
       objects.add(new aObject("deathZone", 0, 600, 655, 100, 5));
       objects.add(new aObject("deathZone", 0, 300, 655, 150, 5));
       objects.add(new aObject("podium", 0, 50, 82));

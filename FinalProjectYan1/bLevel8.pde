@@ -1,7 +1,3 @@
-
-
-
-
 void level8() {
 
   if (level == 8) {

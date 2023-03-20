@@ -1,5 +1,5 @@
 public class aObject {
-  private int visibility, setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, setDistance;
+  private int visibility, setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, setDistance, objectStart;
   private int objectToggle = 1;
   private float objectSpeed;
   private String setType;
@@ -27,6 +27,7 @@ public class aObject {
     this.setType = setType;
     this.setDistance = setDistance;
     this.objectSpeed = objectSpeed;
+    this.setX = objectStart;
   }
 
   public aObject(String setType, int visibility, int setX, int setY, int setL, int setW) {
@@ -47,6 +48,7 @@ public class aObject {
     this.setType = setType;
     this.setDistance = setDistance;
     this.objectSpeed = objectSpeed;
+        this.setX = objectStart;
   }
 
   public aObject(String setType, int visibility, int setX, int setY, int setX2, int setY2, int setTeleportX, int setTeleportY, int setTeleportX2, int setTeleportY2  ) {
@@ -75,9 +77,9 @@ public class aObject {
       } else if (setX >= setDistance && objectSwitch == true) {
         objectSwitch = false;
         setX -= objectSpeed;
-      } else if (setX >= platformStart && objectSwitch == false) {
+      } else if (setX >= objectStart && objectSwitch == false) {
         setX -= objectSpeed;
-      } else if (setX <= platformStart && objectSwitch == false) {
+      } else if (setX <= objectStart && objectSwitch == false) {
         objectSwitch = true;
         setX += objectSpeed;
       }
