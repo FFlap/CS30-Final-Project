@@ -13,7 +13,7 @@ void level3() {
       platforms.add(new aPlatform(0,-1, 220, 120, 40,  #008080));
       platforms.add(new aPlatform(0,119, 70, 150, 40, #008080));
       platforms.add(new aPlatform(0,119, 110, 50, 150, #CBC921));
-      powerups.add(new aPowerup("highJump",0, 45, 496, 20 ));
+      powerups.add(new aPowerup("highJump",0, 45, 496, 15 ));
       objects.add(new aObject("portal", 0,690, 600, 0, 220, 70, 180, 650, 640));
       objects.add(new aObject("podium", 0,230, 62));
     }

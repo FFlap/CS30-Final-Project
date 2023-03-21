@@ -2,30 +2,17 @@ void LevelReset() {
   platforms.clear();
   objects.clear();
   powerups.clear();
-  higherjump = false;
-  higherjump2 = false;
-  player.jump = 15;
-  player.boxSize = 20;
-  player.speed = 10; 
-  projectilemove = false;
-  levelkeycheck = false;
-  projectilePowercheck = false;
-  projectileTargetCheck = 0;
-  projectilesize = 20;
-  projectileSpeed = 6;
+  player.reset();
   wave = 1;
   timer = 0;
   platformstart = 120;
-
   platformstart = 120;
   platformMove = 1;
   platformstart2 = 120;
   platformMove2 = 1;
   platformstart3 = 300;
   platformMove3 = 1;
-
   platformStart192 = -150;
-
   platformStart193 = -450;
   platformStart194 = -750;
   platformStart195 = -1100;
@@ -40,5 +27,4 @@ void LevelReset() {
   platformStart1914 = -1500;
   platformStart1915 = -750;
   platformStart1916 = 900;
-  levelkeycheck = false;
 }

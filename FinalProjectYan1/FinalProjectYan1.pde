@@ -5,7 +5,7 @@ PImage titleImage, endImage, comingImage, world1;
 
 
 //Player
-aPlayer player = new aPlayer(20, 20, 10);
+aPlayer player = new aPlayer(10, 20, 10);
 
 //Ground
 aPlatform ground = new aPlatform(0, -40, 660, 780, 45, #32CD32);
@@ -16,9 +16,7 @@ ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
 
 //Previous Variables
 float boxX, boxY, jump, jumpheight, boxsize;
-boolean moveleft, moveright, platform, jumpboolean, landed, higherjump, higherjump2, projectilemove = false;
-boolean levelkeycheck;
-float check;
+
 
 //Current Preset GUI Variables
 
@@ -26,17 +24,6 @@ aGUI GUI = new aGUI(true, false, false );
 
 //Previous GUI Variables
 int levelUnlocked = 0;
-boolean pauseMenu = false;
-boolean developerOptions = false;
-boolean ToolTip = true;
-
-
-//Projectile
-boolean projectilePowercheck;
-int projectileTargetCheck;
-int projectilesize = 20;
-float projectileSpeed = 6;
-
 
 float platformstart = 120;
 float platformMove = 1;
@@ -65,7 +52,6 @@ float platformStart1916 = 900;
 
 int wave = 1;
 int timer = 0;
-boolean glassespower = false;
 int level = -1;
 int levelSelect = 0;
 float levelTimer = 0;
@@ -96,7 +82,7 @@ void draw() {
 
   //Starting Screen
   level0();
-  
+
   // Levels
   level1();
   level2();
@@ -105,9 +91,9 @@ void draw() {
   level5();
   level6();
   level7();
-   level8();
-   
-   /*
+  level8();
+
+  /*
    level9();
    level10();
    */
@@ -211,13 +197,12 @@ public void mousePressed() {
   GUI.setMouseValues(mouseX, mouseY);
   GUI.checkClick();
 
-    for (aPowerup pow : powerups) {
-      if (pow.getType() == "projectile" && pow.activatedPowerup == true) {
-        pow.projectileTimer = 0;
-        pow.setProjectileAngle(mouseX, mouseY);
-        pow.projectileMove = true;
-        break;
-      }
+  for (aPowerup pow : powerups) {
+    if (pow.getType() == "projectile" && pow.activatedPowerup == true) {
+      pow.projectileTimer = 0;
+      pow.setProjectileAngle(mouseX, mouseY);
+      pow.projectileMove = true;
+      break;
     }
-  
+  }
 }//end mousePressed

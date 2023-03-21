@@ -8,11 +8,11 @@ void level8() {
       LevelReset();
       player.boxX = 330;
       player.boxY = 640;
-      platforms.add(new aPlatform(0, 120, 380, 580, 200, 50, 1, #008080));
-      platforms.add(new aPlatform(0, 220, 380, 490, 200, 50, 1,#008080));
-      platforms.add(new aPlatform(0, 320, 380, 400, 200, 50, 1,#008080));
-      platforms.add(new aPlatform(0, 40, 380, 350, 200, 50, 2,#008080));
-      platforms.add(new aPlatform(0, 220, 380, 260, 200, 50,3,#008080));
+      platforms.add(new aPlatform(0, 120, 580, 200, 50, 380, 1, #008080));
+      platforms.add(new aPlatform(0, 220, 490, 200, 50, 380, 1, #008080));
+      platforms.add(new aPlatform(0, 320, 400, 200, 50, 380, 1, #008080));
+      platforms.add(new aPlatform(0, 40, 350, 200, 50, 380, 2, #008080));
+      platforms.add(new aPlatform(0, 220, 260, 200, 50, 380, 3, #008080));
       objects.add(new aObject("podium", 0, 335, 253));
     }
 

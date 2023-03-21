@@ -41,7 +41,6 @@ void level6() {
     fill(255);
     rect(portal131[0], (portal131[1] + 5), (portal131[2] - 5), (portal131[3] - 10));
     if (boxY <= (portal131[1] + 60)  && boxY >= (portal131[1] - 5) && boxX > (portal131[0] - 20) && boxX < (portal131[0] + 20)) {
-      check = 999;
       boxX = 20;
       boxY = 420;
     }
@@ -52,7 +51,6 @@ void level6() {
     fill(255);
     rect(portal132[0] + 5, (portal132[1] + 5), (portal132[2] - 5), (portal132[3] - 10));
     if (boxY <= (portal132[1] + 60)  && boxY >= (portal132[1] - 5) && boxX > (portal132[0] - 20) && boxX < (portal132[0] + 20)) {
-      check = 999;
       boxX = 580;
       boxY = 610;
     }

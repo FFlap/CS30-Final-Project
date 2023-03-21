@@ -1,14 +1,26 @@
 public class aPlayer {
-  private float boxX, boxY, jump, velocityY;
+  private float boxX, boxY, jump, velocityX, velocityY;
   private int boxSize, speed;
   private boolean jumpToggle, moveRight, moveLeft = false;
 
+  //Orignal Constructed Variables
+  private int orignalBoxSize, orignalSpeed;
+  private float orignalJump;
 
 
   public aPlayer(float jump, int boxSize, int speed) {
     this.jump = jump;
     this.boxSize = boxSize;
     this.speed = speed;
+    this.orignalBoxSize = boxSize;
+    this.orignalSpeed = speed;
+    this.orignalJump = jump;
+  }
+  
+  public void reset(){ 
+    boxSize = orignalBoxSize;
+    speed = orignalSpeed;
+    jump = orignalJump;
   }
 
   public void moveRight() {
@@ -67,7 +79,7 @@ public class aPlayer {
 
 
   public void data() {
-    println(jump);
-    println(speed);
+
+    println(velocityY);
   }
 }
