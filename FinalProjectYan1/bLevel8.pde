@@ -5,7 +5,7 @@ void level8() {
 
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 330;
       player.boxY = 640;
       platforms.add(new aPlatform(0, 120, 580, 200, 50, 380, 1, #008080));

@@ -11,7 +11,7 @@ void level10() {
 
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       boxX = 330;
       boxY = 640;
     }

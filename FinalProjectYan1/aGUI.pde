@@ -8,6 +8,23 @@ public class aGUI {
   }
 
 
+  public void load() {
+    data = new File(dataPath("data/data.json"));
+
+    json = loadJSONObject("data/data.json");
+    levelUnlocked = json.getInt("levelUnlocked");
+    titleImage = loadImage("title.png");
+    endImage = loadImage("end.png");
+    comingImage = loadImage("coming.png");
+    world1 = loadImage("world1.png");
+  }
+
+
+  public void setWindow(int windowX, int windowY) {
+    surface.setSize(windowX, windowY);
+  }
+
+
 
 
   public boolean getPauseMenu() {

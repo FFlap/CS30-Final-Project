@@ -4,7 +4,7 @@ void level2() {
   if (level == 2) {
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 50;
       player.boxY = 640;
       //Platforms

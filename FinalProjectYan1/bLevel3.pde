@@ -3,7 +3,7 @@ void level3() {
 
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 330;
       player.boxY = 640;
       platforms.add(new aPlatform(0,230, 570, 100, 40,#008080));

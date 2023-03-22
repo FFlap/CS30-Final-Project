@@ -20,7 +20,7 @@ void level9() {
     }
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 330;
       player.boxY = 640;
     }
@@ -57,11 +57,7 @@ void level9() {
 
       for (int i = 0; i < 700; i = i+130) {
         float[] deathzone168 = {i, platformStart196, 80, 150};
-        fill(255, 0, 0);
-        rect(deathzone168[0], deathzone168[1], deathzone168[2], deathzone168[3]);
-        if (boxY >= (deathzone168[1] - 15)  && boxY <= (deathzone168[1] + deathzone168[3]) && boxX >= deathzone168[0] - boxsize  && boxX <= (deathzone168[0] + deathzone168[2])) {
-          levelTimer = 0;
-        }
+
       }
 
       if (timer >= 700) {

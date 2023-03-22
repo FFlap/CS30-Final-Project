@@ -13,7 +13,7 @@ ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
 ArrayList<aObject> objects = new ArrayList<aObject>();
 ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
 
-
+aWorld world = new aWorld();
 //Previous Variables
 float boxX, boxY, jump, jumpheight, boxsize;
 
@@ -59,18 +59,11 @@ float levelTimer = 0;
 
 void setup() {
   size(700, 700);
-
-  data = new File(dataPath("data/data.json"));
-
-  json = loadJSONObject("data/data.json");
-  levelUnlocked = json.getInt("levelUnlocked");
-  titleImage = loadImage("title.png");
-  endImage = loadImage("end.png");
-  comingImage = loadImage("coming.png");
-  world1 = loadImage("world1.png");
+  GUI.load();
 }
 void draw() {
   background(0);
+
 
   //Box
   player.display();
@@ -84,7 +77,8 @@ void draw() {
   level0();
 
   // Levels
-  level1();
+  world.setLevel(1, 50, 640);
+  world.display();
   level2();
   level3();
   level4();
@@ -196,7 +190,6 @@ public void mousePressed() {
   println();
   GUI.setMouseValues(mouseX, mouseY);
   GUI.checkClick();
-
   for (aPowerup pow : powerups) {
     if (pow.getType() == "projectile" && pow.activatedPowerup == true) {
       pow.projectileTimer = 0;

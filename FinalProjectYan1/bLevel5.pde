@@ -6,7 +6,7 @@ void level5() {
 
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 305;
       player.boxY = 640;
       powerups.add(new aPowerup("glasses", 0,650, 640));

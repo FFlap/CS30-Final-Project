@@ -3,8 +3,7 @@ void level6() {
   if (level == 6) {
 
     if (levelTimer == 0) {
-      LevelReset();
-      jump = 15;
+     world.LevelReset();
       player.boxX = 10;
       player.boxY = 130;
       powerups.add(new aPowerup("levelUnlock", 0, 480, 95));

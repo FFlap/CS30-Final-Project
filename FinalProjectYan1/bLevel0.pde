@@ -6,7 +6,7 @@ public void level0() {
 
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 335;
       player.boxY = 640;
 
@@ -47,7 +47,7 @@ public void level0() {
     }
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 335;
       player.boxY = 640;
     }

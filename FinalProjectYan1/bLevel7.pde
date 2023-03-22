@@ -3,7 +3,7 @@ void level7() {
   if (level == 7) {
 
     if (levelTimer == 0) {
-      LevelReset();
+     world.LevelReset();
       player.boxX = 330;
       player.boxY = 640;
       powerups.add(new aPowerup("projectile", 1, 345, 562, 6));
