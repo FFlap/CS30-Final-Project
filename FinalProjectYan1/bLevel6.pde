@@ -1,34 +1,6 @@
 void level6() {
 
-  if (level == 6) {
-
-    if (levelTimer == 0) {
-     world.LevelReset();
-      player.boxX = 10;
-      player.boxY = 130;
-      powerups.add(new aPowerup("levelUnlock", 0, 480, 95));
-
-      objects.add(new aObject("deathZone", 0, 150, 329, 230, 150));
-      objects.add(new aObject("deathZone", 0, 0, 460, 400, 20));
-      objects.add(new aObject("deathZone", 0, 375, 0, 40, 480));
-      objects.add(new aObject("jumpBoost", 1, 90, 441, 15));
-      objects.add(new aObject("jumpBoost", 1, 325, 291, 15));
-      objects.add(new aObject("podium", 1, 180, 142));
-      platforms.add(new aPlatform(1, 140, 300, 280, 150, #008080));
-      platforms.add(new aPlatform(1, 0, 450, 416, 50, #008080));
-
-      objects.add(new aObject("jumpBoost", 0, 660, 482, 20));
-
-
-      platforms.add(new aPlatform(0, -5, 150, 260, 50, #008080));
-      platforms.add(new aPlatform(0, 415, 0, 30, 660, #008080));
-      platforms.add(new aPlatform(0, 440, 560, 50, 40, #008080));
-      platforms.add(new aPlatform(0, 530, 490, 180, 40, #008080));
-      platforms.add(new aPlatform(0, 440, 150, 100, 40, #008080));
-      platforms.add(new aPlatform(0, 0, 479, 416, 181, #008080));
-    }
-
-    levelTimer++;
+  if (world.level == 6) {
 
 
 
@@ -54,26 +26,5 @@ void level6() {
       boxY = 610;
     }
 
-
-
-
-    //Platforms
-
-    for (aPlatform plat : platforms) {
-      if (plat.visibility == 0) { 
-        plat.display();
-      }
-    }
-    //Objects
-    for (aObject obj : objects) {
-      if (obj.visibility == 0) { 
-        obj.display();
-      }
-    }
-
-    //Powerup
-    for (aPowerup pow : powerups) {
-      pow.display();
-    }
   }
 }

@@ -91,7 +91,7 @@ public class aObject {
       fill(255, 0, 0);
       rect(setX, setY, setL, setW);
       if (player.boxY >= setY - 15 && player.boxY <= (setY + setL) && player.boxX >= setX && player.boxX <= (setX + setL)) {
-        levelTimer = 0;
+        world.levelTimer = 0;
       }
       break;
 
@@ -196,9 +196,9 @@ public class aObject {
       rect(setX, setY, 35, 9);
 
       if (player.boxY <= setY + 15 &&  player.boxY >= setY - 25 && player.boxX >= setX - 15 && player.boxX <= setX + 30) {
-        level++;
-        levelTimer = 0;
-        if (level >= levelUnlocked) {
+        world.level++;
+        world.levelTimer = 0;
+        if ( world.level >= levelUnlocked) {
           json = new JSONObject();
           json.setInt("levelUnlocked", level);
           saveJSONObject(json, "data/data.json");

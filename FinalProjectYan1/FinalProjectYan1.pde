@@ -53,6 +53,7 @@ float platformStart1916 = 900;
 int wave = 1;
 int timer = 0;
 int level = -1;
+
 int levelSelect = 0;
 float levelTimer = 0;
 
@@ -74,20 +75,22 @@ void draw() {
   ground.display();
 
   //Starting Screen
-  level0();
 
   // Levels
-  world.setLevel(1, 50, 640);
+
+  world.load();
   world.display();
-  level2();
-  level3();
-  level4();
-  level5();
-  level6();
-  level7();
-  level8();
+
 
   /*
+  level0();
+   level2();
+   level3();
+   level4();
+   level5();
+   level6();
+   level7();
+   level8();
    level9();
    level10();
    */
