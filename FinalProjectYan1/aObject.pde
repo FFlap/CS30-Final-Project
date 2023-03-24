@@ -200,7 +200,7 @@ public class aObject {
         world.levelTimer = 0;
         if ( world.level >= levelUnlocked) {
           json = new JSONObject();
-          json.setInt("levelUnlocked", level);
+          json.setInt("levelUnlocked", world.level);
           saveJSONObject(json, "data/data.json");
         }
       }

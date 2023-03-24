@@ -180,8 +180,8 @@ public class aPowerup {
   }
 
   public void data() {
-    if (levelTimer % 100 == 0) {
-      println("Time: " + levelTimer/100 + "s Check: " +  togglePowerup);
+    if (world.levelTimer % 100 == 0) {
+      println("Time: " + world.levelTimer/100 + "s Check: " +  togglePowerup);
     }
   }
 }

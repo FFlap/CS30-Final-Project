@@ -4,9 +4,9 @@
 void level9() {
 
 
-  levelTimer++;
+  world.levelTimer++;
 
-  if (level == 9) {
+  if (world.level == 9) {
 
     //Border
     if ( player. boxX >= 680 &&  player.boxY >= -10 &&  player.boxY < 700) {
@@ -19,7 +19,7 @@ void level9() {
       player.boxX = 0;
     }
 
-    if (levelTimer == 0) {
+    if (world.levelTimer == 0) {
      world.LevelReset();
       player.boxX = 330;
       player.boxY = 640;

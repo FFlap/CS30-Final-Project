@@ -42,7 +42,7 @@ public class aGUI {
 
   public void pauseMenuToggle() {
     if (levelSelect == 0) {
-      if (pauseMenu == false && level != 0) {
+      if (pauseMenu == false && world.level != 0) {
         pauseMenu = true;
       } else {
         pauseMenu = false;
@@ -68,7 +68,7 @@ public class aGUI {
 
   public void displayToolTip() {
 
-    if (level != 0) {
+    if (world.level != 0) {
       fill(#3DE030);
       textSize(15);
 
@@ -90,7 +90,7 @@ public class aGUI {
           text("To Remove ToolTips Press: T", 0, 210);
         }
       } else {
-        text("Level: " + level, 0, 15);
+        text("Level: " + world.level, 0, 15);
       }
     }
   }
@@ -404,7 +404,7 @@ public class aGUI {
         world.level = 1;
 
         json = new JSONObject();
-        json.setInt("levelUnlocked", level);
+        json.setInt("levelUnlocked", world.level);
         saveJSONObject(json, "data/data.json");
         pauseMenu = false;
         return;
@@ -421,24 +421,24 @@ public class aGUI {
     if (levelSelect == 0 ) {
 
 
-      if  (mY <= 300 && mY >= 200 && mX > 100 && mX < 300 && level == 0) {
+      if  (mY <= 300 && mY >= 200 && mX > 100 && mX < 300 && world.level == 0) {
         levelSelect = 0;
         println("Button Pressed");
         world.levelTimer = 0;
         world.level++;
-        if (level >= levelUnlocked) {
+        if (world.level >= levelUnlocked) {
           json = new JSONObject();
-          json.setInt("levelUnlocked", level);
+          json.setInt("levelUnlocked", world.level);
           saveJSONObject(json, "data/data.json");
         }
       }
 
-      if  (mY <= 300 && mY >= 200 && mX > 400 && mX < 600 && level == 0) {
+      if  (mY <= 300 && mY >= 200 && mX > 400 && mX < 600 && world.level == 0) {
         exit();
       }
 
 
-      if  (mY <= 500 && mY >= 400 && mX > 245 && mX < 445 && level == 0 &&   levelSelect == 0) {
+      if  (mY <= 500 && mY >= 400 && mX > 245 && mX < 445 && world.level == 0 &&   levelSelect == 0) {
         levelSelect = 1;
         json = loadJSONObject("data/data.json");
         levelUnlocked = json.getInt("levelUnlocked");
@@ -546,7 +546,7 @@ public class aGUI {
     if (levelSelect == 1) {
 
 
-      if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && level == 0) {
+      if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
         world.levelTimer = 0;
         world. level = 0;
         levelSelect--;
@@ -554,7 +554,7 @@ public class aGUI {
         return;
       }
 
-      if  (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && level == 0) {
+      if  (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
         if (1 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 0;
@@ -563,7 +563,7 @@ public class aGUI {
       }
 
 
-      if  (mY <= 300 && mY >= 250 && mX > 130 && mX < 180 && level == 0) {
+      if  (mY <= 300 && mY >= 250 && mX > 130 && mX < 180 && world.level == 0) {
         if (1 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 1;
@@ -571,7 +571,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 300 && mY >= 250 && mX > 230 && mX < 230 + 50 && level == 0) {
+      if  (mY <= 300 && mY >= 250 && mX > 230 && mX < 230 + 50 && world.level == 0) {
         if (2 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 2;
@@ -579,7 +579,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 300 && mY >= 250 && mX > 330 && mX < 330 + 50 && level == 0) {
+      if  (mY <= 300 && mY >= 250 && mX > 330 && mX < 330 + 50 && world.level == 0) {
         if (3 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 3;
@@ -587,7 +587,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 300 && mY >= 250 && mX > 430 && mX < 430 + 50 && level == 0) {
+      if  (mY <= 300 && mY >= 250 && mX > 430 && mX < 430 + 50 && world.level == 0) {
         if (4 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 4;
@@ -595,7 +595,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 300 && mY >= 250 && mX > 530 && mX < 530 + 50 && level == 0) {
+      if  (mY <= 300 && mY >= 250 && mX > 530 && mX < 530 + 50 && world.level == 0) {
         if (5 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 5;
@@ -603,7 +603,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 400 && mY >= 350 && mX > 230 && mX < 230 + 50 && level == 0) {
+      if  (mY <= 400 && mY >= 350 && mX > 230 && mX < 230 + 50 && world.level == 0) {
         if (6 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 6;
@@ -611,7 +611,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 400 && mY >= 350 && mX > 330 && mX < 330 + 50 && level == 0) {
+      if  (mY <= 400 && mY >= 350 && mX > 330 && mX < 330 + 50 && world.level == 0) {
         if (7 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 7;
@@ -619,7 +619,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 400 && mY >= 350 && mX > 430 && mX < 430 + 50 && level == 0) {
+      if  (mY <= 400 && mY >= 350 && mX > 430 && mX < 430 + 50 && world.level == 0) {
         if (8 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 8;
@@ -627,7 +627,7 @@ public class aGUI {
         }
       }
 
-      if  (mY <= 500 && mY >= 450 && mX > 330 && mX < 330 + 50 && level == 0) {
+      if  (mY <= 500 && mY >= 450 && mX > 330 && mX < 330 + 50 && world.level == 0) {
         if (9 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 9;
@@ -636,7 +636,7 @@ public class aGUI {
       }
 
 
-      if  (mY <= 540 && mY >= 440 && mX > 480 && mX < 680 + 50 && level == 0) {
+      if  (mY <= 540 && mY >= 440 && mX > 480 && mX < 680 + 50 && world.level == 0) {
 
         levelSelect++;
       }
@@ -647,7 +647,7 @@ public class aGUI {
 
     if (levelSelect == 2) {
 
-      if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && level == 0) {
+      if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
         world.levelTimer = 0;
         levelSelect--;
         pauseMenu = false;
@@ -655,18 +655,37 @@ public class aGUI {
       }
     }
 
+    if (world.level == 10) {
+      image(endImage, 190, 160);
+      strokeWeight(2);
+      stroke(255, 0, 0);
+      fill(128, 128, 128);
+      rect(100, 350, 200, 100);
 
-    if  ( mY <= 450 && mY >= 350 && mX > 400 && mX < 600 && level == 10) {
+      rect(400, 350, 200, 100);
+
+
+      //Text
+
+      fill(255);
+      textSize(20);
+      text("Restart", 160, 405);
+
+      text("Exit", 475, 405);
+    }
+
+
+    if  ( mY <= 450 && mY >= 350 && mX > 400 && mX < 600 && world.level == 10) {
       exit();
     }
 
 
-    if  (mY <= 450 && mY >= 350 && mX > 100 && mX < 300 && level == 10) {
+    if  (mY <= 450 && mY >= 350 && mX > 100 && mX < 300 && world.level == 10) {
       world.level = 1;
       player.jump = 15;
       player.boxX = 50;
       player.boxY = 640;
-    } else if (level == 10) {
+    } else if (world.level == 10) {
       println("Button Not Pressed");
     }
   }

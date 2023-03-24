@@ -45,7 +45,6 @@ public class aWorld {
 
         platforms.add(new aPlatform(0, 200, 560, 300, 60, 400, 1, 128));
         platforms.add(new aPlatform(0, 400, 360, 60, 200, 128));
-        println("Test");
         break;
       case 0:
         player.boxX = 335;
@@ -191,6 +190,11 @@ public class aWorld {
         platforms.add(new aPlatform(0, 220, 260, 200, 50, 380, 3, #008080));
         objects.add(new aObject("podium", 0, 335, 253));
 
+        break;
+
+      case 10: 
+        boxX = 330;
+        boxY = 640;
         break;
 
       default:
