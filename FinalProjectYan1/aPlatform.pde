@@ -1,5 +1,5 @@
 public class aPlatform {
-  private int visibility, platformStart, platformX, platformY, platformW, platformL, platformDirection, platformColor;
+  private int visibility, platformStart, platformX, platformY, platformW, platformL, platformDistance, platformColor;
   float platformSpeed;
   private boolean platformCheck, platformSwitch;
   public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformColor) {
@@ -11,11 +11,11 @@ public class aPlatform {
     this.platformColor = platformColor;
   }
 
-  public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformDirection, float platformSpeed, int platformColor) {
+  public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformDistance, float platformSpeed, int platformColor) {
     this.visibility = visibility;
     this.platformX = platformX;
     this.platformStart = platformX;
-    this.platformDirection = platformDirection;
+    this.platformDistance = platformDistance;
     this.platformY = platformY;
     this.platformW = platformW;
     this.platformL = platformL;
@@ -27,10 +27,10 @@ public class aPlatform {
     fill(platformColor);
     rect(platformX, platformY, platformL, platformW);
 
-    if (platformDirection >= 1 ) {
-      if (platformX <= platformDirection && platformSwitch == true) {
+    if (platformDistance >= 1 ) {
+      if (platformX <= platformDistance && platformSwitch == true) {
         platformX += platformSpeed;
-      } else if (platformX >= platformDirection && platformSwitch == true) {
+      } else if (platformX >= platformDistance && platformSwitch == true) {
         platformSwitch = false; 
         platformX -= platformSpeed;
       } else if (platformX >= platformStart && platformSwitch == false) {

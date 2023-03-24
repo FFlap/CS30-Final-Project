@@ -2,7 +2,7 @@ public class aObject {
   private int visibility, setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, setDistance, objectStart;
   private int objectToggle = 1;
   private float objectSpeed;
-  private String setType;
+  private String setType, portalType1, portalType2;
   private boolean objectSwitch;
 
   public aObject(String setType, int visibility, int setX, int setY) {
@@ -48,12 +48,14 @@ public class aObject {
     this.setType = setType;
     this.setDistance = setDistance;
     this.objectSpeed = objectSpeed;
-        this.setX = objectStart;
+    this.setX = objectStart;
   }
 
-  public aObject(String setType, int visibility, int setX, int setY, int setX2, int setY2, int setTeleportX, int setTeleportY, int setTeleportX2, int setTeleportY2  ) {
+  public aObject(String setType, int visibility, String portalType1, int setX, int setY, String portalType2, int setX2, int setY2, int setTeleportX, int setTeleportY, int setTeleportX2, int setTeleportY2  ) {
     this.visibility = visibility;
     this.setType = setType;
+    this.portalType1 = portalType1;
+    this.portalType2 = portalType2;
     this.setX = setX;
     this.setY = setY;
     this.setX2 = setX2;
@@ -63,6 +65,7 @@ public class aObject {
     this.setTeleportX2 = setTeleportX2;
     this.setTeleportY2 = setTeleportY2;
   }
+
 
 
   public String getType() {
@@ -96,25 +99,137 @@ public class aObject {
       break;
 
     case "portal":
-      fill(0, 101, 255);
-      rect(setX, setY, 10, 60);
-      fill(255);
-      rect(setX, setY + 5, 5, 50);
+      switch(portalType1) {
 
-      if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
-        player.boxX = setTeleportX;
-        player.boxY = setTeleportY;
+      case "RV":
+
+
+        fill(0, 101, 255);
+        rect(setX, setY, 10, 60);
+        fill(255);
+        rect(setX + 5, setY + 5, 5, 50);
+
+        if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
+          player.boxX = setTeleportX;
+          player.boxY = setTeleportY;
+        }
+
+        break;
+
+      case "LV":
+
+
+        fill(0, 101, 255);
+        rect(setX, setY, 10, 60);
+        fill(255);
+        rect(setX, setY + 5, 5, 50);
+
+        if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
+          player.boxX = setTeleportX;
+          player.boxY = setTeleportY;
+        }
+        break;
+
+      case "UH":
+
+
+        fill(0, 101, 255);
+        rect(setX2, setY2, 60, 10);
+        fill(255);
+        rect(setX2 + 5, setY2, 50, 5);
+
+        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
+          player.boxX = setTeleportX2;
+          player.boxY = setTeleportY2;
+        }
+
+        break;
+
+      case "DH":
+        fill(0, 101, 255);
+        rect(setX2, setY2, 60, 10);
+        fill(255);
+        rect(setX2 + 5, setY2 + 5, 50, 5);
+
+        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
+          player.boxX = setTeleportX2;
+          player.boxY = setTeleportY2;
+        }
+
+        break;
+
+      default:
+
+        println("invalid portal 1 type");
+        break;
       }
 
-      fill(255, 154, 0);
-      rect(setX2, setY2, 60, 10);
-      fill(255);
-      rect(setX2 + 5, setY2, 50, 5);
+      switch (portalType2) {
 
-      if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
-        player.boxX = setTeleportX2;
-        player.boxY = setTeleportY2;
+      case "RV":
+
+
+        fill(255, 154, 0);
+        rect(setX2, setY2, 10, 60);
+        fill(255);
+        rect(setX2 + 5, setY2 + 5, 5, 50);
+
+        if (player.boxY <= (setY2 + 60) && player.boxY >= setY2 - 5 && player.boxX > setX2  - 15 && player.boxX < (setX2 + 25)) {
+          player.boxX = setTeleportX2;
+          player.boxY = setTeleportY2;
+        }
+        break;
+
+      case "LV":
+
+
+        fill(255, 154, 0);
+        rect(setX2, setY2, 60, 10);
+        fill(255);
+        rect(setX2+ 5, setY2 + 5, 5, 50);
+        if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
+          player.boxX = setTeleportX2;
+          player.boxY = setTeleportY2;
+        }
+        break;
+
+      case "UH":
+
+
+        fill(255, 154, 0);
+        rect(setX2, setY2, 60, 10);
+        fill(255);
+        rect(setX2 + 5, setY2, 50, 5);
+
+        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
+          player.boxX = setTeleportX2;
+          player.boxY = setTeleportY2;
+        }
+
+        break;
+
+      case "DH":
+
+
+        fill(255, 154, 0);
+        rect(setX2, setY2, 60, 10);
+        fill(255);
+        rect(setX2 + 5, setY2 + 5, 50, 5);
+
+        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
+          player.boxX = setTeleportX2;
+          player.boxY = setTeleportY2;
+        }
+
+        break;
+
+      default:
+
+        println("invalid portal 1 type");
+        break;
       }
+
+
 
 
       break;

@@ -65,7 +65,7 @@ public class aWorld {
         objects.add(new aObject("deathZone", 0, 240, 655, 87, 5));
 
         //Portal
-        objects.add(new aObject("portal", 0, 327, 553, 580, 660, 373, 645, 170, 580));
+        objects.add(new aObject("portal", 0, "LV", 327, 553, "UH", 580, 660, 373, 645, 170, 580));
 
         //End
         objects.add(new aObject("podium", 0, 327, 351));
@@ -97,7 +97,7 @@ public class aWorld {
         platforms.add(new aPlatform(0, 119, 70, 150, 40, #008080));
         platforms.add(new aPlatform(0, 119, 110, 50, 150, #CBC921));
         powerups.add(new aPowerup("highJump", 0, 45, 496, 15 ));
-        objects.add(new aObject("portal", 0, 690, 600, 0, 220, 70, 180, 650, 640));
+        objects.add(new aObject("portal", 0, "LV", 690, 600, "UH", 0, 220, 70, 180, 650, 640));
         objects.add(new aObject("podium", 0, 230, 62));
         break;
       case 4:
@@ -113,6 +113,7 @@ public class aWorld {
         powerups.add(new aPowerup("highJump", 0, 350, 310, 18));
         objects.add(new aObject("deathZone", 0, 600, 655, 100, 5));
         objects.add(new aObject("deathZone", 0, 300, 655, 150, 5));
+        objects.add(new aObject("portal", 0, "LV", 690, 530, "RV", 0, 372, 40, 420, 550, 580));
         objects.add(new aObject("podium", 0, 50, 82));
         break;
       case 5:
@@ -149,6 +150,7 @@ public class aWorld {
         platforms.add(new aPlatform(1, 0, 450, 416, 50, #008080));
 
         objects.add(new aObject("jumpBoost", 0, 660, 482, 20));
+        objects.add(new aObject("portal", 0, "LV", 690, 530, "RV", 0, 372, 40, 420, 550, 580));
 
 
         platforms.add(new aPlatform(0, -5, 150, 260, 50, #008080));
@@ -161,7 +163,7 @@ public class aWorld {
       case 7:
         player.boxX = 330;
         player.boxY = 640;
-        powerups.add(new aPowerup("projectile", 1, 345, 562, 6));
+        powerups.add(new aPowerup("projectile", 0, 345, 562, 6));
 
 
         //Check 1
@@ -192,7 +194,7 @@ public class aWorld {
 
         break;
 
-      case 10: 
+      case 10:
         boxX = 330;
         boxY = 640;
         break;

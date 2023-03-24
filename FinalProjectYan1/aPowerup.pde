@@ -61,7 +61,7 @@ public class aPowerup {
       if (activatedPowerup == true) {
         player.jump = setPowerupValue;
       } else {
-        fill(255, 0, 0);
+        fill(#FF9912);
         rect(setX, setY, 20, 20);
       }
 
