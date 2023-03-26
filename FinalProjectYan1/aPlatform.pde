@@ -1,7 +1,7 @@
 public class aPlatform {
   private int visibility, platformStart, platformX, platformY, platformW, platformL, platformDistance, platformColor;
   float platformSpeed;
-  private boolean platformCheck, platformSwitch;
+  private boolean platformCheck;
   public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformColor) {
     this.visibility = visibility;
     this.platformX = platformX;
@@ -28,16 +28,11 @@ public class aPlatform {
     rect(platformX, platformY, platformL, platformW);
 
     if (platformDistance >= 1 ) {
-      if (platformX <= platformDistance && platformSwitch == true) {
-        platformX += platformSpeed;
-      } else if (platformX >= platformDistance && platformSwitch == true) {
-        platformSwitch = false; 
-        platformX -= platformSpeed;
-      } else if (platformX >= platformStart && platformSwitch == false) {
-        platformX -= platformSpeed;
-      } else if (platformX <= platformStart && platformSwitch == false) {
-        platformSwitch = true;
-        platformX += platformSpeed;
+      platformX += platformSpeed;
+      if (platformX > platformDistance) {
+        platformSpeed = -platformSpeed;
+      } else if (platformX < platformStart) {
+        platformSpeed = -platformSpeed;
       }
     }
 

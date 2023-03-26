@@ -74,8 +74,6 @@ void draw() {
 
   ground.display();
 
-  //Starting Screen
-
   // Levels
 
   world.load();
@@ -83,11 +81,7 @@ void draw() {
 
 
   /*
-   level4();
-   level6();
-   level7();
    level9();
-   level10();
    */
 
   //GUI

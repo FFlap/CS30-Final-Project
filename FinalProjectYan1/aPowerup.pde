@@ -1,5 +1,5 @@
 public class aPowerup {
-  private float setX, setY, setPowerupValue, togglePowerup, visibility;
+  private float setX, setY, setSize, setPowerupValue, togglePowerup, visibility;
   private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
   private String setType;
   private boolean activatedPowerup, projectileMove;
@@ -10,6 +10,7 @@ public class aPowerup {
     this.setType = setType;
     this.setX = setX;
     this.setY = setY;
+    this.setSize = 20;
   }
 
 
@@ -18,6 +19,7 @@ public class aPowerup {
     this.visibility = visibility;
     this.setX = setX;
     this.setY = setY;
+    this.setSize = 20;
     this.setPowerupValue = setPowerupValue;
   }
 
@@ -49,12 +51,22 @@ public class aPowerup {
     this.projectileAngle = atan2(projectileMouseY - projectileY, projectileMouseX - projectileX);
   }
 
+  public boolean collisionDetection() {
+
+    if (player.boxY + player.boxSize >= setY && player.boxY <= setY + setSize && player.boxX +  player.boxSize >= setX && player.boxX <= setX + setSize) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
   public void display() {
     switch(setType) {
 
     case "highJump":
 
-      if (activatedPowerup == false && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
+      if (collisionDetection()) {
         activatedPowerup = true;
       }
 
@@ -95,7 +107,7 @@ public class aPowerup {
         }
       }
 
-      if (togglePowerup == 0 && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
+      if (togglePowerup == 0 && collisionDetection()) {
         togglePowerup = 1;
       }
 
@@ -126,7 +138,7 @@ public class aPowerup {
         }
       }
 
-      if (activatedPowerup == false && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
+      if (collisionDetection()) {
         activatedPowerup = true;
       }
 
@@ -134,7 +146,7 @@ public class aPowerup {
 
     case "projectile":
 
-      if (activatedPowerup == false && player.boxX >= setX - 15 && player.boxX <= setX + 15 && player.boxY <= setY + 35 && player.boxY >= setY - 15) {
+      if (collisionDetection()) {
         activatedPowerup = true;
       }
       if (activatedPowerup ==  false) {

@@ -1,9 +1,8 @@
 public class aObject {
-  private int visibility, setX, setY, setW, setL, setX2, setY2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, setDistance, objectStart;
+  private int visibility, setX, setY, setW, setL, setX2, setY2, setL2, setW2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, setDistance, objectStart;
   private int objectToggle = 1;
   private float objectSpeed;
   private String setType, portalType1, portalType2;
-  private boolean objectSwitch;
 
   public aObject(String setType, int visibility, int setX, int setY) {
     this.visibility = visibility;
@@ -72,19 +71,32 @@ public class aObject {
     return setType;
   }
 
-  public void display() {
 
+  public boolean collisionDetection() {
+
+    if (player.boxY + player.boxSize >= setY && player.boxY <= setY + setW && player.boxX +  player.boxSize >= setX && player.boxX <= setX + setL){
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+    public boolean collisionDetection2() {
+
+    if (player.boxY + player.boxSize >= setY2 && player.boxY <= setY2 + setW2 && player.boxX +  player.boxSize >= setX2 && player.boxX <= setX2 + setL2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public void display() {
     if (setDistance >= 1 ) {
-      if (setX <= setDistance && objectSwitch == true) {
-        setX += objectSpeed;
-      } else if (setX >= setDistance && objectSwitch == true) {
-        objectSwitch = false;
-        setX -= objectSpeed;
-      } else if (setX >= objectStart && objectSwitch == false) {
-        setX -= objectSpeed;
-      } else if (setX <= objectStart && objectSwitch == false) {
-        objectSwitch = true;
-        setX += objectSpeed;
+      setX += objectSpeed;
+      if (setX > setDistance) {
+        objectSpeed = -objectSpeed;
+      } else if (setX < objectStart) {
+        objectSpeed = -objectSpeed;
       }
     }
 
@@ -93,69 +105,59 @@ public class aObject {
     case "deathZone":
       fill(255, 0, 0);
       rect(setX, setY, setL, setW);
-      if (player.boxY >= setY - 15 && player.boxY <= (setY + setL) && player.boxX >= setX && player.boxX <= (setX + setL)) {
+      if (collisionDetection()) {
         world.levelTimer = 0;
       }
       break;
 
     case "portal":
-      switch(portalType1) {
 
-      case "RV":
-
-
-        fill(0, 101, 255);
-        rect(setX, setY, 10, 60);
-        fill(255);
-        rect(setX + 5, setY + 5, 5, 50);
-
-        if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
+        if (collisionDetection()) {
           player.boxX = setTeleportX;
           player.boxY = setTeleportY;
         }
-
+        
+        
+        if (collisionDetection2()) {
+          player.boxX = setTeleportX2;
+          player.boxY = setTeleportY2;
+        }
+      switch(portalType1) {
+      case "RV":
+        setL = 10;
+        setW = 60;
+        fill(0, 101, 255);
+        rect(setX, setY, setL, setW);
+        fill(255);
+        rect(setX + 5, setY + 5, 5, 50);
         break;
 
       case "LV":
-
-
+        setL = 10;
+        setW = 60;
         fill(0, 101, 255);
-        rect(setX, setY, 10, 60);
+        rect(setX, setY, setL, setW);
         fill(255);
         rect(setX, setY + 5, 5, 50);
-
-        if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
-          player.boxX = setTeleportX;
-          player.boxY = setTeleportY;
-        }
         break;
 
       case "UH":
 
-
+        setL = 60;
+        setW = 10;
         fill(0, 101, 255);
-        rect(setX2, setY2, 60, 10);
+        rect(setX, setY, setL, setW);
         fill(255);
         rect(setX2 + 5, setY2, 50, 5);
-
-        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
-          player.boxX = setTeleportX2;
-          player.boxY = setTeleportY2;
-        }
-
         break;
 
       case "DH":
+        setL = 60;
+        setW = 10;
         fill(0, 101, 255);
-        rect(setX2, setY2, 60, 10);
+        rect(setX, setY, setL, setW);
         fill(255);
         rect(setX2 + 5, setY2 + 5, 50, 5);
-
-        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
-          player.boxX = setTeleportX2;
-          player.boxY = setTeleportY2;
-        }
-
         break;
 
       default:
@@ -167,60 +169,38 @@ public class aObject {
       switch (portalType2) {
 
       case "RV":
-
-
+        setL2 = 10;
+        setW2 = 60;
         fill(255, 154, 0);
-        rect(setX2, setY2, 10, 60);
+        rect(setX2, setY2, setL2, setW2);
         fill(255);
         rect(setX2 + 5, setY2 + 5, 5, 50);
-
-        if (player.boxY <= (setY2 + 60) && player.boxY >= setY2 - 5 && player.boxX > setX2  - 15 && player.boxX < (setX2 + 25)) {
-          player.boxX = setTeleportX2;
-          player.boxY = setTeleportY2;
-        }
         break;
 
       case "LV":
-
-
+        setL2 = 10;
+        setW2 = 60;
         fill(255, 154, 0);
-        rect(setX2, setY2, 60, 10);
+        rect(setX2, setY2, setL2, setW2);
         fill(255);
-        rect(setX2+ 5, setY2 + 5, 5, 50);
-        if (player.boxY <= (setY + 60) && player.boxY >= setY - 5 && player.boxX > setX  - 15 && player.boxX < (setX + 25)) {
-          player.boxX = setTeleportX2;
-          player.boxY = setTeleportY2;
-        }
+        rect(setX2 + 5, setY2 + 5, 5, 50);
         break;
 
       case "UH":
-
-
+        setL2 = 60;
+        setW2 = 10;
         fill(255, 154, 0);
-        rect(setX2, setY2, 60, 10);
+        rect(setX2, setY2, setL2, setW2);
         fill(255);
         rect(setX2 + 5, setY2, 50, 5);
-
-        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
-          player.boxX = setTeleportX2;
-          player.boxY = setTeleportY2;
-        }
-
         break;
-
       case "DH":
-
-
+        setL2 = 60;
+        setW2 = 10;
         fill(255, 154, 0);
-        rect(setX2, setY2, 60, 10);
+        rect(setX2, setY2, setL2, setW2);
         fill(255);
         rect(setX2 + 5, setY2 + 5, 50, 5);
-
-        if (player.boxY <= setY2 + 15 && player.boxY >= setY2 - 20 && player.boxX >= setX2 - 15 && player.boxX <= setX2 + 50) {
-          player.boxX = setTeleportX2;
-          player.boxY = setTeleportY2;
-        }
-
         break;
 
       default:
@@ -229,18 +209,17 @@ public class aObject {
         break;
       }
 
-
-
-
       break;
 
     case "jumpBoost":
+      setL = 35;
+      setW = 9;
       fill(#4DCEFF);
-      rect(setX, setY, 35, 9);
-      if (player.boxY <= setY + 15 &&  player.boxY >= setY - 25 && player.boxX >= setX - 15 && player.boxX <= setX + 30) {
+      rect(setX, setY, setL, setW);
+      if (collisionDetection()) {
         player.jump = objectValue;
         player.jump();
-        player.jump = 15;
+        player.reset();
       }
 
       break;
@@ -307,10 +286,12 @@ public class aObject {
       break;
 
     case "podium":
+      setL = 35;
+      setW = 9;
       fill(218, 165, 32);
-      rect(setX, setY, 35, 9);
+      rect(setX, setY, setL, setW);
 
-      if (player.boxY <= setY + 15 &&  player.boxY >= setY - 25 && player.boxX >= setX - 15 && player.boxX <= setX + 30) {
+      if (collisionDetection()) {
         world.level++;
         world.levelTimer = 0;
         if ( world.level >= levelUnlocked) {

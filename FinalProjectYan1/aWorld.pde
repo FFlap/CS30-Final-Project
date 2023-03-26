@@ -65,7 +65,7 @@ public class aWorld {
         objects.add(new aObject("deathZone", 0, 240, 655, 87, 5));
 
         //Portal
-        objects.add(new aObject("portal", 0, "LV", 327, 553, "UH", 580, 660, 373, 645, 170, 580));
+        objects.add(new aObject("portal", 0, "LV", 327, 553, "UH", 580, 660, 390, 645, 170, 580));
 
         //End
         objects.add(new aObject("podium", 0, 327, 351));
@@ -146,7 +146,7 @@ public class aWorld {
         objects.add(new aObject("jumpBoost", 1, 90, 441, 15));
         objects.add(new aObject("jumpBoost", 1, 325, 291, 15));
         objects.add(new aObject("podium", 1, 180, 142));
-        platforms.add(new aPlatform(1, 140, 300, 280, 150, #008080));
+        platforms.add(new aPlatform(1, 130, 300, 290, 150, #008080));
         platforms.add(new aPlatform(1, 0, 450, 416, 50, #008080));
 
         objects.add(new aObject("jumpBoost", 0, 660, 482, 20));
