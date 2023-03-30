@@ -1,4 +1,5 @@
 public class aWorld {
+  private int wave;
   private int world = 1;
   private int level = -1;
   private float levelTimer;
@@ -28,6 +29,113 @@ public class aWorld {
     }
   }
 
+  public void checkWaves() {
+
+    switch(level) {
+    case 9:
+
+      if (levelTimer == 700) {
+        platforms.add(new aPlatform(0, 0, 660, 200, 50, #3AA54B));
+        platforms.add(new aPlatform(0, 510, 660, 200, 50, #3AA54B));
+      }
+      if (levelTimer >= 700 && wave == 1) {
+        fill(#A07F12);
+        triangle(300, 470, 300, 550, 240, 510);
+        fill(#A07F12);
+        rect(300, 500, 140, 20);
+        fill(#A07F12);
+        triangle(410, 470, 410, 550, 470, 510);
+      }
+
+      if (levelTimer == 900) {
+        objects.add(new aObject("deathZone", 0, 200, 655, 310, 6));
+        objects.add(new aObject("deathZone", 0, 0, 0, 700, 6));
+        platforms.add(new aPlatform(0, 0, 700, 200, 50, "vertical", false, 3, #008080));
+        platforms.add(new aPlatform(0, 510, 700, 200, 50, "vertical", false, 3, #008080));
+        platforms.add(new aPlatform(0, 220, 350, 270, 50, #008080));
+        wave = 2;
+      }
+
+
+
+      if (levelTimer == 1150) {
+        objects.add(new aObject("deathZone", 0, 0, 655, 700, 6));
+        objects.add(new aObject("deathZone", 0, 0, 0, 700, 6));
+        objects.add(new aObject("deathZone", 0, 220, 660, 210, 150, "vertical", false, 3));
+        objects.add(new aObject("deathZone", 0, 1010, 300, 50, 150, "horizontal", false, 3));
+        objects.add(new aObject("deathZone", 0, 220, -600, 220, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 260, -850, 230, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, -1000, 300, 50, 150, "horizontal", true, 3));
+        objects.add(new aObject("deathZone", 0, 260, -1250, 230, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 220, -1500, 110, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 400, -1500, 110, 150, "vertical", true, 3));
+        wave = 3;
+      }
+
+      if (levelTimer > 1800 && levelTimer < 2000) {
+
+        fill(#A07F12);
+        rect(300, 230, 140, 20);
+        fill(#A07F12);
+        triangle(410, 200, 410, 280, 470, 240);
+      }
+      if (levelTimer == 1900) {
+        objects.add(new aObject("podium", 1, 347, 342));
+        objects.add(new aObject("deathZone", 0, -750, 160, 110, 800, "horizontal", true, 4.2));
+        wave = 4;
+      }
+
+      if (levelTimer == 2000) {
+        platforms.add(new aPlatform(0, 530, 300, 200, 50, #008080));
+      }
+      if (levelTimer == 2050) {
+        platforms.add(new aPlatform(0, 370, 230, 200, 50, #008080));
+      }
+      if (levelTimer == 2080) {
+        platforms.add(new aPlatform(0, 230, 150, 100, 50, #008080));
+      }
+
+
+      if (levelTimer == 2200) {
+        platforms.add(new aPlatform(0, 410, 550, 100, 50, #008080));
+      }
+
+      if (levelTimer == 2250) {
+        platforms.add(new aPlatform(0, 230, 520, 100, 50, #008080));
+        powerups.add(new aPowerup("levelUnlock", 0, 280, 501));
+        objects.add(new aObject("deathZone", 0, 900, 300, 110, 800, "horizontal", false, 3.4));
+        objects.add(new aObject("deathZone", 0, 900, 0, 110, 180, "horizontal", false, 3.4));
+      }
+      if (levelTimer == 2290) {
+        platforms.add(new aPlatform(0, 110, 445, 100, 50, #008080));
+      }
+
+      if (levelTimer == 2100 || levelTimer == 2125 || levelTimer == 2150 || levelTimer == 2320 || levelTimer == 2340 || levelTimer == 2360) { 
+        platforms.remove(5);
+      }
+
+
+      break;
+
+    default:
+
+      break;
+    }
+  }
+
+  public void multiple(ArrayList<aObject> objects, int index, int distanceApart, int copies) {
+    if (copies <= 0 || index < 0 || index >= objects.size()) {
+      return;
+    }
+
+    aObject originalObject = objects.get(index);
+    aObject newObject = new aObject(originalObject);
+    newObject.setX += distanceApart;
+
+    objects.add(newObject);
+    multiple(objects, objects.size() - 1, distanceApart, copies - 1);
+  }
+
 
   public void load() {
 
@@ -41,10 +149,10 @@ public class aWorld {
 
       case -1:
         player.boxX = 335;
-        player.boxY = 640;
-
-        platforms.add(new aPlatform(0, 200, 560, 300, 60, 400, 1, 128));
-        platforms.add(new aPlatform(0, 400, 360, 60, 200, 128));
+        player.boxY = 160;
+        platforms.add(new aPlatform(0, 200, 560, 300, 60, "horizontal", 400, 1, 128));
+        platforms.add(new aPlatform(0, 400, 115, 60, 200, "vertical", false, 1, 128));
+        platforms.add(new aSlope(0, 200, 350, 300, 300, "right", 255));
         break;
       case 0:
         player.boxX = 335;
@@ -108,9 +216,9 @@ public class aWorld {
         platforms.add(new aPlatform(0, -1, 433, 200, 40, #008080));
         platforms.add(new aPlatform(0, 450, 610, 150, 50, #008080));
         platforms.add(new aPlatform(0, 560, 450, 150, 40, #008080));
-        platforms.add(new aPlatform(0, 330, 330, 150, 40, #008080));
-        powerups.add(new aPowerup("highJump", 0, 170, 413, 15));
-        powerups.add(new aPowerup("highJump", 0, 350, 310, 18));
+        platforms.add(new aPlatform(0, 330, 250, 150, 40, #008080));
+        powerups.add(new aPowerup("highJump", 0, 170, 413, 13));
+        powerups.add(new aPowerup("highJump", 0, 670, 430, 15));
         objects.add(new aObject("deathZone", 0, 600, 655, 100, 5));
         objects.add(new aObject("deathZone", 0, 300, 655, 150, 5));
         objects.add(new aObject("portal", 0, "LV", 690, 530, "RV", 0, 372, 40, 420, 550, 580));
@@ -185,18 +293,32 @@ public class aWorld {
 
         player.boxX = 330;
         player.boxY = 640;
-        platforms.add(new aPlatform(0, 120, 580, 200, 50, 380, 1, #008080));
-        platforms.add(new aPlatform(0, 220, 490, 200, 50, 380, 1, #008080));
-        platforms.add(new aPlatform(0, 320, 400, 200, 50, 380, 1, #008080));
-        platforms.add(new aPlatform(0, 40, 350, 200, 50, 380, 2, #008080));
-        platforms.add(new aPlatform(0, 220, 260, 200, 50, 380, 3, #008080));
+        platforms.add(new aPlatform(0, 120, 580, 200, 50, "horizontal", 380, 1, #008080));
+        platforms.add(new aPlatform(0, 220, 490, 200, 50, "horizontal", 380, 1, #008080));
+        platforms.add(new aPlatform(0, 320, 400, 200, 50, "horizontal", 380, 1, #008080));
+        platforms.add(new aPlatform(0, 40, 350, 200, 50, "horizontal", 380, 2, #008080));
+        platforms.add(new aPlatform(0, 220, 260, 200, 50, "horizontal", 380, 3, #008080));
         objects.add(new aObject("podium", 0, 335, 253));
 
         break;
 
+      case 9:
+        player.boxX = 330;
+        player.boxY = 640;
+        wave = 1;
+        objects.add(new aObject("deathZone", 0, 0, 120, 500, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 300, -150, 500, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 0, -450, 500, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 0, -750, 300, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 500, -750, 300, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 30, -1100, 640, 150, "vertical", true, 3));
+        objects.add(new aObject("deathZone", 0, 0, -1350, 80, 150, "vertical", true, 3));
+        multiple(objects, 6, 130, 10);
+        break;
+
       case 10:
-        boxX = 330;
-        boxY = 640;
+        player.boxX = 330;
+        player.boxY = 640;
         break;
 
       default:
@@ -213,28 +335,5 @@ public class aWorld {
     powerups.clear();
     player.reset();
     wave = 1;
-    timer = 0;
-    platformstart = 120;
-    platformstart = 120;
-    platformMove = 1;
-    platformstart2 = 120;
-    platformMove2 = 1;
-    platformstart3 = 300;
-    platformMove3 = 1;
-    platformStart192 = -150;
-    platformStart193 = -450;
-    platformStart194 = -750;
-    platformStart195 = -1100;
-    platformStart196 = -1350;
-    platformStart197 = 700;
-    platformStart198 = 660;
-    platformStart199 = -600;
-    platformStart1910 = 1010;
-    platformStart1911 = -850;
-    platformStart1912 = -1000;
-    platformStart1913 = -1250;
-    platformStart1914 = -1500;
-    platformStart1915 = -750;
-    platformStart1916 = 900;
   }
 }

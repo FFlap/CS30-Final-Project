@@ -3,8 +3,6 @@ public class aPowerup {
   private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
   private String setType;
   private boolean activatedPowerup, projectileMove;
-  public aPowerup() {
-  }
   public aPowerup(String setType, int visibility, int setX, int setY) {
     this.visibility = visibility;
     this.setType = setType;
@@ -58,142 +56,146 @@ public class aPowerup {
     } else {
       return false;
     }
-
   }
 
-  public void display() {
-    switch(setType) {
 
-    case "highJump":
+    public void display() {
+      switch(setType) {
 
-      if (collisionDetection()) {
-        activatedPowerup = true;
-      }
+      case "highJump":
 
-      if (activatedPowerup == true) {
-        player.jump = setPowerupValue;
-      } else {
-        fill(#FF9912);
-        rect(setX, setY, 20, 20);
-      }
+        if (collisionDetection()) {
+          activatedPowerup = true;
+        }
+
+        if (activatedPowerup == true) {
+          player.jump = setPowerupValue;
+        } else {
+          fill(#4DCEFF);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        }
 
 
 
-      break;
+        break;
 
-    case "glasses":
+      case "glasses":
 
-      if (togglePowerup == 0) {
-        fill(#FF9912);
-        rect(setX, setY, 20, 20);
-      }
+        if (togglePowerup == 0) {
+          fill(#FF9912);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        }
 
-      if (togglePowerup == 1) {
+        if (togglePowerup == 1) {
 
-        fill(255);
-        textSize(15);
-        text("Toggle your glasses power On/Off \n by pressing R!", 420, 430);
-      } else if (togglePowerup == 2) {
-        for (aPlatform plat : platforms) {
-          if (plat.visibility == 1) {
-            plat.display();
+          fill(255);
+          textSize(15);
+          text("Toggle your glasses power On/Off \n by pressing R!", 420, 430);
+        } else if (togglePowerup == 2) {
+          for (aPlatform plat : platforms) {
+            if (plat.visibility == 1) {
+              plat.display();
+            }
+          }
+          //Objects
+          for (aObject obj : objects) {
+            if (obj.visibility == 1) {
+              obj.display();
+            }
           }
         }
-        //Objects
-        for (aObject obj : objects) {
-          if (obj.visibility == 1) {
-            obj.display();
+
+        if (togglePowerup == 0 && collisionDetection()) {
+          togglePowerup = 1;
+        }
+
+
+
+
+        break;
+
+
+
+
+      case "levelUnlock":
+        if (activatedPowerup ==  false) {
+          fill(#FFDF24);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        } else {
+          for (aPlatform plat : platforms) {
+            if (plat.visibility == 1) { 
+              plat.display();
+            }
+          }
+          for (aObject obj : objects) {
+            if (obj.visibility == 1) { 
+              obj.display();
+            }
           }
         }
-      }
 
-      if (togglePowerup == 0 && collisionDetection()) {
-        togglePowerup = 1;
-      }
-
-
-
-
-      break;
-
-
-
-
-    case "levelUnlock":
-      if (activatedPowerup ==  false) {
-        fill(#FFDF24);
-        rect(setX, setY, 20, 20);
-        fill(#151515);
-        rect(setX + 5, setY + 5, 10, 10);
-      } else {
-        for (aPlatform plat : platforms) {
-          if (plat.visibility == 1) { 
-            plat.display();
-          }
+        if (collisionDetection()) {
+          activatedPowerup = true;
         }
-        for (aObject obj : objects) {
-          if (obj.visibility == 1) { 
-            obj.display();
-          }
+
+        break;
+
+      case "projectile":
+
+        if (collisionDetection()) {
+          activatedPowerup = true;
         }
-      }
-
-      if (collisionDetection()) {
-        activatedPowerup = true;
-      }
-
-      break;
-
-    case "projectile":
-
-      if (collisionDetection()) {
-        activatedPowerup = true;
-      }
-      if (activatedPowerup ==  false) {
-        fill(#7B4CEA);
-        rect(setX, setY, 20, 20);
-        fill(#151515);
-        rect(setX + 5, setY + 5, 10, 10);
-      } else {
-        fill(255);
-        textSize(15);
-        text("Click anywhere you want to shoot!", 230, 430);
-
-        if (projectileMove == true) {
-
-
-          projectileTimer++;
-          if (projectileTimer == 50) {
-            projectileMove = false;
-            projectileTimer = 0;
-          }
-
-          //Projectile
+        if (activatedPowerup ==  false) {
           fill(#7B4CEA);
-          rectMode(CENTER);
-          rect(projectileX, projectileY, 20, 20);
-          rectMode(CORNER);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        } else {
+          fill(255);
+          textSize(15);
+          text("Click anywhere you want to shoot!", 230, 430);
 
-          projectileSpeedX = setPowerupValue * cos(projectileAngle);
+          if (projectileMove == true) {
 
-          projectileSpeedY = setPowerupValue * sin(projectileAngle);
-          projectileX += projectileSpeedX;
 
-          projectileY += projectileSpeedY;
+            projectileTimer++;
+            if (projectileTimer == 50) {
+              projectileMove = false;
+              projectileTimer = 0;
+            }
+
+            //Projectile
+            fill(#7B4CEA);
+            rectMode(CENTER);
+            rect(projectileX, projectileY, 20, 20);
+            rectMode(CORNER);
+
+            projectileSpeedX = setPowerupValue * cos(projectileAngle);
+
+            projectileSpeedY = setPowerupValue * sin(projectileAngle);
+            projectileX += projectileSpeedX;
+
+            projectileY += projectileSpeedY;
+          }
         }
+
+        break;
+
+
+      default:
+        println("Invalid setType");
       }
-
-      break;
-
-
-    default:
-      println("Invalid setType");
     }
-  }
 
-  public void data() {
-    if (world.levelTimer % 100 == 0) {
-      println("Time: " + world.levelTimer/100 + "s Check: " +  togglePowerup);
+    public void data() {
+      if (world.levelTimer % 100 == 0) {
+        println("Time: " + world.levelTimer/100 + "s Check: " +  togglePowerup);
+      }
     }
-  }
 }

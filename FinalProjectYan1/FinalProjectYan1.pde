@@ -14,48 +14,14 @@ ArrayList<aObject> objects = new ArrayList<aObject>();
 ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
 
 aWorld world = new aWorld();
-//Previous Variables
-float boxX, boxY, jump, jumpheight, boxsize;
-
 
 //Current Preset GUI Variables
 
 aGUI GUI = new aGUI(true, false, false );
 
-//Previous GUI Variables
+//Previous Variables
 int levelUnlocked = 0;
-
-float platformstart = 120;
-float platformMove = 1;
-float platformstart2 = 120;
-float platformMove2 = 1;
-float platformstart3 = 300;
-float platformMove3 = 1;
-
-float platformStart192 = -150;
-float platformStart193 = -450;
-float platformStart194 = -750;
-float platformStart195 = -1100;
-float platformStart196 = -1350;
-
-float platformStart197 = 700;
-float platformStart198 = 660;
-float platformStart1910 = 1010;
-float platformStart199 = -600;
-float platformStart1911 = -850;
-float platformStart1912 = -1000;
-float platformStart1913 = -1250;
-float platformStart1914 = -1500;
-float platformStart1915 = -750;
-
-float platformStart1916 = 900;
-
-int wave = 1;
-int timer = 0;
-int level = -1;
-
 int levelSelect = 0;
-float levelTimer = 0;
 
 
 void setup() {
@@ -65,24 +31,16 @@ void setup() {
 void draw() {
   background(0);
 
-
   //Box
   player.display();
-
   //player.data();
-
 
   ground.display();
 
   // Levels
-
   world.load();
   world.display();
-
-
-  /*
-   level9();
-   */
+  world.checkWaves();
 
   //GUI
   GUI.displayToolTip();
@@ -120,9 +78,6 @@ public void keyPressed() {
 
 
   if ( !GUI.getPauseMenu() && levelSelect == 0) {
-
-
-
     if ( key == 'R' || key == 'r') {
       for (aPowerup pow : powerups) {
         if (pow.getType() == "glasses") {

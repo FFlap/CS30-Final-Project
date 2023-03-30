@@ -301,6 +301,25 @@ public class aGUI {
         image(comingImage, 180, 165);
       }
     }
+
+    if (world.level == 10) {
+      image(endImage, 190, 160);
+      strokeWeight(2);
+      stroke(255, 0, 0);
+      fill(128, 128, 128);
+      rect(100, 350, 200, 100);
+
+      rect(400, 350, 200, 100);
+
+
+      //Text
+
+      fill(255);
+      textSize(20);
+      text("Restart", 160, 405);
+
+      text("Exit", 475, 405);
+    }
   }
 
 
@@ -655,24 +674,7 @@ public class aGUI {
       }
     }
 
-    if (world.level == 10) {
-      image(endImage, 190, 160);
-      strokeWeight(2);
-      stroke(255, 0, 0);
-      fill(128, 128, 128);
-      rect(100, 350, 200, 100);
 
-      rect(400, 350, 200, 100);
-
-
-      //Text
-
-      fill(255);
-      textSize(20);
-      text("Restart", 160, 405);
-
-      text("Exit", 475, 405);
-    }
 
 
     if  ( mY <= 450 && mY >= 350 && mX > 400 && mX < 600 && world.level == 10) {
@@ -681,10 +683,8 @@ public class aGUI {
 
 
     if  (mY <= 450 && mY >= 350 && mX > 100 && mX < 300 && world.level == 10) {
+      world.levelTimer = 0;
       world.level = 1;
-      player.jump = 15;
-      player.boxX = 50;
-      player.boxY = 640;
     } else if (world.level == 10) {
       println("Button Not Pressed");
     }

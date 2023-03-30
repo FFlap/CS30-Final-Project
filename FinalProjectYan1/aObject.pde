@@ -2,7 +2,8 @@ public class aObject {
   private int visibility, setX, setY, setW, setL, setX2, setY2, setL2, setW2, setTeleportX, setTeleportY, setTeleportX2, setTeleportY2, objectValue, setDistance, objectStart;
   private int objectToggle = 1;
   private float objectSpeed;
-  private String setType, portalType1, portalType2;
+  private String setType, portalType1, portalType2, objectDirection;
+  private Boolean objectInfinite;
 
   public aObject(String setType, int visibility, int setX, int setY) {
     this.visibility = visibility;
@@ -38,7 +39,7 @@ public class aObject {
     this.setType = setType;
   }
 
-  public aObject(String setType, int visibility, int setX, int setY, int setL, int setW, int setDistance, float objectSpeed) {
+  public aObject(String setType, int visibility, int setX, int setY, int setL, int setW, String objectDirection, int setDistance, float objectSpeed) {
     this.visibility = visibility;
     this.setX = setX;
     this.setY = setY;
@@ -46,8 +47,31 @@ public class aObject {
     this.setL = setL;
     this.setType = setType;
     this.setDistance = setDistance;
+    this.objectDirection = objectDirection;
     this.objectSpeed = objectSpeed;
-    this.setX = objectStart;
+  }
+
+  public aObject(String setType, int visibility, int setX, int setY, int setL, int setW, String objectDirection, boolean objectInfinite, float objectSpeed) {
+    this.visibility = visibility;
+    this.setX = setX;
+    this.setY = setY;
+    this.setW = setW;
+    this.setL = setL;
+    this.setType = setType;
+    this.objectInfinite = objectInfinite;
+    this.objectDirection = objectDirection;
+    this.objectSpeed = objectSpeed;
+  }
+  public aObject(aObject other) {
+    this.visibility = other.visibility;
+    this.setX = other.setX;
+    this.setY = other.setY;
+    this.setW = other.setW;
+    this.setL = other.setL;
+    this.setType = other.setType;
+    this.objectInfinite = other.objectInfinite;
+    this.objectDirection = other.objectDirection;
+    this.objectSpeed = other.objectSpeed;
   }
 
   public aObject(String setType, int visibility, String portalType1, int setX, int setY, String portalType2, int setX2, int setY2, int setTeleportX, int setTeleportY, int setTeleportX2, int setTeleportY2  ) {
@@ -74,14 +98,14 @@ public class aObject {
 
   public boolean collisionDetection() {
 
-    if (player.boxY + player.boxSize >= setY && player.boxY <= setY + setW && player.boxX +  player.boxSize >= setX && player.boxX <= setX + setL){
+    if (player.boxY + player.boxSize >= setY && player.boxY <= setY + setW && player.boxX +  player.boxSize >= setX && player.boxX <= setX + setL) {
       return true;
     } else {
       return false;
     }
   }
-  
-    public boolean collisionDetection2() {
+
+  public boolean collisionDetection2() {
 
     if (player.boxY + player.boxSize >= setY2 && player.boxY <= setY2 + setW2 && player.boxX +  player.boxSize >= setX2 && player.boxX <= setX2 + setL2) {
       return true;
@@ -90,7 +114,85 @@ public class aObject {
     }
   }
 
+
+  public void showVisibility() {
+
+    for (aPlatform plat : platforms) {
+      if (plat.visibility == objectToggle) {
+        plat.display();
+      }
+    }
+    //Objects
+    for (aObject obj : objects) {
+      if (obj.visibility == objectToggle) {
+        obj.display();
+      }
+    }
+  }
+
   public void display() {
+
+    if (setDistance >= 1 ) {
+
+      switch(objectDirection) {
+      case "horizontal":
+        if (objectStart == 0) {
+          objectStart = setX;
+        }
+
+        setX += objectSpeed;
+        if (setX > setDistance) {
+          objectSpeed = -objectSpeed;
+        } else if (setX < objectSpeed) {
+          objectSpeed = -objectSpeed;
+        }
+        break;
+
+      case "vertical":
+        if (objectStart == 0) {
+          objectStart = setY;
+        }
+        setY += objectSpeed;
+        if (setY > setDistance) {
+          objectSpeed = -objectSpeed;
+        } else if (setY < objectSpeed) {
+          objectSpeed = -objectSpeed;
+        }
+        break;
+
+      default:
+
+        break;
+      }
+    }
+
+
+    if (objectDirection != null && objectInfinite != null ) {
+
+      switch(objectDirection) {
+      case "horizontal":
+        if (objectInfinite) {
+          setX += objectSpeed;
+        } else {
+          setX -= objectSpeed;
+        }
+        break;
+
+      case "vertical":
+        if (objectInfinite) {
+          setY += objectSpeed;
+        } else {
+          setY -= objectSpeed;
+        }
+        break;
+
+      default:
+
+        break;
+      }
+    }
+
+
     if (setDistance >= 1 ) {
       setX += objectSpeed;
       if (setX > setDistance) {
@@ -112,16 +214,16 @@ public class aObject {
 
     case "portal":
 
-        if (collisionDetection()) {
-          player.boxX = setTeleportX;
-          player.boxY = setTeleportY;
-        }
-        
-        
-        if (collisionDetection2()) {
-          player.boxX = setTeleportX2;
-          player.boxY = setTeleportY2;
-        }
+      if (collisionDetection()) {
+        player.boxX = setTeleportX;
+        player.boxY = setTeleportY;
+      }
+
+
+      if (collisionDetection2()) {
+        player.boxX = setTeleportX2;
+        player.boxY = setTeleportY2;
+      }
       switch(portalType1) {
       case "RV":
         setL = 10;
@@ -250,35 +352,9 @@ public class aObject {
         }
       }
 
-      if (objectToggle == 1) {
-        for (aPlatform plat : platforms) {
-          if (plat.visibility == 1) {
-            plat.display();
-          }
-        }
-        //Objects
-        for (aObject obj : objects) {
-          if (obj.visibility == 1) {
-            obj.display();
-          }
-        }
-      }
 
+      showVisibility();
 
-      if (objectToggle == 2) {
-
-        for (aPlatform plat : platforms) {
-          if (plat.visibility == 2) {
-            plat.display();
-          }
-        }
-        //Objects
-        for (aObject obj : objects) {
-          if (obj.visibility == 2) {
-            obj.display();
-          }
-        }
-      }
 
 
 
