@@ -1,36 +1,25 @@
-public class aPlatform {
-  protected int visibility, platformStart, platformX, platformY, platformW, platformL, platformDistance, platformColor;
+public class aPlatform extends aGameObject {
+  protected int platformStart, platformDistance, platformColor;
   private float platformSpeed;
   protected Boolean platformCheck, platformInfinite;
   private String platformDirection;
-  public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, int platformColor) {
-    this.visibility = visibility;
-    this.platformX = platformX;
-    this.platformY = platformY;
-    this.platformW = platformW;
-    this.platformL = platformL;
+
+  public aPlatform(int visibility, int setX, int setY, int setL, int setW, int platformColor) {
+    super(visibility, setX, setY, setL, setW);
     this.platformColor = platformColor;
   }
 
-  public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, String platformDirection, int platformDistance, float platformSpeed, int platformColor) {
-    this.visibility = visibility;
-    this.platformX = platformX;
+  public aPlatform(int visibility, int setX, int setY, int setL, int setW, String platformDirection, int platformDistance, float platformSpeed, int platformColor) {
+    super(visibility, setX, setY, setL, setW);
     this.platformDistance = platformDistance;
-    this.platformY = platformY;
-    this.platformW = platformW;
-    this.platformL = platformL;
     this.platformDirection = platformDirection;
     this.platformSpeed = platformSpeed;
     this.platformColor = platformColor;
   }
 
-  public aPlatform(int visibility, int platformX, int platformY, int platformL, int platformW, String platformDirection, boolean platformInfinite, float platformSpeed, int platformColor) {
-    this.visibility = visibility;
-    this.platformX = platformX;
+  public aPlatform(int visibility, int setX, int setY, int setL, int setW, String platformDirection, boolean platformInfinite, float platformSpeed, int platformColor) {
+    super(visibility, setX, setY, setL, setW);
     this.platformInfinite = platformInfinite;
-    this.platformY = platformY;
-    this.platformW = platformW;
-    this.platformL = platformL;
     this.platformDirection = platformDirection;
     this.platformSpeed = platformSpeed;
     this.platformColor = platformColor;
@@ -38,35 +27,36 @@ public class aPlatform {
 
 
 
-
+  @Override
     public void display() {
+    if (visibility == 0 || visibility == getViewVisibility()) {
       fill(platformColor);
-      rect(platformX, platformY, platformL, platformW);
+      rect(setX, setY, setL, setW);
 
       if (platformDistance >= 1) {
 
         switch(platformDirection) {
         case "horizontal":
           if (platformStart == 0) {
-            platformStart = platformX;
+            platformStart = setX;
           }
 
-          platformX += platformSpeed;
-          if (platformX > platformDistance) {
+          setX += platformSpeed;
+          if (setX > platformDistance) {
             platformSpeed = -platformSpeed;
-          } else if (platformX < platformStart) {
+          } else if (setX < platformStart) {
             platformSpeed = -platformSpeed;
           }
           break;
 
         case "vertical":
           if (platformStart == 0) {
-            platformStart = platformY;
+            platformStart = setY;
           }
-          platformY += platformSpeed;
-          if (platformY > platformDistance) {
+          setY += platformSpeed;
+          if (setY > platformDistance) {
             platformSpeed = -platformSpeed;
-          } else if (platformY < platformStart) {
+          } else if (setY < platformStart) {
             platformSpeed = -platformSpeed;
           }
           break;
@@ -82,17 +72,17 @@ public class aPlatform {
         switch(platformDirection) {
         case "horizontal":
           if (platformInfinite) {
-            platformX += platformSpeed;
+            setX += platformSpeed;
           } else {
-            platformX -= platformSpeed;
+            setX -= platformSpeed;
           }
           break;
 
         case "vertical":
           if (platformInfinite) {
-            platformY += platformSpeed;
+            setY += platformSpeed;
           } else {
-            platformY -= platformSpeed;
+            setY -= platformSpeed;
           }
           break;
 
@@ -101,54 +91,44 @@ public class aPlatform {
           break;
         }
       }
-
-
-
-
-
-
-
-      // Check if on top of platform
-      if (player.boxY + player.boxSize >= platformY && player.boxY < platformY && player.boxX + player.boxSize > platformX && player.boxX < platformX + platformL) {
-        platformCheck = true;
-      } else {
-        platformCheck = false;
-      }
-
-      // If on platform make the player stay on it rather than fall
-      if (platformCheck) {
-        player.jumpToggle = false;
-        player.velocityY = 0;
-        player.boxY = platformY - player.boxSize;
-      }
-
-      //Bottom
-      if (player.boxY + player.boxSize > platformY  +  platformW && player.boxY < platformY +  platformW && player.boxX + player.boxSize  > (platformX) && player.boxX < (platformX + platformL)) {
-        player.velocityY = 0;
-        player.velocityY += 0.5;
-        player.boxY = (platformY + platformW);
-      }
-
-
-      if (player.boxY + player.boxSize > platformY && player.boxY < platformY + platformW) {
-        //Left side
-        if (player.boxX + player.boxSize > platformX && player.boxX < platformX) {
-          player.stopRight();
-          player.boxX = platformX - player.boxSize;
-        }
-
-        //Right side
-        if (player.boxX < platformX + platformL && player.boxX + player.boxSize > platformX + platformL) {
-          player.stopLeft();
-          player.boxX = platformX + platformL;
-        }
-      }
     }
+  }
 
+  // SAT AABB collision detection to resolve corner cases
+  public void handleCollision(aPlayer player) {
+    if (visibility == 0 || visibility == getViewVisibility()) {
+      float xOverlap = Math.min(player.getX() + player.getL() - getX(), getX() + getL() - player.getX());
+      float yOverlap = Math.min(player.getY() + player.getW() - getY(), getY() + getW() - player.getY());
 
-    public void data() {
-      if (world.levelTimer % 100 == 0) {
-        println("Time: " + world.levelTimer/100 + "s Check: " +   platformStart);
+      if (xOverlap > 0 && yOverlap > 0) {
+        if (xOverlap < yOverlap) {
+          // Resolve the collision horizontally
+          if (player.getX() < getX()) {
+            player.stopRight();
+            player.setX(getX() - player.getL());
+          } else {
+            player.stopLeft();
+            player.setX(getX() + getL());
+          }
+        } else {
+          // Resolve the collision vertically
+          if (player.getY() < getY()) {
+            player.land();
+            player.setY(getY() - player.getW());
+          } else {
+            player.velocityY = 0;
+            player.setY(getY() + getW());
+          }
+        }
       }
     }
   }
+
+
+
+  public void data() {
+    if (world.levelTimer % 100 == 0) {
+      println("Time: " + world.levelTimer/100 + "s Check: " + platformStart);
+    }
+  }
+}

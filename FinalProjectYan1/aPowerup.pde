@@ -1,23 +1,18 @@
-public class aPowerup {
-  private float setX, setY, setSize, setPowerupValue, togglePowerup, visibility;
+public class aPowerup extends aGameObject {
+
+  private float setPowerupValue;
   private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
   private String setType;
   private boolean activatedPowerup, projectileMove;
+
   public aPowerup(String setType, int visibility, int setX, int setY) {
-    this.visibility = visibility;
+    super(visibility, setX, setY, 20, 20); 
     this.setType = setType;
-    this.setX = setX;
-    this.setY = setY;
-    this.setSize = 20;
   }
 
-
   public aPowerup(String setType, int visibility, int setX, int setY, int setPowerupValue) {
+    super(visibility, setX, setY, 20, 20); 
     this.setType = setType;
-    this.visibility = visibility;
-    this.setX = setX;
-    this.setY = setY;
-    this.setSize = 20;
     this.setPowerupValue = setPowerupValue;
   }
 
@@ -33,44 +28,65 @@ public class aPowerup {
     return projectileY;
   }
 
+
+
+
   public void glassesPowerupToggle() {
 
 
-    if (togglePowerup == 2) {
-      togglePowerup = 1;
-    } else if (togglePowerup == 1) {
-      togglePowerup = 2;
+    if (getViewVisibility() == 2) {
+      setViewVisibility(1);
+    } else if (getViewVisibility() == 1) {
+      setViewVisibility(2);
     }
+    updateVisibility();
   }
 
   public void setProjectileAngle(int projectileMouseX, int projectileMouseY) {
-    this.projectileX = player.boxX;
-    this.projectileY = player.boxY;
+    for (aPlayer player : players) {
+      this.projectileX =  player.getX();
+      this.projectileY =   player.getY();
+    }
     this.projectileAngle = atan2(projectileMouseY - projectileY, projectileMouseX - projectileX);
   }
 
-  public boolean collisionDetection() {
+  public void handleCollision(aPlayer player) {
+    if (visibility == 0 || visibility == getViewVisibility()) {
+      if (player.getX() + player.getL() > getX() && player.getX() < getX() + getL() &&
+        player.getY() + player.getW() > getY() && player.getY() < getY() + getW()) {
+        switch(setType) {
+        case "highJump":
+          activatedPowerup = true;
+          player.jump = setPowerupValue;
+          break;
 
-    if (player.boxY + player.boxSize >= setY && player.boxY <= setY + setSize && player.boxX +  player.boxSize >= setX && player.boxX <= setX + setSize) {
-      return true;
-    } else {
-      return false;
+        case "glasses":
+          activatedPowerup = true;
+          if (getViewVisibility() == 0) {
+            setViewVisibility(1);
+          }
+          break;
+
+        case"levelUnlock":
+          activatedPowerup = true;
+          break;
+
+        case "projectile":
+          activatedPowerup = true;
+          break;
+        }
+      }
     }
   }
 
-
-    public void display() {
+  public void display() {
+    if (visibility == 0 || visibility == getViewVisibility()) {
       switch(setType) {
 
       case "highJump":
 
-        if (collisionDetection()) {
-          activatedPowerup = true;
-        }
 
-        if (activatedPowerup == true) {
-          player.jump = setPowerupValue;
-        } else {
+        if (!activatedPowerup) {
           fill(#4DCEFF);
           rect(setX, setY, 20, 20);
           fill(#151515);
@@ -83,37 +99,16 @@ public class aPowerup {
 
       case "glasses":
 
-        if (togglePowerup == 0) {
+        if (!activatedPowerup) {
           fill(#FF9912);
           rect(setX, setY, 20, 20);
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
-        }
-
-        if (togglePowerup == 1) {
-
+        } else {
           fill(255);
           textSize(15);
           text("Toggle your glasses power On/Off \n by pressing R!", 420, 430);
-        } else if (togglePowerup == 2) {
-          for (aPlatform plat : platforms) {
-            if (plat.visibility == 1) {
-              plat.display();
-            }
-          }
-          //Objects
-          for (aObject obj : objects) {
-            if (obj.visibility == 1) {
-              obj.display();
-            }
-          }
         }
-
-        if (togglePowerup == 0 && collisionDetection()) {
-          togglePowerup = 1;
-        }
-
-
 
 
         break;
@@ -128,29 +123,16 @@ public class aPowerup {
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
         } else {
-          for (aPlatform plat : platforms) {
-            if (plat.visibility == 1) { 
-              plat.display();
-            }
-          }
-          for (aObject obj : objects) {
-            if (obj.visibility == 1) { 
-              obj.display();
-            }
-          }
+          setViewVisibility(2);
+          updateVisibility();
         }
 
-        if (collisionDetection()) {
-          activatedPowerup = true;
-        }
+
 
         break;
 
       case "projectile":
 
-        if (collisionDetection()) {
-          activatedPowerup = true;
-        }
         if (activatedPowerup ==  false) {
           fill(#7B4CEA);
           rect(setX, setY, 20, 20);
@@ -192,10 +174,11 @@ public class aPowerup {
         println("Invalid setType");
       }
     }
+  }
 
-    public void data() {
-      if (world.levelTimer % 100 == 0) {
-        println("Time: " + world.levelTimer/100 + "s Check: " +  togglePowerup);
-      }
+  public void data() {
+    if (world.levelTimer % 100 == 0) {
+      println("Time: " + world.levelTimer/100 + "s Check: " +  getViewVisibility());
     }
+  }
 }

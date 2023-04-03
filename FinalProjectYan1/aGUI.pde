@@ -1,6 +1,7 @@
 public class aGUI {
   private boolean toolTip, pauseMenu, developerOptions;
   private int mX, mY;
+  private PImage titleImage, endImage, comingImage, world1;
   public aGUI(boolean toolTip, boolean pauseMenu, boolean developerOptions) {
     this.toolTip = toolTip;
     this.pauseMenu = pauseMenu;
@@ -9,6 +10,7 @@ public class aGUI {
 
 
   public void load() {
+    surface.setTitle("Slime World");
     data = new File(dataPath("data/data.json"));
     json = loadJSONObject("data/data.json");
     levelUnlocked = json.getInt("levelUnlocked");
@@ -79,10 +81,10 @@ public class aGUI {
 
         if (developerOptions == true) {
 
-          text("Box X Value: " + player.boxX, 0, 60);
-          text("Box Y Value: " + player.boxY, 0, 75);
-          text("Speed: " + player.speed, 0, 90);
-          text("Jump Height: " + player.jump, 0, 105);
+          text("Box X Value: " +   players.get(0).setX, 0, 60);
+          text("Box Y Value: " +   players.get(0).setY, 0, 75);
+          text("Speed: " +   players.get(0).speed, 0, 90);
+          text("Jump Height: " +   players.get(0).jump, 0, 105);
           text("Level Select State: " + levelSelect, 0, 135);
           text("To Increase Speed Press: P", 0, 165);
           text("To Increase Jump Height Press: H", 0, 180);

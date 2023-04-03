@@ -1,14 +1,7 @@
+//global variables
 JSONObject json;
 File data;
-PImage titleImage, endImage, comingImage, world1;
-//global variables
-
-
-//Player
-aPlayer player = new aPlayer(10, 20, 10);
-
-//Ground
-aPlatform ground = new aPlatform(0, -40, 660, 780, 45, #32CD32);
+ArrayList<aPlayer> players = new ArrayList<aPlayer>();
 ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
 ArrayList<aObject> objects = new ArrayList<aObject>();
 ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
@@ -16,7 +9,6 @@ ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
 aWorld world = new aWorld();
 
 //Current Preset GUI Variables
-
 aGUI GUI = new aGUI(true, false, false );
 
 //Previous Variables
@@ -27,20 +19,19 @@ int levelSelect = 0;
 void setup() {
   size(700, 700);
   GUI.load();
+  players.add(new aPlayer(0, 100, 100, 20, 20, 10, 10));
 }
 void draw() {
   background(0);
 
-  //Box
-  player.display();
-  //player.data();
+  //players.get(0).data();
 
-  ground.display();
+
 
   // Levels
   world.load();
   world.display();
-  world.checkWaves();
+  world.checkTimer();
 
   //GUI
   GUI.displayToolTip();
@@ -54,11 +45,15 @@ public void keyReleased() {
 
 
   if (  key == 'a' || key == 'A' || keyCode == LEFT) {
-    player.stopLeft();
+    for (aPlayer player : players) {
+      player.stopLeft();
+    }
   }
 
   if ( key == 'd' || key == 'D' || keyCode == RIGHT) {
-    player.stopRight();
+    for (aPlayer player : players) {
+      player.stopRight();
+    }
   }
 }
 
@@ -80,7 +75,7 @@ public void keyPressed() {
   if ( !GUI.getPauseMenu() && levelSelect == 0) {
     if ( key == 'R' || key == 'r') {
       for (aPowerup pow : powerups) {
-        if (pow.getType() == "glasses") {
+        if (pow.getType() == "glasses" && pow.activatedPowerup) {
           pow.glassesPowerupToggle();
           break;
         }
@@ -88,17 +83,23 @@ public void keyPressed() {
     }
 
 
-    //Movement
-    if (  key == 'w' || key == 'W' || keyCode == UP || key ==  ' ') {
-      player.jump();
+    // Movement
+    if (key == 'w' || key == 'W' || keyCode == UP || key == ' ') {
+      for (aPlayer player : players) {
+        player.jump();
+      }
     }
 
-    if ( key == 'a' || key == 'A' ||  keyCode == LEFT) {
-      player.moveLeft();
+    if (key == 'a' || key == 'A' || keyCode == LEFT) {
+      for (aPlayer player : players) {
+        player.moveLeft();
+      }
     }
 
-    if (key == 'd' || key == 'D' ||  keyCode == RIGHT) {
-      player.moveRight();
+    if (key == 'd' || key == 'D' || keyCode == RIGHT) {
+      for (aPlayer player : players) {
+        player.moveRight();
+      }
     }
   }
   if (GUI.getPauseMenu() && key == '+') {
@@ -108,13 +109,14 @@ public void keyPressed() {
 
 
   if ((GUI.getDeveloperOptions())) {
+    for (aPlayer player : players) {
+      if ( key == 'p' || key == 'P') {
+        player.speed++;
+      }
 
-    if ( key == 'p' || key == 'P') {
-      player.speed++;
-    }
-
-    if ( key == 'h' || key == 'H') {
-      player.jump++;
+      if ( key == 'h' || key == 'H') {
+        player.jump++;
+      }
     }
     if (!GUI.getPauseMenu()) {
       if ( key == 'l' || key == 'L') {

@@ -1,26 +1,37 @@
-public class aPlayer {
-  private float boxX, boxY, jump, velocityX, velocityY;
-  private int boxSize, speed;
-  private boolean jumpToggle, moveRight, moveLeft = false;
+public class aPlayer extends aGameObject {
+  private float jump, velocityX, velocityY, originalJump;
+  private int speed;
+  private boolean jumpToggle, moveRight, moveLeft;
 
-  //Orignal Constructed Variables
-  private int orignalBoxSize, orignalSpeed;
-  private float orignalJump;
+  // Original Constructed Variables
+  private int originalSetL, originalSetW, originalSpeed;
 
-
-  public aPlayer(float jump, int boxSize, int speed) {
+  public aPlayer(int visibility, int setX, int setY, int setL, int setW, float jump, int speed) {
+    super(visibility, setX, setY, setL, setW);
     this.jump = jump;
-    this.boxSize = boxSize;
-    this.speed = speed;
-    this.orignalBoxSize = boxSize;
-    this.orignalSpeed = speed;
-    this.orignalJump = jump;
+    this.originalSetL = setL;
+    this.originalSetW = setW;
+    this.originalSpeed = speed;
+    this.originalJump = jump;
   }
-  
-  public void reset(){ 
-    boxSize = orignalBoxSize;
-    speed = orignalSpeed;
-    jump = orignalJump;
+
+
+  public void reset() {
+    setL = originalSetL;
+    setW = originalSetW;
+    speed = originalSpeed;
+    jump = originalJump;
+  }
+
+
+
+
+  public void setX(int newX) {
+    this.setX = newX;
+  }
+
+  public void setY(int newY) {
+    this.setY = newY;
   }
 
   public void moveRight() {
@@ -38,48 +49,54 @@ public class aPlayer {
     }
   }
 
-  public void  stopLeft() {
+  public void stopLeft() {
     moveLeft = false;
   }
 
-  public void  stopRight() {
+  public void stopRight() {
     moveRight = false;
   }
 
 
-  public void display() {
-    fill(255);
-    stroke(0);
-    strokeWeight(0);
-    rect(player.boxX, player.boxY, player.boxSize, player.boxSize);
+  public void land() {
+    velocityY = 0;
+    jumpToggle = false;
+  }
+
+  @Override
+    public void display() {
+    if (visibility == 0 || visibility == getViewVisibility()) {
+      fill(255);
+      stroke(0);
+      strokeWeight(0);
+      rect(setX, setY, setL, setW);
+
+      if (moveRight == true) {
+        setX = setX + speed;
+      }
+
+      if (moveLeft == true) {
+        setX = setX - speed;
+      }
+      setX = constrain(setX, 0, width - setL);
 
 
-    if (moveRight == true) {
-      boxX = boxX +  speed;
-    }
+      // Jump
+      velocityY += 0.5;
 
-    if (moveLeft == true) {
-      boxX = boxX - speed;
-    }
-    boxX = constrain(boxX, 0, width - boxSize);
+      if (velocityY >= setW) {
+        velocityY--;
+      } 
 
+      setY += velocityY;
 
-    // Jump
-    velocityY += 0.5;
-    boxY += velocityY;
-
-    if (!jumpToggle) {
-      jumpToggle = true;
+      if (velocityY > 0.5) {
+        jumpToggle = true;
+      }
     }
   }
 
-
-
-
-
-
   public void data() {
-
     println(velocityY);
   }
 }
