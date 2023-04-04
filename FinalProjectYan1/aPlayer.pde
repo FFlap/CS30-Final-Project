@@ -1,6 +1,6 @@
 public class aPlayer extends aGameObject {
   private float jump, velocityX, velocityY, originalJump;
-  private int speed,jumpNum;
+  private int speed, jumpNum;
   private boolean jumpToggle, moveRight, moveLeft, moveUp, moveDown, flight, ladder;
 
   // Original Constructed Variables
@@ -25,7 +25,9 @@ public class aPlayer extends aGameObject {
     jumpNum = 0;
   }
 
-
+  public boolean getLadder() {
+    return ladder;
+  }
 
 
   public void setX(int newX) {
@@ -35,6 +37,7 @@ public class aPlayer extends aGameObject {
   public void setY(int newY) {
     this.setY = newY;
   }
+
 
   public void moveRight() {
     moveRight = true;
@@ -94,9 +97,6 @@ public class aPlayer extends aGameObject {
       fill(255);
       noStroke();
       rect(setX, setY, setL, setW);
-      ladder = false;
-
-
 
 
       if (moveRight == true) {
@@ -108,33 +108,37 @@ public class aPlayer extends aGameObject {
       }
       setX = constrain(setX, 0, width - setL);
 
-      if (moveUp) {
+      if (moveUp && ladder) {
         setY = setY - speed;
       }
 
-      if (moveDown) {
+      if (moveDown && ladder) {
         setY = setY + speed;
       }
 
-
       // Jump
       velocityY += 0.5;
-
       if (velocityY >= setW) {
         velocityY--;
       } 
-
       setY += velocityY;
+      
+      if(setY > height + setW) {
+        world.levelTimer = 0;
+      }
 
-      if (velocityY > 0.5) {
+      if (velocityY > 0.5 && !ladder && !moveUp) {
         jumpToggle = true;
       }
     }
   }
 
   public void data() {
-    println("VelocityY: " + velocityY);
-    println("jumpToggle: " +jumpToggle);
-    println("ladder: " +ladder);
+    if (world.levelTimer % 500 == 0) {
+      println("VelocityY: " + velocityY);
+      println("jumpToggle: " +jumpToggle);
+      println("jump: " +jump);
+      println("ladder: " +ladder);
+    }
   }
 }

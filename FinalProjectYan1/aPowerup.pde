@@ -59,19 +59,6 @@ public class aPowerup extends aGameObject {
           activatedPowerup = true;
           player.jump = setPowerupValue;
           break;
-
-        case "glasses":
-          activatedPowerup = true;
-          break;
-
-        case"levelUnlock":
-          activatedPowerup = true;
-          break;
-
-        case "projectile":
-          activatedPowerup = true;
-          break;
-
         case "flight":
           activatedPowerup = true;
           player.flight = true;
@@ -80,6 +67,9 @@ public class aPowerup extends aGameObject {
           activatedPowerup = true;
           player.jumpNum = 2;
           break;
+
+         default:
+          activatedPowerup = true;
         }
       }
     }
@@ -192,6 +182,18 @@ public class aPowerup extends aGameObject {
           rect(setX, setY, 20, 20);
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
+        }
+        break;
+
+      case "changeWindow":
+
+        if (activatedPowerup ==  false) {
+          fill(#150C0C);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        } else {
+          GUI.setTransitionWindow(800, 800);
         }
         break;
 

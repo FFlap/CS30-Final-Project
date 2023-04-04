@@ -126,25 +126,45 @@ public class aObject extends aGameObject {
 
 
 
-
-
           break;
 
         case "jumpBoost":
-
           player.jump = objectValue;
           player.jump();
           player.reset();
           break;
 
         case "ladder":
+          if (player.getY() + player.getW() > getY() && player.getY() < getY() && player.getX() + player.getL() > getX() && player.getX() < getX() + getL() && !player.moveDown) {
+            player.land();
+            player.setY(getY() - player.getW());
+          }
           player.velocityY = 0;
           player.ladder = true;
           break;
         case "podium":
           // Handle podium collision
           world.level++;
+
+          json = new JSONObject();
+          json.setInt("levelUnlocked", world.level);
+
+
+          JSONArray values = new JSONArray();
+          for (int i = 0; i < GUI.levelTimes.length; i++) {
+            JSONObject animal = new JSONObject();
+            animal.setInt("level", world.level);
+            animal.setFloat("levelTime", world.levelTimer);
+            values.setJSONObject(i, animal);
+
+
+            json = new JSONObject();
+            json.setJSONArray("world 1", values);
+
+            saveJSONObject(json, "data/new.json");
+          }
           world.levelTimer = 0;
+
           if (world.level >= levelUnlocked) {
             json = new JSONObject();
             json.setInt("levelUnlocked", world.level);
@@ -152,11 +172,7 @@ public class aObject extends aGameObject {
           }
           break;
 
-
-
         default:
-
-
           println("Invalid setType");
           break;
         }

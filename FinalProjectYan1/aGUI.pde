@@ -1,6 +1,7 @@
 public class aGUI {
   private boolean toolTip, pauseMenu, developerOptions;
   private int mX, mY;
+  private float[] levelTimes = new float[10];
   private PImage titleImage, endImage, comingImage, world1;
   public aGUI(boolean toolTip, boolean pauseMenu, boolean developerOptions) {
     this.toolTip = toolTip;
@@ -8,22 +9,49 @@ public class aGUI {
     this.developerOptions = developerOptions;
   }
 
-
+  JSONArray values;
   public void load() {
+    players.add(new aPlayer(0, 100, 100, 20, 20, 10, 10));
+
     surface.setTitle("Slime World");
-    data = new File(dataPath("data/data.json"));
     json = loadJSONObject("data/data.json");
     levelUnlocked = json.getInt("levelUnlocked");
     titleImage = loadImage("title.png");
     endImage = loadImage("end.png");
     comingImage = loadImage("coming.png");
     world1 = loadImage("world1.png");
+
+    values = loadJSONArray("data/new.json");
+
+    for (int i = 0; i < values.size(); i++) {
+
+      JSONObject animal = values.getJSONObject(i); 
+      int species = animal.getInt("levelTime");
+      levelTimes[i] = species;
+      levelTimes[i] = levelTimes[i] / 100;
+    }
+    println(levelTimes);
   }
 
 
   public void setWindow(int windowX, int windowY) {
     surface.setSize(windowX, windowY);
   }
+
+  public void setTransitionWindow(int windowX, int windowY ) {
+    int speed = 1;
+    if (width < windowX) {
+      surface.setSize(width + speed, height);
+    }
+
+    if (height < windowY) {
+      surface.setSize(width, height + speed);
+    }
+  }
+
+
+
+
 
 
 

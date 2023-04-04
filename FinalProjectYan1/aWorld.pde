@@ -7,25 +7,21 @@ public class aWorld {
 
     for (aPlayer player : players) {
 
+      for (aObject object : objects) {
+        if (player.collidesWith(object)) {
+          object.handleCollision(player);
+        } else {
+          player.ladder = false;
+        }
+      }
 
       for (aPlatform platform : platforms) {
-
         if (player.collidesWith(platform)) {
           platform.handleCollision(player);
         }
       }
 
-
-      for (aObject object : objects) {
-
-        if (player.collidesWith(object)) {
-          object.handleCollision(player);
-        }
-      }
-
-
       for (aPowerup powerup : powerups) {
-
         if (player.collidesWith(powerup)) {
           powerup.handleCollision(player);
         }
@@ -181,7 +177,7 @@ public class aWorld {
       case -1:
         players.get(0).setX(335);
         players.get(0).setY(380);
-        powerups.add(new aPowerup("setJump", 0, 650, 640, 2));
+        powerups.add(new aPowerup("changeWindow", 0, 650, 640));
         objects.add(new aObject("ladder", 0, 230, 360, 100, 200));
         platforms.add(new aPlatform(2, 410, 470, 260, 50, #008080));
         platforms.add(new aPlatform(0, 200, 560, 300, 60, "horizontal", 400, 1, 128));
@@ -204,13 +200,13 @@ public class aWorld {
         platforms.add(new aPlatform(0, 500, 450, 30, 30, 128));
         platforms.add(new aPlatform(0, 415, 400, 30, 30, 128));
         //Death Zone
-        objects.add(new aObject("deathZone", 0, 240, 655, 87, 5));
+        objects.add(new aObject("deathZone", 0, 240, 655, 95, 5));
 
         //Portal
         objects.add(new aObject("portal", 0, "LV", 327, 553, 0));
-        objects.add(new aObject("portal", 0, "UH", 630, 650, 0));
+        objects.add(new aObject("portal", 0, "UH", 374, 650, 0));
         //End
-        objects.add(new aObject("podium", 0, 327, 351));
+        objects.add(new aObject("podium", 0, 336, 351));
 
 
         break;
@@ -284,9 +280,9 @@ public class aWorld {
         players.get(0).setY( 130);
         powerups.add(new aPowerup("levelUnlock", 0, 480, 95));
 
-        objects.add(new aObject("deathZone", 0, 150, 329, 230, 150));
-        objects.add(new aObject("deathZone", 0, 0, 460, 400, 20));
-        objects.add(new aObject("deathZone", 0, 375, 0, 40, 480));
+        objects.add(new aObject("deathZone", 1, 150, 329, 265, 150));
+        objects.add(new aObject("deathZone", 1, 0, 460, 400, 20));
+        objects.add(new aObject("deathZone", 0, 375, 0, 40, 330));
         objects.add(new aObject("jumpBoost", 2, 90, 441, 15));
         objects.add(new aObject("jumpBoost", 2, 325, 291, 15));
         objects.add(new aObject("podium", 2, 180, 142));
@@ -296,6 +292,8 @@ public class aWorld {
         objects.add(new aObject("jumpBoost", 0, 660, 482, 19));
         objects.add(new aObject("portal", 0, "LV", 690, 530, 0));
         objects.add(new aObject("portal", 0, "RV", 0, 372, 0));
+
+        platforms.add(new aPlatform(1, 150, 310, 50, 20, #008080));
 
         platforms.add(new aPlatform(0, -5, 150, 260, 50, #008080));
         platforms.add(new aPlatform(0, 415, 0, 30, 660, #008080));
@@ -364,6 +362,9 @@ public class aWorld {
 
 
   public void LevelReset() {
+    if (world == 1) {
+      GUI.setWindow(700, 700);
+    }
     platforms.clear();
     objects.clear();
     powerups.clear();
