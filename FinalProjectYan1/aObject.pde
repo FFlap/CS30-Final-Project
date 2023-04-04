@@ -136,6 +136,11 @@ public class aObject extends aGameObject {
           player.jump();
           player.reset();
           break;
+
+        case "ladder":
+          player.velocityY = 0;
+          player.ladder = true;
+          break;
         case "podium":
           // Handle podium collision
           world.level++;
@@ -167,6 +172,7 @@ public class aObject extends aGameObject {
     public void display() {
 
     if (visibility == 0 || visibility == getViewVisibility()) {
+      noStroke();
       if (setDistance >= 1 ) {
 
         switch(objectDirection) {
@@ -326,6 +332,14 @@ public class aObject extends aGameObject {
           }
         }
 
+
+
+        break;
+
+
+      case "ladder":
+        fill(#C1740E);
+        rect(setX, setY, setL, setW);
 
 
         break;

@@ -30,6 +30,7 @@ public class aPlatform extends aGameObject {
   @Override
     public void display() {
     if (visibility == 0 || visibility == getViewVisibility()) {
+      noStroke();
       fill(platformColor);
       rect(setX, setY, setL, setW);
 

@@ -1,7 +1,7 @@
 public class aPlayer extends aGameObject {
   private float jump, velocityX, velocityY, originalJump;
-  private int speed;
-  private boolean jumpToggle, moveRight, moveLeft;
+  private int speed,jumpNum;
+  private boolean jumpToggle, moveRight, moveLeft, moveUp, moveDown, flight, ladder;
 
   // Original Constructed Variables
   private int originalSetL, originalSetW, originalSpeed;
@@ -21,6 +21,8 @@ public class aPlayer extends aGameObject {
     setW = originalSetW;
     speed = originalSpeed;
     jump = originalJump;
+    flight = false;
+    jumpNum = 0;
   }
 
 
@@ -42,10 +44,27 @@ public class aPlayer extends aGameObject {
     moveLeft = true;
   }
 
+  public void moveUp() {
+    moveUp = true;
+  }
+
+  public void moveDown() {
+    moveDown = true;
+  }
+
+  public void stopUp() {
+    moveUp = false;
+  }
+
+  public void stopDown() {
+    moveDown = false;
+  }
+
   public void jump() {
-    if (!jumpToggle) { // Only jump if not currently jumping
+    if (!jumpToggle || flight || jumpNum >= 1) {
       jumpToggle = true;
       velocityY = -jump;
+      jumpNum--;
     }
   }
 
@@ -61,15 +80,24 @@ public class aPlayer extends aGameObject {
   public void land() {
     velocityY = 0;
     jumpToggle = false;
+    for (aPowerup pow : powerups) {
+      if (pow.getType() == "setJump" && pow.activatedPowerup == true) {
+        jumpNum = pow.setPowerupValue;
+        break;
+      }
+    }
   }
 
   @Override
     public void display() {
     if (visibility == 0 || visibility == getViewVisibility()) {
       fill(255);
-      stroke(0);
-      strokeWeight(0);
+      noStroke();
       rect(setX, setY, setL, setW);
+      ladder = false;
+
+
+
 
       if (moveRight == true) {
         setX = setX + speed;
@@ -79,6 +107,14 @@ public class aPlayer extends aGameObject {
         setX = setX - speed;
       }
       setX = constrain(setX, 0, width - setL);
+
+      if (moveUp) {
+        setY = setY - speed;
+      }
+
+      if (moveDown) {
+        setY = setY + speed;
+      }
 
 
       // Jump
@@ -97,6 +133,8 @@ public class aPlayer extends aGameObject {
   }
 
   public void data() {
-    println(velocityY);
+    println("VelocityY: " + velocityY);
+    println("jumpToggle: " +jumpToggle);
+    println("ladder: " +ladder);
   }
 }

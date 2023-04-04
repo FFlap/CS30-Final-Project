@@ -1,6 +1,6 @@
 public class aPowerup extends aGameObject {
 
-  private float setPowerupValue;
+  private int setPowerupValue;
   private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
   private String setType;
   private boolean activatedPowerup, projectileMove;
@@ -62,9 +62,6 @@ public class aPowerup extends aGameObject {
 
         case "glasses":
           activatedPowerup = true;
-          if (getViewVisibility() == 0) {
-            setViewVisibility(1);
-          }
           break;
 
         case"levelUnlock":
@@ -74,6 +71,15 @@ public class aPowerup extends aGameObject {
         case "projectile":
           activatedPowerup = true;
           break;
+
+        case "flight":
+          activatedPowerup = true;
+          player.flight = true;
+          break;
+        case "setJump":
+          activatedPowerup = true;
+          player.jumpNum = 2;
+          break;
         }
       }
     }
@@ -81,6 +87,7 @@ public class aPowerup extends aGameObject {
 
   public void display() {
     if (visibility == 0 || visibility == getViewVisibility()) {
+      noStroke();
       switch(setType) {
 
       case "highJump":
@@ -169,6 +176,24 @@ public class aPowerup extends aGameObject {
 
         break;
 
+      case "flight":
+        if (activatedPowerup ==  false) {
+          fill(#FFFFFF);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        }
+        break;
+
+      case "setJump":
+
+        if (activatedPowerup ==  false) {
+          fill(#356744);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        }
+        break;
 
       default:
         println("Invalid setType");

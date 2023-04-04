@@ -24,7 +24,7 @@ void setup() {
 void draw() {
   background(0);
 
-  //players.get(0).data();
+  players.get(0).data();
 
 
 
@@ -53,6 +53,22 @@ public void keyReleased() {
   if ( key == 'd' || key == 'D' || keyCode == RIGHT) {
     for (aPlayer player : players) {
       player.stopRight();
+    }
+  }
+
+  if (key == 's' || key == 'S' || keyCode == DOWN) {
+    for (aPlayer player : players) {
+      if (player.ladder) {
+        player.stopDown();
+      }
+    }
+  }
+
+  if (key == 'w' || key == 'W' || keyCode == UP || key == ' ') {
+    for (aPlayer player : players) {
+      if (player.ladder) {
+        player.stopUp();
+      }
     }
   }
 }
@@ -86,7 +102,11 @@ public void keyPressed() {
     // Movement
     if (key == 'w' || key == 'W' || keyCode == UP || key == ' ') {
       for (aPlayer player : players) {
-        player.jump();
+        if (player.ladder) {
+          player.moveUp();
+        } else {
+          player.jump();
+        }
       }
     }
 
@@ -99,6 +119,14 @@ public void keyPressed() {
     if (key == 'd' || key == 'D' || keyCode == RIGHT) {
       for (aPlayer player : players) {
         player.moveRight();
+      }
+    }
+
+    if (key == 's' || key == 'S' || keyCode == DOWN) {
+      for (aPlayer player : players) {
+        if (player.ladder) {
+          player.moveDown();
+        }
       }
     }
   }

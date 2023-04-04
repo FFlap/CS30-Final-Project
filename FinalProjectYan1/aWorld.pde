@@ -37,12 +37,6 @@ public class aWorld {
   public void display() {
     levelTimer++;
 
-    for (aPlayer player : players) {
-      player.display();
-    }
-
-    checkCollisions();
-
     for (aPlatform plat : platforms) {
 
       plat.display();
@@ -56,6 +50,14 @@ public class aWorld {
     for (aPowerup powerup : powerups) {
       powerup.display();
     }
+
+
+    for (aPlayer player : players) {
+      player.display();
+    }
+
+
+    checkCollisions();
   }
 
 
@@ -179,7 +181,8 @@ public class aWorld {
       case -1:
         players.get(0).setX(335);
         players.get(0).setY(380);
-        powerups.add(new aPowerup("glasses", 0, 650, 640));
+        powerups.add(new aPowerup("setJump", 0, 650, 640, 2));
+        objects.add(new aObject("ladder", 0, 230, 360, 100, 200));
         platforms.add(new aPlatform(2, 410, 470, 260, 50, #008080));
         platforms.add(new aPlatform(0, 200, 560, 300, 60, "horizontal", 400, 1, 128));
         platforms.add(new aPlatform(0, 400, 115, 60, 200, "vertical", false, 1, 128));
