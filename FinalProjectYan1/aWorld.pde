@@ -4,7 +4,7 @@ public class aWorld {
   private int world = 1;
   private int level = -1;
   private float levelTimer;
-
+  
   public void checkCollisions() {
 
     for (aPlayer player : players) {

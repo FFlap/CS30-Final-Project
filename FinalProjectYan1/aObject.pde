@@ -54,7 +54,7 @@ public class aObject extends aGameObject {
   }
 
   public aObject(String setType, int visibility, String portalType, int setX, int setY, int linkedNum) {
-    super(visibility, setX, setY, 0, 0); 
+    super(visibility, setX, setY, 0, 0);
     this.setType = setType;
     this.portalType = portalType;
     this.linkedNum = linkedNum;
@@ -143,26 +143,23 @@ public class aObject extends aGameObject {
           player.ladder = true;
           break;
         case "podium":
-          // Handle podium collision
+
+          JSONArray saveData = new JSONArray();
+          JSONObject levelData = new JSONObject();
+          JSONArray worldArray = new JSONArray();
+
+
+          levelData.setFloat("levelTime", world.levelTimer);
+
+          saveData.setJSONArray(world.world - 1, worldArray);
+
+          worldArray.setJSONObject(world.level, levelData);
+
+          saveJSONArray(saveData, "new/data.json");
+
+
+
           world.level++;
-
-          json = new JSONObject();
-          json.setInt("levelUnlocked", world.level);
-
-
-          JSONArray values = new JSONArray();
-          for (int i = 0; i < GUI.levelTimes.length; i++) {
-            JSONObject animal = new JSONObject();
-            animal.setInt("level", world.level);
-            animal.setFloat("levelTime", world.levelTimer);
-            values.setJSONObject(i, animal);
-
-
-            json = new JSONObject();
-            json.setJSONArray("world 1", values);
-
-            saveJSONObject(json, "data/new.json");
-          }
           world.levelTimer = 0;
 
           if (world.level >= levelUnlocked) {
