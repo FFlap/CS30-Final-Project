@@ -17,6 +17,7 @@ public class aPlayer extends aGameObject {
 
 
   public void reset() {
+
     setL = originalSetL;
     setW = originalSetW;
     speed = originalSpeed;

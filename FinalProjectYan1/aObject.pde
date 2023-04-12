@@ -197,7 +197,7 @@ public class aObject extends aGameObject {
           setX += objectSpeed;
           if (setX > setDistance) {
             objectSpeed = -objectSpeed;
-          } else if (setX < objectSpeed) {
+          } else if (setX < objectStart) {
             objectSpeed = -objectSpeed;
           }
           break;
@@ -312,7 +312,7 @@ public class aObject extends aGameObject {
 
       case "jumpBoost":
         setL = 35;
-        setW = 9;
+        setW = 10;
         fill(#4DCEFF);
         rect(setX, setY, setL, setW);
         break;
@@ -359,7 +359,7 @@ public class aObject extends aGameObject {
 
       case "podium":
         setL = 35;
-        setW = 9;
+        setW = 10;
         fill(218, 165, 32);
         rect(setX, setY, setL, setW);
         break;
