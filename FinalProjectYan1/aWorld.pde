@@ -1,8 +1,8 @@
 public class aWorld {
   private  float cameraX, cameraY;
   private int worldWidth;
-  private int world = 1;
-  private int level = -1;
+  private int world = 2;
+  private int level = 2;
   private float levelTimer;
 
   public void checkCollisions() {
@@ -181,6 +181,17 @@ public class aWorld {
     objects.add(newObject);
     multipleX(objects.size() - 1, distanceApart, copies - 1);
   }
+
+  public void rightStair(int stairX, int stairY, int stairHeight) {
+    int boxSize = 40;
+    if (stairHeight == 0) {
+      return;
+    }
+
+    rightStair(stairX + boxSize, stairY - boxSize, stairHeight - 1);
+    platforms.add(new aPlatform(0, stairX, stairY, (boxSize * stairHeight), boxSize, #008080));
+  }
+
 
 
   public void load() {
@@ -399,6 +410,13 @@ public class aWorld {
           objects.add(new aObject("deathZone", 0, 590, 0, 80, 110, "horionzal", 800, 3));
           objects.add(new aObject("podium", 2, 100, 750));
           objects.add(new aObject("jumpBoost", 2, 420, 700, 10));
+          break;
+
+        case 2:
+          rightStair(520, 720, 7);
+          objects.add(new aObject("ladder", 0, 120, 320, 480, 100));
+          platforms.add(new aPlatform(0, 200, 530, 100, 300, #008080));
+          // objects.add(new aObject("deathZone", 0, 120, 280, 480, 40));
           break;
         default:
           break;

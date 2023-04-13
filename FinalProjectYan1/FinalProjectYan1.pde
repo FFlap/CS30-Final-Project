@@ -21,7 +21,7 @@ void setup() {
 }
 void draw() {
   background(0);
-  //players.get(0).data();
+  players.get(0).data();
   // Levels
   world.load();
   world.display();
