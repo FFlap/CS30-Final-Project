@@ -126,6 +126,37 @@ public class aPlatform extends aGameObject {
   }
 
 
+  public void handleCollision(aEnemy enemy) {
+    if (visibility == 0 || visibility == getViewVisibility() ) {
+      float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
+      float yOverlap = Math.min(enemy.getY() + enemy.getW() - getY(), getY() + getW() - enemy.getY());
+
+      if (xOverlap > 0 && yOverlap > 0) {
+        if (xOverlap < yOverlap) {
+          // Resolve the collision horizontally
+          if (enemy.getX() < getX()) {
+            enemy.stopRight();
+            enemy.setX(getX() - enemy.getL());
+            enemy.moveLeft();
+          } else {
+            enemy.stopLeft();
+            enemy.setX(getX() + getL());
+            enemy.moveRight();
+          }
+        } else {
+          // Resolve the collision vertically
+          if (enemy.getY() < getY()) {
+            enemy.land();
+            enemy.setY(getY() - enemy.getW());
+          } else {
+            enemy.velocityY = 0;
+            enemy.setY(getY() + getW());
+          }
+        }
+      }
+    }
+  }
+
 
   public void data() {
     if (world.levelTimer % 100 == 0) {

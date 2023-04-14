@@ -92,6 +92,35 @@ public class aPlayer extends aGameObject {
     }
   }
 
+  public void handleCollision(aEnemy enemy) {
+    if (visibility == 0 || visibility == getViewVisibility() && enemy.alive) {
+      float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
+      float yOverlap = Math.min(enemy.getY() + enemy.getW() - getY(), getY() + getW() - enemy.getY());
+
+      if (xOverlap > 0 && yOverlap > 0) {
+        if (xOverlap < yOverlap) {
+          // Resolve the collision horizontally
+          if (enemy.getX() < getX()) {
+            world.levelTimer = 0;
+          } else {
+            world.levelTimer = 0;
+          }
+        } else {
+          // Resolve the collision vertically
+          if (enemy.getY() < getY()) {
+            enemy.moveRight();
+            enemy.alive = false;
+            jump();
+          } else {
+            enemy.moveRight();
+            enemy.alive = false;
+            jump();
+          }
+        }
+      }
+    }
+  }
+
   @Override
     public void display() {
     if (visibility == 0 || visibility == getViewVisibility()) {
@@ -121,10 +150,10 @@ public class aPlayer extends aGameObject {
       velocityY += 0.5;
       if (velocityY >= setW) {
         velocityY--;
-      } 
+      }
       setY += velocityY;
-      
-      if(setY > height + setW) {
+
+      if (setY > height + setW) {
         world.levelTimer = 0;
       }
 

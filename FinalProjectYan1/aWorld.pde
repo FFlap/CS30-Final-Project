@@ -9,6 +9,7 @@ public class aWorld {
 
     for (aPlayer player : players) {
 
+
       for (aObject object : objects) {
         if (player.collidesWith(object)) {
           object.handleCollision(player);
@@ -26,6 +27,23 @@ public class aWorld {
       for (aPowerup powerup : powerups) {
         if (player.collidesWith(powerup)) {
           powerup.handleCollision(player);
+        }
+      }
+    }
+
+
+
+
+
+    for (aEnemy enemy : enemies) {
+      for (aPlatform platform : platforms) {
+        if (enemy.collidesWith(platform)) {
+          platform.handleCollision(enemy);
+        }
+      }
+      for (aPlayer player : players) {
+        if (player.collidesWith(enemy)) {
+          player.handleCollision(enemy);
         }
       }
     }
@@ -56,6 +74,10 @@ public class aWorld {
 
     for (aPlayer player : players) {
       player.display();
+    }
+
+    for (aEnemy enemy : enemies) {
+      enemy.display();
     }
 
 
@@ -413,9 +435,12 @@ public class aWorld {
           break;
 
         case 2:
+          players.get(0).setX(760);
+          players.get(0).setY(450);
           rightStair(520, 720, 7);
           objects.add(new aObject("ladder", 0, 120, 320, 480, 100));
           platforms.add(new aPlatform(0, 200, 530, 100, 300, #008080));
+          enemies.add(new aEnemy("red", 0, 220, 460, 50, 20));
           // objects.add(new aObject("deathZone", 0, 120, 280, 480, 40));
           break;
         default:
@@ -435,6 +460,7 @@ public class aWorld {
     platforms.clear();
     objects.clear();
     powerups.clear();
+    enemies.clear();
     for (aPlayer player : players) {
       player.reset();
     }

@@ -1,6 +1,7 @@
 //global variables
 JSONObject json;
 ArrayList<aPlayer> players = new ArrayList<aPlayer>();
+ArrayList<aEnemy> enemies = new ArrayList<aEnemy>();
 ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
 ArrayList<aObject> objects = new ArrayList<aObject>();
 ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
