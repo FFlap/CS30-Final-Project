@@ -1,11 +1,12 @@
 public class aEnemy extends aGameObject {
   private String setType;
-  private float velocityY;
-  public boolean moveRight, moveLeft;
-  public boolean alive = true;
+  private float speed, velocityY, jump;
+  private boolean moveRight, moveLeft, jumpToggle, flight, projectileMove;
+  private boolean alive = true;
+  private float projectileX, projectileY, projectileL, projectileW, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
 
-  public aEnemy(String setType, int visibility, int setX, int setY, int setL, int setW) {
-    super(visibility, setX, setY, setL, setW);
+  public aEnemy(String setType, int visibility, int setX, int setY) {
+    super(visibility, setX, setY, 0, 0);
     this.setType = setType;
   }
 
@@ -38,24 +39,98 @@ public class aEnemy extends aGameObject {
 
   public void land() {
     velocityY = 0;
+    jumpToggle = false;
   }
 
+  public void jump() {
+    if (!jumpToggle || flight) {
+      jumpToggle = true;
+      velocityY = -jump;
+    }
+  }
 
+  public void setProjectileAngle() {
+
+    this.projectileX =  getX();
+    this.projectileY =   getY();
+    this.projectileAngle = atan2(players.get(0).getY() - projectileY, players.get(0).getX()  - projectileX);
+  }
 
 
 
 
   @Override
     public void display() {
-    if (visibility == 0 || visibility == getViewVisibility() && alive) {
+    if ((visibility == 0 || visibility == getViewVisibility()) && alive) {
       noStroke();
 
       switch(setType) {
       case "red":
         fill(#C93F3F);
-        println(alive);
-
+        setL = 40;
+        setW = 40;
+        speed = 2;
         break;
+
+      case "blue":
+        fill(#02A1D8);
+        setL = 40;
+        setW = 40;
+        jump = 10;
+        flight = true;
+        speed = 4;
+        break;
+
+
+      case "purple":
+        fill(#A13BC1);
+        setL = 40;
+        setW = 40;
+        jump = 10;
+        speed = 5;
+        break;
+
+      case "demise":
+
+        setL = 100;
+        setW = 30;
+        speed = 5;
+        velocityY = 0;
+        
+        projectileL = 30;
+        projectileW = 30;
+
+        if ( world.levelTimer % 75 == 0) {
+          projectileTimer = 0;
+          setProjectileAngle();
+          projectileMove = true;
+        }
+
+
+        if (projectileMove == true) {
+          
+
+          projectileTimer++;
+          if (projectileTimer == 75) {
+            projectileMove = false;
+            projectileTimer = 0;
+          }
+
+          //Projectile
+          fill(#7B4CEA);
+          rectMode(CENTER);
+          rect(projectileX, projectileY, projectileL, projectileW);
+          rectMode(CORNER);
+
+          projectileSpeedX = 10 * cos(projectileAngle);
+
+          projectileSpeedY = 10 * sin(projectileAngle);
+          projectileX += projectileSpeedX;
+
+          projectileY += projectileSpeedY;
+        }
+        fill(#05A010);
+
 
       default:
         break;
@@ -67,17 +142,65 @@ public class aEnemy extends aGameObject {
       rect(setX, setY, setL, setW);
       if (moveRight) {
 
-        setX += 5;
+        setX += speed;
       }
 
       if (moveLeft) {
-        setX -= 5;
+        setX -= speed;
       }
       setX = constrain(setX, 0, width - setL);
 
 
       velocityY += 0.5;
       setY += velocityY;
+      targetPlayer();
+    }
+  }
+
+
+
+
+  int closeX = 0;
+  int closeY = 0;
+  public void targetPlayer() {
+    if (world.levelTimer % 10 == 0) {
+      for (aPlayer player : players) {
+        //if ( closeX < player.getX()) {
+        closeX = player.getX();
+        // }
+        //if ( player.getY() > closeY  ) {
+        closeY = player.getY();
+        // }
+      }
+      println(closeY);
+      println(getY());
+    }
+
+    if (world.levelTimer % 10 == 0) {
+
+      if (closeX > getX()) {
+        stopLeft();
+        moveRight();
+        closeX = 0;
+      } else {
+        stopRight();
+        moveLeft();
+        closeX = 0;
+      }
+    }
+
+    if ( world.levelTimer % 25 == 0) {
+
+
+      if ( getY() > closeY) {
+        jump();
+        closeY = 0;
+      }
+    }
+  }
+
+  public void data() {
+    if (world.levelTimer % 500 == 0) {
     }
   }
 }

@@ -137,11 +137,11 @@ public class aPlatform extends aGameObject {
           if (enemy.getX() < getX()) {
             enemy.stopRight();
             enemy.setX(getX() - enemy.getL());
-            enemy.moveLeft();
+           // enemy.moveLeft();
           } else {
             enemy.stopLeft();
             enemy.setX(getX() + getL());
-            enemy.moveRight();
+            //enemy.moveRight();
           }
         } else {
           // Resolve the collision vertically

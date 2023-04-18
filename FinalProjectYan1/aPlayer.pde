@@ -93,7 +93,7 @@ public class aPlayer extends aGameObject {
   }
 
   public void handleCollision(aEnemy enemy) {
-    if (visibility == 0 || visibility == getViewVisibility() && enemy.alive) {
+    if ((visibility == 0 || visibility == getViewVisibility()) && enemy.alive) {
       float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
       float yOverlap = Math.min(enemy.getY() + enemy.getW() - getY(), getY() + getW() - enemy.getY());
 
@@ -109,12 +109,12 @@ public class aPlayer extends aGameObject {
           // Resolve the collision vertically
           if (enemy.getY() < getY()) {
             enemy.moveRight();
-            enemy.alive = false;
             jump();
+           // enemy.alive = false;
           } else {
             enemy.moveRight();
-            enemy.alive = false;
             jump();
+           // enemy.alive = false;
           }
         }
       }

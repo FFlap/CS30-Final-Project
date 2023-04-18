@@ -1,8 +1,8 @@
 public class aWorld {
   private  float cameraX, cameraY;
   private int worldWidth, deathStat, jumpStat, leftStat, rightStat;
-  private int world = 1;
-  private int level = 0;
+  private int world = 2;
+  private int level = 2;
   private float levelTimer;
 
   public void checkCollisions() {
@@ -435,7 +435,7 @@ public class aWorld {
           rightStair(520, 720, 7);
           objects.add(new aObject("ladder", 0, 120, 320, 480, 100));
           platforms.add(new aPlatform(0, 200, 530, 100, 300, #008080));
-          enemies.add(new aEnemy("red", 0, 220, 460, 50, 20));
+          enemies.add(new aEnemy("demise", 0, 220, 120));
           // objects.add(new aObject("deathZone", 0, 120, 280, 480, 40));
           break;
         default:
