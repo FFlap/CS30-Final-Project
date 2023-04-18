@@ -83,7 +83,7 @@ public class aObject extends aGameObject {
         switch(setType) {
         case "deathZone":
 
-          world.levelTimer = 0;
+          world.reset();
           break;
 
         case "portal":
@@ -143,36 +143,59 @@ public class aObject extends aGameObject {
           player.ladder = true;
           break;
         case "podium":
-
-          JSONArray saveData = new JSONArray();
-          JSONObject levelData = new JSONObject();
-          JSONArray worldArray = new JSONArray();
-
-
-          levelData.setFloat("levelTime", world.levelTimer);
-
-          saveData.setJSONArray(world.world - 1, worldArray);
-
-          worldArray.setJSONObject(world.level, levelData);
-
-          saveJSONArray(saveData, "new/data.json");
-
-
-
+          saveData();
           world.level++;
-          world.levelTimer = 0;
+          world.spawn();
+          world.statsReset();
 
-          if (world.level >= levelUnlocked) {
-            json = new JSONObject();
-            json.setInt("levelUnlocked", world.level);
-            saveJSONObject(json, "data/data.json");
-          }
           break;
 
         default:
           println("Invalid setType");
           break;
         }
+      }
+    }
+  }
+
+
+  public void saveData() {
+    GUI.getData();
+
+    // Set level data
+    JSONObject levelData = new JSONObject();
+    levelData.setFloat("levelTime", world.levelTimer);
+    levelData.setInt("deaths", world.deathStat);
+    levelData.setInt("jumps", world.jumpStat);
+    levelData.setInt("left", world.leftStat);
+    levelData.setInt("right", world.rightStat);
+
+    // Get the worldArray and levelArray
+    JSONArray worldArray = saveData.getJSONArray(world.world - 1);
+    JSONArray levelArray = worldArray.getJSONArray(world.level - 1);
+
+    if (levelArray.size() >= 10) {
+      for (int i = levelArray.size() - 1; i > 0; i--) {
+        levelArray.setJSONObject(i, levelArray.getJSONObject(i - 1));
+      }
+      levelArray.setJSONObject(0, levelData);
+    } else {
+      levelArray.append(levelData);
+    }
+
+    saveJSONArray(saveData, "data/stats.json");
+
+    if (world.world > GUI.worldUnlocked) {
+      println(GUI.worldUnlocked);
+      json.setInt("worldUnlocked", world.world);
+      json.setInt("levelUnlocked", world.level + 1);
+      saveJSONObject(json, "data/data.json");
+    } else if (world.world == GUI.worldUnlocked) {
+      if (world.level + 1 >= GUI.levelUnlocked) {
+        json = new JSONObject();
+        json.setInt("worldUnlocked", world.world);
+        json.setInt("levelUnlocked", world.level + 1);
+        saveJSONObject(json, "data/data.json");
       }
     }
   }

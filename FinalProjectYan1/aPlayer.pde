@@ -101,9 +101,9 @@ public class aPlayer extends aGameObject {
         if (xOverlap < yOverlap) {
           // Resolve the collision horizontally
           if (enemy.getX() < getX()) {
-            world.levelTimer = 0;
+            world.reset();
           } else {
-            world.levelTimer = 0;
+            world.reset();
           }
         } else {
           // Resolve the collision vertically
@@ -154,7 +154,7 @@ public class aPlayer extends aGameObject {
       setY += velocityY;
 
       if (setY > height + setW) {
-        world.levelTimer = 0;
+        world.reset();
       }
 
       if (velocityY > 0.5 && !ladder && !moveUp) {

@@ -1,15 +1,13 @@
 public class aWorld {
   private  float cameraX, cameraY;
-  private int worldWidth;
-  private int world = 2;
-  private int level = 2;
+  private int worldWidth, deathStat, jumpStat, leftStat, rightStat;
+  private int world = 1;
+  private int level = 0;
   private float levelTimer;
 
   public void checkCollisions() {
 
     for (aPlayer player : players) {
-
-
       for (aObject object : objects) {
         if (player.collidesWith(object)) {
           object.handleCollision(player);
@@ -30,10 +28,6 @@ public class aWorld {
         }
       }
     }
-
-
-
-
 
     for (aEnemy enemy : enemies) {
       for (aPlatform platform : platforms) {
@@ -220,7 +214,8 @@ public class aWorld {
 
 
     if (levelTimer <= 0.5) {
-      LevelReset();
+      levelReset();
+
       if (world == 1) {
 
         platforms.add(new aPlatform(0, -40, 660, 888, 45, #32CD32));
@@ -450,8 +445,17 @@ public class aWorld {
     }
   }
 
+  public void spawn() {
+    levelTimer = 0;
+  }
 
-  public void LevelReset() {
+  public void reset() {
+    levelTimer = 0;
+    deathStat++;
+  }
+
+
+  public void levelReset() {
     if (world == 1) {
       GUI.setWindow(700, 700);
     } else if (world == 2) {
@@ -464,5 +468,12 @@ public class aWorld {
     for (aPlayer player : players) {
       player.reset();
     }
+  }
+
+  public void statsReset() {
+    jumpStat = 0;
+    leftStat = 0;
+    rightStat = 0;
+    deathStat = 0;
   }
 }

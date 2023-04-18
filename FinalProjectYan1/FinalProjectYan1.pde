@@ -1,5 +1,6 @@
 //global variables
 JSONObject json;
+JSONArray saveData;
 ArrayList<aPlayer> players = new ArrayList<aPlayer>();
 ArrayList<aEnemy> enemies = new ArrayList<aEnemy>();
 ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
@@ -12,7 +13,7 @@ aWorld world = new aWorld();
 aGUI GUI = new aGUI(true, false, false );
 
 //Previous Variables
-int levelUnlocked = 0;
+
 int levelSelect = 0;
 
 
@@ -22,7 +23,7 @@ void setup() {
 }
 void draw() {
   background(0);
-  players.get(0).data();
+  //players.get(0).data();
   // Levels
   world.load();
   world.display();
@@ -39,12 +40,14 @@ void draw() {
 public void keyReleased() {
 
   if (key == 'w' || key == 'W' || keyCode == UP || key == ' ') {
+    world.jumpStat++;
     for (aPlayer player : players) {
       player.stopUp();
     }
   }
 
   if (  key == 'a' || key == 'A' || keyCode == LEFT) {
+    world.leftStat++;
     for (aPlayer player : players) {
       player.stopLeft();
     }
@@ -58,6 +61,7 @@ public void keyReleased() {
   }
 
   if ( key == 'd' || key == 'D' || keyCode == RIGHT) {
+    world.rightStat++;
     for (aPlayer player : players) {
       player.stopRight();
     }

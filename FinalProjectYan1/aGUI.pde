@@ -1,36 +1,60 @@
 public class aGUI {
   private boolean toolTip, pauseMenu, developerOptions;
-  private int mX, mY;
-  private float[] levelTimes = new float[10];
-  private PImage titleImage, endImage, comingImage, world1;
+  private int mX, mY, worldUnlocked, levelUnlocked;
+  private PImage titleImage, endImage, comingImage, world1, world2;
   public aGUI(boolean toolTip, boolean pauseMenu, boolean developerOptions) {
     this.toolTip = toolTip;
     this.pauseMenu = pauseMenu;
     this.developerOptions = developerOptions;
   }
 
-  JSONArray values;
   public void load() {
     players.add(new aPlayer(0, 100, 100, 20, 20, 10, 10));
-
+    getData();
     surface.setTitle("Slime World");
-    json = loadJSONObject("data/data.json");
-    levelUnlocked = json.getInt("levelUnlocked");
     titleImage = loadImage("title.png");
     endImage = loadImage("end.png");
     comingImage = loadImage("coming.png");
     world1 = loadImage("world1.png");
+    world2 = loadImage("world2.png");
 
-    values = loadJSONArray("data/new.json");
+    int getWorld = 1; 
+    int getLevel = 2; 
 
-    for (int i = 0; i < values.size(); i++) {
+    // Get the worldArray and levelArray
+    JSONArray worldArray = saveData.getJSONArray(getWorld - 1);
+    JSONArray levelArray = worldArray.getJSONArray(getLevel - 1);
 
-      JSONObject animal = values.getJSONObject(i); 
-      int species = animal.getInt("levelTime");
-      levelTimes[i] = species;
-      levelTimes[i] = levelTimes[i] / 100;
+    for (int i = 0; i < levelArray.size(); i++) {
+      JSONObject levelData = levelArray.getJSONObject(i);
+      float timeData = levelData.getInt("levelTime");
+      int deathData = levelData.getInt("deaths");
+      int jumpData = levelData.getInt("jumps");
+      int rightData = levelData.getInt("right");
+      int leftData = levelData.getInt("left");
+      println("World: " + getWorld + ", Level: " + getLevel + ", Level Time: " + (timeData / 100) + ", Jumps: " + jumpData);
     }
-    println(levelTimes);
+  }
+
+  public void getData() {
+    json = loadJSONObject("data/data.json");
+    worldUnlocked = json.getInt("worldUnlocked");
+    levelUnlocked = json.getInt("levelUnlocked");
+
+    try {
+      saveData = loadJSONArray("data/stats.json");
+    } 
+    catch (Exception e) {
+      saveData = new JSONArray();
+      for (int i = 0; i < 2; i++) {
+        JSONArray worldArray = new JSONArray();
+        for (int j = 0; j < 9; j++) {
+          JSONArray levelArray = new JSONArray();
+          worldArray.append(levelArray);
+        }
+        saveData.append(worldArray);
+      }
+    }
   }
 
 
@@ -48,11 +72,6 @@ public class aGUI {
       surface.setSize(width, height + speed);
     }
   }
-
-
-
-
-
 
 
 
@@ -158,6 +177,145 @@ public class aGUI {
     }
   }
 
+  public void displayLevelSelect() {
+    strokeWeight(2);
+    stroke(255, 0, 0);
+    fill(128, 128, 128);
+
+    rect(30, 440, 200, 100);
+
+
+    rect(480, 440, 200, 100);
+
+
+    //Text
+
+    fill(255);
+    textSize(20);
+    text("Back", 100, 495);
+
+    text("Next", 555, 495);
+
+
+    for (int levelBox = 130; levelBox < 540; levelBox = levelBox+100) {
+      float[] levels1 = {levelBox, 250, 50, 50};
+      strokeWeight(2);
+      stroke(255, 255, 255);
+      fill(0xff676767);
+      rect(levels1[0], levels1[1], levels1[2], levels1[3]);
+    }
+
+
+    for (int levelBox2 = 230; levelBox2 < 440; levelBox2 = levelBox2+100) {
+      float[] levels2 = {levelBox2, 350, 50, 50};
+      strokeWeight(2);
+      stroke(255, 255, 255);
+      fill(0xff676767);
+      rect(levels2[0], levels2[1], levels2[2], levels2[3]);
+    }
+    strokeWeight(2);
+    stroke(255, 255, 255);
+    fill(0xff676767);
+    rect(330, 450, 50, 50);
+
+
+    if (worldUnlocked == levelSelect) {
+
+
+      if (levelUnlocked >= 6) {
+        for (int levelBox = 130; levelBox < 540; levelBox = levelBox+100) {
+          float[] levels1 = {levelBox, 250, 50, 50};
+          strokeWeight(2);
+          stroke(255, 255, 255);
+          fill(0xff268DB4);
+          rect(levels1[0], levels1[1], levels1[2], levels1[3]);
+        }
+      } else  if (levelUnlocked < 6) {
+        for (int i = 1; i < ((levelUnlocked + 1) * 100) + 30; i = i+1) {
+          for (int levelBox = 130; levelBox < i; levelBox = levelBox+100) {
+            float[] levels1 = {levelBox, 250, 50, 50};
+            strokeWeight(2);
+            stroke(255, 255, 255);
+            fill(0xff268DB4);
+            rect(levels1[0], levels1[1], levels1[2], levels1[3]);
+          }
+        }
+      }
+
+
+      if (levelUnlocked >= 6 && levelUnlocked <= 8) {
+        for (int i = 1; i < ((levelUnlocked - 3) * 100) + 30; i = i+1) {
+          for (int levelBox2 = 230; levelBox2 < i; levelBox2 = levelBox2+100) {
+            float[] levels2 = {levelBox2, 350, 50, 50};
+            strokeWeight(2);
+            stroke(255, 255, 255);
+            fill(0xff268DB4);
+            rect(levels2[0], levels2[1], levels2[2], levels2[3]);
+          }
+        }
+      } else if ( levelUnlocked >= 8) {
+        for (int levelBox2 = 230; levelBox2 < 440; levelBox2 = levelBox2+100) {
+          float[] levels2 = {levelBox2, 350, 50, 50};
+          strokeWeight(2);
+          stroke(255, 255, 255);
+          fill(0xff268DB4);
+          rect(levels2[0], levels2[1], levels2[2], levels2[3]);
+        }
+      }
+
+      if (levelUnlocked >= 9) {
+        strokeWeight(2);
+        stroke(255, 255, 255);
+        fill(0xff268DB4);
+        rect(330, 450, 50, 50);
+      }
+    }
+
+    if (worldUnlocked > levelSelect) {
+      for (int levelBox = 130; levelBox < 540; levelBox = levelBox+100) {
+        float[] levels1 = {levelBox, 250, 50, 50};
+        strokeWeight(2);
+        stroke(255, 255, 255);
+        fill(0xff268DB4);
+        rect(levels1[0], levels1[1], levels1[2], levels1[3]);
+      }
+
+      for (int levelBox2 = 230; levelBox2 < 440; levelBox2 = levelBox2+100) {
+        float[] levels2 = {levelBox2, 350, 50, 50};
+        strokeWeight(2);
+        stroke(255, 255, 255);
+        fill(0xff268DB4);
+        rect(levels2[0], levels2[1], levels2[2], levels2[3]);
+      }
+
+
+      strokeWeight(2);
+      stroke(255, 255, 255);
+      fill(0xff268DB4);
+      rect(330, 450, 50, 50);
+    }
+
+
+
+    //Numbers Set 1
+    fill(255);
+    textSize(20);
+    text(1, 130 + 18, 250 + 30);
+    text(2, 230 + 18, 250 + 30);
+    text(3, 330 + 18, 250 + 30);
+    text(4, 430 + 18, 250 + 30);
+    text(5, 530 + 18, 250 + 30);
+
+    //Numbers Set 2
+    text(6, 230 + 18, 350 + 30);
+    text(7, 330 + 18, 350 + 30);
+    text(8, 430 + 18, 350 + 30);
+    //Number Set 3
+    text(9, 330 + 18, 450 + 30);
+  }
+
+
+
   public void displayButtons() {
 
     if (world.level == 0) {
@@ -194,161 +352,35 @@ public class aGUI {
 
 
 
-
-
       if (levelSelect == 1) {
         image(world1, 200, 100);
+        displayLevelSelect();
+      }
+
+
+      if (levelSelect == 2) {
+        image(world2, 200, 100);
+        displayLevelSelect();
+      }
+
+      if (world.level == 10) {
+        image(endImage, 190, 160);
         strokeWeight(2);
         stroke(255, 0, 0);
         fill(128, 128, 128);
+        rect(100, 350, 200, 100);
 
-        rect(30, 440, 200, 100);
-
-
-        rect(480, 440, 200, 100);
+        rect(400, 350, 200, 100);
 
 
         //Text
 
         fill(255);
         textSize(20);
-        text("Back", 100, 495);
+        text("Restart", 160, 405);
 
-        text("Next", 555, 495);
-
-
-        for (int levelBox = 130; levelBox < 540; levelBox = levelBox+100) {
-          float[] levels1 = {levelBox, 250, 50, 50};
-          strokeWeight(2);
-          stroke(255, 255, 255);
-          fill(0xff676767);
-          rect(levels1[0], levels1[1], levels1[2], levels1[3]);
-        }
-
-
-        if (levelUnlocked < 6) {
-          for (int i = 1; i < ((levelUnlocked + 1) * 100) + 30; i = i+1) {
-            for (int levelBox = 130; levelBox < i; levelBox = levelBox+100) {
-              float[] levels1 = {levelBox, 250, 50, 50};
-              strokeWeight(2);
-              stroke(255, 255, 255);
-              fill(0xff268DB4);
-              rect(levels1[0], levels1[1], levels1[2], levels1[3]);
-            }
-          }
-        } else if (levelUnlocked >= 6) {
-          for (int levelBox = 130; levelBox < 540; levelBox = levelBox+100) {
-            float[] levels1 = {levelBox, 250, 50, 50};
-            strokeWeight(2);
-            stroke(255, 255, 255);
-            fill(0xff268DB4);
-            rect(levels1[0], levels1[1], levels1[2], levels1[3]);
-          }
-        }
-
-
-
-
-
-        for (int levelBox2 = 230; levelBox2 < 440; levelBox2 = levelBox2+100) {
-          float[] levels2 = {levelBox2, 350, 50, 50};
-          strokeWeight(2);
-          stroke(255, 255, 255);
-          fill(0xff676767);
-          rect(levels2[0], levels2[1], levels2[2], levels2[3]);
-        }
-
-        if (levelUnlocked >= 6 && levelUnlocked <= 8) {
-          for (int i = 1; i < ((levelUnlocked - 3) * 100) + 30; i = i+1) {
-            for (int levelBox2 = 230; levelBox2 < i; levelBox2 = levelBox2+100) {
-              float[] levels2 = {levelBox2, 350, 50, 50};
-              strokeWeight(2);
-              stroke(255, 255, 255);
-              fill(0xff268DB4);
-              rect(levels2[0], levels2[1], levels2[2], levels2[3]);
-            }
-          }
-        } else if ( levelUnlocked >= 8) {
-          for (int levelBox2 = 230; levelBox2 < 440; levelBox2 = levelBox2+100) {
-            float[] levels2 = {levelBox2, 350, 50, 50};
-            strokeWeight(2);
-            stroke(255, 255, 255);
-            fill(0xff268DB4);
-            rect(levels2[0], levels2[1], levels2[2], levels2[3]);
-          }
-        }
-
-
-
-        strokeWeight(2);
-        stroke(255, 255, 255);
-        fill(0xff676767);
-        rect(330, 450, 50, 50);
-
-
-
-        if (levelUnlocked >= 9) {
-          strokeWeight(2);
-          stroke(255, 255, 255);
-          fill(0xff268DB4);
-          rect(330, 450, 50, 50);
-        }
-
-
-
-        //Numbers Set 1
-        fill(255);
-        textSize(20);
-        text(1, 130 + 18, 250 + 30);
-        text(2, 230 + 18, 250 + 30);
-        text(3, 330 + 18, 250 + 30);
-        text(4, 430 + 18, 250 + 30);
-        text(5, 530 + 18, 250 + 30);
-
-        //Numbers Set 2
-        text(6, 230 + 18, 350 + 30);
-        text(7, 330 + 18, 350 + 30);
-        text(8, 430 + 18, 350 + 30);
-        //Number Set 3
-        text(9, 330 + 18, 450 + 30);
+        text("Exit", 475, 405);
       }
-
-
-      if (levelSelect == 2) {
-
-        strokeWeight(2);
-        stroke(255, 0, 0);
-        fill(128, 128, 128);
-
-        rect(30, 440, 200, 100);
-
-        fill(255);
-        textSize(20);
-        text("Back", 100, 495);
-
-
-        fill(255);
-        image(comingImage, 180, 165);
-      }
-    }
-
-    if (world.level == 10) {
-      image(endImage, 190, 160);
-      strokeWeight(2);
-      stroke(255, 0, 0);
-      fill(128, 128, 128);
-      rect(100, 350, 200, 100);
-
-      rect(400, 350, 200, 100);
-
-
-      //Text
-
-      fill(255);
-      textSize(20);
-      text("Restart", 160, 405);
-
-      text("Exit", 475, 405);
     }
   }
 
@@ -443,13 +475,13 @@ public class aGUI {
     if (GUI.getPauseMenu()) {
       if  (mY <= 300 && mY >= 200 && mX > 100 && mX < 300) {
 
-        world.levelTimer = 0;
+        world.spawn();
         pauseMenu = false;
         return;
       }
 
       if  (mY <= 300 && mY >= 200 && mX > 400 && mX < 600) {
-        world.levelTimer = 0;
+        world.spawn();
         world.level = 1;
 
         json = new JSONObject();
@@ -460,7 +492,7 @@ public class aGUI {
       }
 
       if  (mY <= 500 && mY >= 400 && mX > 245 && mX < 445) {
-        world.levelTimer = 0;
+        world.spawn();
         world.level = 0;
         levelSelect = 0;
         pauseMenu = false;
@@ -473,7 +505,7 @@ public class aGUI {
       if  (mY <= 300 && mY >= 200 && mX > 100 && mX < 300 && world.level == 0) {
         levelSelect = 0;
         println("Button Pressed");
-        world.levelTimer = 0;
+        world.spawn();
         world.level++;
         if (world.level >= levelUnlocked) {
           json = new JSONObject();
@@ -506,7 +538,7 @@ public class aGUI {
 
         levelSelect = 0;
         world.level = 0;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
 
@@ -514,63 +546,63 @@ public class aGUI {
 
         levelSelect = 0;
         world.level = 1;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 300 && mY >= 250 && mX > 230 && mX < 230 + 50) {
 
         levelSelect = 0;
         world.level = 2;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 300 && mY >= 250 && mX > 330 && mX < 330 + 50) {
 
         levelSelect = 0;
         world. level = 3;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 300 && mY >= 250 && mX > 430 && mX < 430 + 50) {
 
         levelSelect = 0;
         world.level = 4;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 300 && mY >= 250 && mX > 530 && mX < 530 + 50) {
 
         levelSelect = 0;
         world.level = 5;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 400 && mY >= 350 && mX > 230 && mX < 230 + 50) {
 
         levelSelect = 0;
         world.level = 6;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 400 && mY >= 350 && mX > 330 && mX < 330 + 50) {
 
         levelSelect = 0;
         world.level = 7;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 400 && mY >= 350 && mX > 430 && mX < 430 + 50) {
 
         levelSelect = 0;
         world.level = 8;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
       if  (mY <= 500 && mY >= 450 && mX > 330 && mX < 330 + 50) {
 
         levelSelect = 0;
         world.level = 9;
-        world.levelTimer = 0;
+        world.spawn();
       }
 
 
@@ -596,7 +628,7 @@ public class aGUI {
 
 
       if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
-        world.levelTimer = 0;
+        world.spawn();
         world. level = 0;
         levelSelect--;
         pauseMenu = false;
@@ -607,7 +639,7 @@ public class aGUI {
         if (1 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 0;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -616,7 +648,7 @@ public class aGUI {
         if (1 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 1;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -624,7 +656,7 @@ public class aGUI {
         if (2 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 2;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -632,7 +664,7 @@ public class aGUI {
         if (3 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 3;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -640,7 +672,7 @@ public class aGUI {
         if (4 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 4;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -648,7 +680,7 @@ public class aGUI {
         if (5 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 5;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -656,7 +688,7 @@ public class aGUI {
         if (6 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 6;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -664,7 +696,7 @@ public class aGUI {
         if (7 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 7;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -672,7 +704,7 @@ public class aGUI {
         if (8 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 8;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -680,7 +712,7 @@ public class aGUI {
         if (9 <= levelUnlocked) {
           levelSelect = 0;
           world.level = 9;
-          world.levelTimer = 0;
+          world.spawn();
         }
       }
 
@@ -697,7 +729,7 @@ public class aGUI {
     if (levelSelect == 2) {
 
       if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
-        world.levelTimer = 0;
+        world.spawn();
         levelSelect--;
         pauseMenu = false;
         return;
@@ -713,7 +745,7 @@ public class aGUI {
 
 
     if  (mY <= 450 && mY >= 350 && mX > 100 && mX < 300 && world.level == 10) {
-      world.levelTimer = 0;
+      world.spawn();
       world.level = 1;
     } else if (world.level == 10) {
       println("Button Not Pressed");
