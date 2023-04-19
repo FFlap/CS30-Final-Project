@@ -92,6 +92,16 @@ public class aPlayer extends aGameObject {
     }
   }
 
+  public void handleCollision(aProjectile projectile) {
+    if ((visibility == 0 || visibility == getViewVisibility()) && projectile.projectileActive) {
+
+      if (projectile.getX() + projectile.getL() > getX() && projectile.getX() < getX() + getL() &&
+        projectile.getY() + projectile.getW() > getY() && projectile.getY() < getY() + getW()) {
+        world.reset();
+      }
+    }
+  }
+
   public void handleCollision(aEnemy enemy) {
     if ((visibility == 0 || visibility == getViewVisibility()) && enemy.alive) {
       float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
@@ -110,11 +120,11 @@ public class aPlayer extends aGameObject {
           if (enemy.getY() < getY()) {
             enemy.moveRight();
             jump();
-           // enemy.alive = false;
+            // enemy.alive = false;
           } else {
             enemy.moveRight();
             jump();
-           // enemy.alive = false;
+            // enemy.alive = false;
           }
         }
       }

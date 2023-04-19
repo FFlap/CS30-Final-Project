@@ -1,17 +1,16 @@
 public class aPowerup extends aGameObject {
 
   private int setPowerupValue;
-  private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
   private String setType;
-  private boolean activatedPowerup, projectileMove;
+  private boolean activatedPowerup;
 
   public aPowerup(String setType, int visibility, int setX, int setY) {
-    super(visibility, setX, setY, 20, 20); 
+    super(visibility, setX, setY, 20, 20);
     this.setType = setType;
   }
 
   public aPowerup(String setType, int visibility, int setX, int setY, int setPowerupValue) {
-    super(visibility, setX, setY, 20, 20); 
+    super(visibility, setX, setY, 20, 20);
     this.setType = setType;
     this.setPowerupValue = setPowerupValue;
   }
@@ -20,13 +19,6 @@ public class aPowerup extends aGameObject {
     return setType;
   }
 
-  public float getProjectileX() {
-    return projectileX;
-  }
-
-  public float getProjectileY() {
-    return projectileY;
-  }
 
 
 
@@ -42,13 +34,7 @@ public class aPowerup extends aGameObject {
     updateVisibility();
   }
 
-  public void setProjectileAngle(int projectileMouseX, int projectileMouseY) {
-    for (aPlayer player : players) {
-      this.projectileX =  player.getX();
-      this.projectileY =   player.getY();
-    }
-    this.projectileAngle = atan2(projectileMouseY - projectileY, projectileMouseX - projectileX);
-  }
+
 
   public void handleCollision(aPlayer player) {
     if (visibility == 0 || visibility == getViewVisibility()) {
@@ -68,7 +54,7 @@ public class aPowerup extends aGameObject {
           player.jumpNum = 2;
           break;
 
-         default:
+        default:
           activatedPowerup = true;
         }
       }
@@ -139,29 +125,6 @@ public class aPowerup extends aGameObject {
           fill(255);
           textSize(15);
           text("Click anywhere you want to shoot!", 230, 430);
-
-          if (projectileMove == true) {
-
-
-            projectileTimer++;
-            if (projectileTimer == 50) {
-              projectileMove = false;
-              projectileTimer = 0;
-            }
-
-            //Projectile
-            fill(#7B4CEA);
-            rectMode(CENTER);
-            rect(projectileX, projectileY, 20, 20);
-            rectMode(CORNER);
-
-            projectileSpeedX = setPowerupValue * cos(projectileAngle);
-
-            projectileSpeedY = setPowerupValue * sin(projectileAngle);
-            projectileX += projectileSpeedX;
-
-            projectileY += projectileSpeedY;
-          }
         }
 
         break;

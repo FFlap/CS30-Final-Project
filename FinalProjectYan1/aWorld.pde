@@ -41,6 +41,32 @@ public class aWorld {
         }
       }
     }
+
+    for (aProjectile projectile : projectiles) {
+
+      if (projectile.setType == "player") {
+        for (aObject object : objects) {
+          if (object.collidesWith(projectile)) {
+            object.handleCollision(projectile);
+          }
+        }
+
+        for (aEnemy enemy : enemies) {
+          if (enemy.collidesWith(projectile)) {
+            enemy.handleCollision(projectile);
+          }
+        }
+      }
+
+
+      if (projectile.setType == "enemy") {
+        for (aPlayer player : players) {
+          if (player.collidesWith(projectile)) {
+            player.handleCollision(projectile);
+          }
+        }
+      }
+    }
   }
 
 
@@ -72,6 +98,10 @@ public class aWorld {
 
     for (aEnemy enemy : enemies) {
       enemy.display();
+    }
+
+    for (aProjectile projectile : projectiles) {
+      projectile.display();
     }
 
 
@@ -354,20 +384,17 @@ public class aWorld {
         case 7:
           players.get(0).setX(330);
           players.get(0).setY(640);
-          powerups.add(new aPowerup("projectile", 0, 345, 562, 6));
+          powerups.add(new aPowerup("projectile", 0, 345, 562));
           platforms.add(new aPlatform(0, 230, 580, 260, 30, #008080));
 
-          //Check 1
           platforms.add(new aPlatform(1, 230, 380, 260, 30, #008080));
           platforms.add(new aPlatform(1, 558, 325, 100, 40, #008080));
           platforms.add(new aPlatform(1, 280, 160, 150, 40, #008080));
-
+          
+          objects.add(new aObject("deathZone", 2, 280, 180, 150, 20));
           objects.add(new aObject("projectileTarget", 0, 280, 190, 150, 40));
           objects.add(new aObject("podium", 1, 335, 151));
 
-
-
-          //Check 2
           platforms.add(new aPlatform(2, 280, 480, 100, 40, #B7060B));
           platforms.add(new aPlatform(2, 461, 240, 100, 40, #B7060B));
           break;

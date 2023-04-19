@@ -1,11 +1,13 @@
 //global variables
 JSONObject json;
 JSONArray saveData;
+
 ArrayList<aPlayer> players = new ArrayList<aPlayer>();
 ArrayList<aEnemy> enemies = new ArrayList<aEnemy>();
 ArrayList<aPlatform> platforms = new ArrayList<aPlatform>();
 ArrayList<aObject> objects = new ArrayList<aObject>();
 ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
+ArrayList<aProjectile> projectiles = new ArrayList<aProjectile>();
 
 aWorld world = new aWorld();
 
@@ -167,9 +169,10 @@ public void mousePressed() {
   GUI.checkClick();
   for (aPowerup pow : powerups) {
     if (pow.getType() == "projectile" && pow.activatedPowerup == true) {
-      pow.projectileTimer = 0;
-      pow.setProjectileAngle(mouseX, mouseY);
-      pow.projectileMove = true;
+      projectiles.add(new aProjectile("player", 0, players.get(0).getX(), players.get(0).getY(), 20, 20));
+      for (aProjectile projectile : projectiles) {
+        projectile.targetMouse(mouseX, mouseY);
+      }
       break;
     }
   }

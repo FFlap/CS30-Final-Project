@@ -73,6 +73,23 @@ public class aObject extends aGameObject {
 
 
 
+  public void handleCollision(aProjectile projectile) {
+    if ((visibility == 0 || visibility == getViewVisibility()) && projectile.projectileActive) {
+
+      if (projectile.getX() + projectile.getL() > getX() && projectile.getX() < getX() + getL() &&
+        projectile.getY() + projectile.getW() > getY() && projectile.getY() < getY() + getW()) {
+
+        if (getViewVisibility() == 2) {
+          setViewVisibility(1);
+        } else {
+          setViewVisibility(2);
+        }
+
+        updateVisibility();
+        projectile.projectileActive = false;
+      }
+    }
+  }
 
   public void handleCollision(aPlayer player) {
     if (visibility == 0 || visibility == getViewVisibility()) {
@@ -141,6 +158,37 @@ public class aObject extends aGameObject {
           }
           player.velocityY = 0;
           player.ladder = true;
+          break;
+
+
+        case "projectileTarget":
+
+
+          float xOverlap = Math.min(player.getX() + player.getL() - getX(), getX() + getL() - player.getX());
+          float yOverlap = Math.min(player.getY() + player.getW() - getY(), getY() + getW() - player.getY());
+
+          if (xOverlap > 0 && yOverlap > 0) {
+            if (xOverlap < yOverlap) {
+              // Resolve the collision horizontally
+              if (player.getX() < getX()) {
+                player.stopRight();
+                player.setX(getX() - player.getL());
+              } else {
+                player.stopLeft();
+                player.setX(getX() + getL());
+              }
+            } else {
+              // Resolve the collision vertically
+              if (player.getY() < getY()) {
+                player.land();
+                player.setY(getY() - player.getW());
+              } else {
+                player.velocityY = 0;
+                player.setY(getY() + getW());
+              }
+            }
+          }
+          
           break;
         case "podium":
           saveData();
@@ -348,28 +396,6 @@ public class aObject extends aGameObject {
         rect(setX + 10, setY + 10, setL - 20, setW -20);
         fill(#FF3E3E);
         rect(setX + 15, setY + 15, setL - 30, setW -30);
-
-        for (aPowerup pow : powerups) {
-          if (pow.getType() == "projectile") {
-            if ( pow.getProjectileY() <= (setY + setW) && pow.getProjectileY() >= (setY - 20) && pow.getProjectileX() >= (setX - 20) && pow.getProjectileX() <= (setX + setL)  + 20) {
-
-              if (getViewVisibility() == 2) {
-                setViewVisibility(1);
-              } else {
-                setViewVisibility(2);
-              }
-
-              updateVisibility();
-
-              pow.projectileMove = false;
-              pow.projectileX = 0;
-              pow.projectileY = 0;
-            }
-          }
-        }
-
-
-
         break;
 
 

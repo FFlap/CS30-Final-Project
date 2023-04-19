@@ -49,12 +49,16 @@ public class aEnemy extends aGameObject {
     }
   }
 
-  public void setProjectileAngle() {
+  public void handleCollision(aProjectile projectile) {
+    if ((visibility == 0 || visibility == getViewVisibility()) && projectile.projectileActive) {
 
-    this.projectileX =  getX();
-    this.projectileY =   getY();
-    this.projectileAngle = atan2(players.get(0).getY() - projectileY, players.get(0).getX()  - projectileX);
+      if (projectile.getX() + projectile.getL() > getX() && projectile.getX() < getX() + getL() &&
+        projectile.getY() + projectile.getW() > getY() && projectile.getY() < getY() + getW()) {
+        alive = false;
+      }
+    }
   }
+
 
 
 
@@ -96,38 +100,12 @@ public class aEnemy extends aGameObject {
         setW = 30;
         speed = 5;
         velocityY = 0;
-        
+
         projectileL = 30;
         projectileW = 30;
 
         if ( world.levelTimer % 75 == 0) {
-          projectileTimer = 0;
-          setProjectileAngle();
-          projectileMove = true;
-        }
-
-
-        if (projectileMove == true) {
-          
-
-          projectileTimer++;
-          if (projectileTimer == 75) {
-            projectileMove = false;
-            projectileTimer = 0;
-          }
-
-          //Projectile
-          fill(#7B4CEA);
-          rectMode(CENTER);
-          rect(projectileX, projectileY, projectileL, projectileW);
-          rectMode(CORNER);
-
-          projectileSpeedX = 10 * cos(projectileAngle);
-
-          projectileSpeedY = 10 * sin(projectileAngle);
-          projectileX += projectileSpeedX;
-
-          projectileY += projectileSpeedY;
+          projectiles.add(new aProjectile("enemy", 0, getX(), getY(), 30, 30));
         }
         fill(#05A010);
 

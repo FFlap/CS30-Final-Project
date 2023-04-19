@@ -87,20 +87,87 @@
       "right": 8,
       "deaths": 1
     }],
-    [{
-      "left": 11,
-      "levelTime": 674,
-      "jumps": 13,
-      "right": 11,
-      "deaths": 0
-    }],
-    [{
-      "left": 11,
-      "levelTime": 887,
-      "jumps": 17,
-      "right": 15,
-      "deaths": 0
-    }],
+    [
+      {
+        "left": 11,
+        "levelTime": 674,
+        "jumps": 13,
+        "right": 11,
+        "deaths": 0
+      },
+      {
+        "left": 11,
+        "levelTime": 610,
+        "jumps": 14,
+        "right": 10,
+        "deaths": 0
+      },
+      {
+        "left": 12,
+        "levelTime": 852,
+        "jumps": 20,
+        "right": 16,
+        "deaths": 0
+      },
+      {
+        "left": 27,
+        "levelTime": 3541,
+        "jumps": 34,
+        "right": 30,
+        "deaths": 0
+      },
+      {
+        "left": 10,
+        "levelTime": 997,
+        "jumps": 18,
+        "right": 10,
+        "deaths": 0
+      },
+      {
+        "left": 6,
+        "levelTime": 407,
+        "jumps": 8,
+        "right": 6,
+        "deaths": 0
+      },
+      {
+        "left": 4,
+        "levelTime": 291,
+        "jumps": 7,
+        "right": 5,
+        "deaths": 0
+      },
+      {
+        "left": 4,
+        "levelTime": 307,
+        "jumps": 7,
+        "right": 5,
+        "deaths": 0
+      }
+    ],
+    [
+      {
+        "left": 11,
+        "levelTime": 887,
+        "jumps": 17,
+        "right": 15,
+        "deaths": 0
+      },
+      {
+        "left": 18,
+        "levelTime": 550,
+        "jumps": 36,
+        "right": 24,
+        "deaths": 2
+      },
+      {
+        "left": 9,
+        "levelTime": 549,
+        "jumps": 10,
+        "right": 10,
+        "deaths": 0
+      }
+    ],
     [],
     []
   ],
