@@ -1,8 +1,8 @@
 public class aWorld {
   private  float cameraX, cameraY;
   private int worldWidth, deathStat, jumpStat, leftStat, rightStat;
-  private int world = 1;
-  private int level = 0;
+  private int world = 2;
+  private int level = 3;
   private float levelTimer;
 
   public void checkCollisions() {

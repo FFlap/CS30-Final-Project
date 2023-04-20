@@ -74,9 +74,6 @@ public class aPlayer extends aGameObject {
   public void jump() {
     if ((!jumpToggle || flight || jumpNum >= 1) && playerNum == selectedPlayer) {
       jumpToggle = true;
-      if (gravity < 0.5) {
-        gravity = 0.5;
-      }
       velocityY = -jump;
       jumpNum--;
     }
@@ -200,9 +197,7 @@ public class aPlayer extends aGameObject {
       if (velocityY >= setW) {
         velocityY--;
       }
-      if (!jumpToggle && gravity < 0.5) {
-        gravity = 0.5;
-      }
+
 
       setY += velocityY;
 
