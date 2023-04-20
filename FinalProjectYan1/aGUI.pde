@@ -1,7 +1,7 @@
 public class aGUI {
   private boolean toolTip, pauseMenu, developerOptions;
   private int mX, mY, worldUnlocked, levelUnlocked;
-  private PImage titleImage, endImage, comingImage, world1, world2;
+  private PImage titleImage, endImage, comingImage, world1DataImage, world2DataImage, world1, world2;
   public aGUI(boolean toolTip, boolean pauseMenu, boolean developerOptions) {
     this.toolTip = toolTip;
     this.pauseMenu = pauseMenu;
@@ -9,12 +9,13 @@ public class aGUI {
   }
 
   public void load() {
-    players.add(new aPlayer(0, 100, 100, 20, 20, 10, 10));
     getData();
     surface.setTitle("Slime World");
     titleImage = loadImage("title.png");
     endImage = loadImage("end.png");
     comingImage = loadImage("coming.png");
+    world1DataImage = loadImage("world1Data.png");
+    world2DataImage = loadImage("world2Data.png");
     world1 = loadImage("world1.png");
     world2 = loadImage("world2.png");
 
@@ -32,7 +33,7 @@ public class aGUI {
       int jumpData = levelData.getInt("jumps");
       int rightData = levelData.getInt("right");
       int leftData = levelData.getInt("left");
-      println("World: " + getWorld + ", Level: " + getLevel + ", Level Time: " + (timeData / 100) + ", Jumps: " + jumpData);
+      println( "Level Time: " + (timeData / 100) + ", Jumps: " + jumpData + ", Deaths: " + deathData + ", Right: " + rightData + ", Lefts: " + leftData );
     }
   }
 
@@ -334,7 +335,9 @@ public class aGUI {
         rect(400, 200, 200, 100);
 
 
-        rect(245, 400, 200, 100);
+        rect(245, 350, 200, 100);
+
+        rect(245, 480, 200, 100);
 
 
         //Text
@@ -345,7 +348,9 @@ public class aGUI {
 
         text("Exit", 475, 255);
 
-        text("Levels", 310, 455);
+        text("Levels", 310, 405);
+
+        text("Statistics", 300, 535);
       }
 
 
@@ -469,6 +474,73 @@ public class aGUI {
       fill(255);
       image(comingImage, 180, 165);
     }
+
+    if (levelSelect == 999) {
+      image(world1DataImage, 180, 30);
+
+      fill(128, 128, 128);
+      stroke(255);
+      strokeWeight(2);
+      rect(40, 120, 620, 460);
+
+
+      stroke(255);
+      line(160, 120, 160, 580);
+
+
+      for (int i = 0; i < 9; i++) {
+        fill(255);
+        textSize(15);
+        text("Level " + (i + 1), 65, (42 * i) + 190);
+      }
+
+      for (int i = 120; i < 620; i = i + 42) {
+        stroke(255);
+        line(40, i, 660, i);
+      }
+
+      //Text
+
+
+      fill(255);
+      textSize(15);
+      text("Level Data: Unsorted", 180, 145);
+
+      getData();
+      int getWorld = 1; 
+      int getLevel = 2; 
+
+      // Get the worldArray and levelArray
+      JSONArray worldArray = saveData.getJSONArray(getWorld - 1);
+      JSONArray levelArray = worldArray.getJSONArray(getLevel - 1);
+
+      for (int i = 0; i < levelArray.size(); i++) {
+        JSONObject levelData = levelArray.getJSONObject(i);
+        float timeData = levelData.getInt("levelTime");
+        int deathData = levelData.getInt("deaths");
+        int jumpData = levelData.getInt("jumps");
+        int rightData = levelData.getInt("right");
+        int leftData = levelData.getInt("left");
+        //use array.push to add data then do a sort
+        fill(255);
+        textSize(15);
+        text( "Level Time: " + (timeData / 100) + ", Jumps: " + jumpData + ", Deaths: " + deathData + ", Right: " + rightData + ", Lefts: " + leftData, 180, (i * 45) + 190);
+      }
+
+
+
+      fill(#272523);
+      strokeWeight(2);
+      stroke(255, 0, 0);
+      rect(30, 580, 200, 100);
+      rect(480, 580, 200, 100);
+
+      fill(255);
+      textSize(20);
+      text("Back", 100, 635);
+
+      text("Next", 555, 635);
+    }
   }
 
   public void checkClick() {
@@ -518,8 +590,12 @@ public class aGUI {
         exit();
       }
 
+      if  (mY <= 580 && mY >= 480 && mX > 245 && mX < 445 && world.level == 0) {
+        levelSelect = 999;
+      }
 
-      if  (mY <= 500 && mY >= 400 && mX > 245 && mX < 445 && world.level == 0 &&   levelSelect == 0) {
+
+      if  (mY <= 450 && mY >= 350 && mX > 245 && mX < 445 && world.level == 0 &&   levelSelect == 0) {
         levelSelect = 1;
         json = loadJSONObject("data/data.json");
         levelUnlocked = json.getInt("levelUnlocked");
@@ -624,8 +700,8 @@ public class aGUI {
       }
     }
 
-    if (levelSelect == 1) {
-
+    if (levelSelect == 1 || levelSelect == 2) {
+      world.world = levelSelect;
 
       if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
         world.spawn();
@@ -724,17 +800,10 @@ public class aGUI {
     }
 
 
-
-
-    if (levelSelect == 2) {
-
-      if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
-        world.spawn();
-        levelSelect--;
-        pauseMenu = false;
-        return;
-      }
+    if (levelSelect == 999) {
     }
+
+
 
 
 

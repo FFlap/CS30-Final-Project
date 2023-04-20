@@ -54,6 +54,13 @@ public class aPowerup extends aGameObject {
           player.jumpNum = 2;
           break;
 
+        case "newPlayer":
+
+          if (!activatedPowerup) {
+   
+          }
+          activatedPowerup = true;
+          break;
         default:
           activatedPowerup = true;
         }
@@ -157,6 +164,15 @@ public class aPowerup extends aGameObject {
           rect(setX + 5, setY + 5, 10, 10);
         } else {
           GUI.setTransitionWindow(800, 800);
+        }
+        break;
+
+      case "newPlayer":
+        if (activatedPowerup ==  false) {
+          fill(#7AFF0F);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
         }
         break;
 

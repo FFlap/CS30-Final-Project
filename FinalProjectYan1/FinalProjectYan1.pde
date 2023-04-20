@@ -25,12 +25,11 @@ void setup() {
 }
 void draw() {
   background(0);
-  //players.get(0).data();
   // Levels
   world.load();
   world.display();
   world.checkTimer();
-
+  //players.get(0).data();
   //GUI
   GUI.displayToolTip();
   GUI.displayPauseMenu();
@@ -68,10 +67,29 @@ public void keyReleased() {
       player.stopRight();
     }
   }
+
+  if (key == '1') {
+    for (aPowerup pow : powerups) {
+      if (pow.getType() == "newPlayer" && pow.activatedPowerup) {
+        for (aPlayer player : players) {
+          player.setSelected(0);
+        }
+      }
+    }
+  }
+
+  if (key == '2') {
+    for (aPowerup pow : powerups) {
+      if (pow.getType() == "newPlayer" && pow.activatedPowerup) {
+        for (aPlayer player : players) {
+          player.setSelected(1);
+        }
+      }
+    }
+  }
 }
 
 public void keyPressed() {
-
 
 
   if (key == ESC) {
@@ -157,6 +175,8 @@ public void keyPressed() {
     }
   }
 }
+
+
 
 
 

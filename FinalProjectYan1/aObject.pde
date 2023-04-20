@@ -79,14 +79,16 @@ public class aObject extends aGameObject {
       if (projectile.getX() + projectile.getL() > getX() && projectile.getX() < getX() + getL() &&
         projectile.getY() + projectile.getW() > getY() && projectile.getY() < getY() + getW()) {
 
-        if (getViewVisibility() == 2) {
-          setViewVisibility(1);
-        } else {
-          setViewVisibility(2);
-        }
+        if (projectile.setType == "player") {
+          if (getViewVisibility() == 2) {
+            setViewVisibility(1);
+          } else {
+            setViewVisibility(2);
+          }
 
-        updateVisibility();
-        projectile.projectileActive = false;
+          updateVisibility();
+          projectile.projectileActive = false;
+        }
       }
     }
   }
@@ -188,7 +190,16 @@ public class aObject extends aGameObject {
               }
             }
           }
-          
+
+          break;
+
+        case "button":
+          if (getViewVisibility() == 2) {
+            setViewVisibility(1);
+          } else if (getViewVisibility() == 1) {
+            setViewVisibility(2);
+          }
+          updateVisibility();
           break;
         case "podium":
           saveData();
@@ -405,6 +416,11 @@ public class aObject extends aGameObject {
 
 
         break;
+
+      case "button":
+
+        fill(#ACC3DE);
+        rect(setX, setY, setL, setW);
 
       case "podium":
         setL = 35;

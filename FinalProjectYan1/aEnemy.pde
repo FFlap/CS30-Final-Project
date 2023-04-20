@@ -1,9 +1,8 @@
 public class aEnemy extends aGameObject {
   private String setType;
   private float speed, velocityY, jump;
-  private boolean moveRight, moveLeft, jumpToggle, flight, projectileMove;
+  private boolean moveRight, moveLeft, jumpToggle, flight;
   private boolean alive = true;
-  private float projectileX, projectileY, projectileL, projectileW, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer;
 
   public aEnemy(String setType, int visibility, int setX, int setY) {
     super(visibility, setX, setY, 0, 0);
@@ -54,10 +53,38 @@ public class aEnemy extends aGameObject {
 
       if (projectile.getX() + projectile.getL() > getX() && projectile.getX() < getX() + getL() &&
         projectile.getY() + projectile.getW() > getY() && projectile.getY() < getY() + getW()) {
-        alive = false;
+        if (projectile.setType == "player") {
+          alive = false;
+        }
       }
     }
   }
+
+  public void projectileLeft(int x, int y, int num) {
+    int projectileSize = 20;
+    if (num == 0) {
+      return;
+    }
+
+
+
+    projectileLeft(x  + projectileSize, y - projectileSize, num - 1);
+    projectiles.add(new aProjectile("orange", 0, x, y, projectileSize  * num, projectileSize));
+  }
+
+  public void projectileRight(int x, int y, int num) {
+    int projectileSize = 20;
+    if (num == 0) {
+      return;
+    }
+
+
+    projectiles.add(new aProjectile("orange", 0, x, y, projectileSize  * num, projectileSize));
+    projectileRight(x, y - projectileSize, num - 1);
+  }
+
+
+
 
 
 
@@ -94,20 +121,33 @@ public class aEnemy extends aGameObject {
         speed = 5;
         break;
 
-      case "demise":
-
+      case "green":
+        fill(#05A010);
         setL = 100;
         setW = 30;
         speed = 5;
         velocityY = 0;
 
-        projectileL = 30;
-        projectileW = 30;
-
         if ( world.levelTimer % 75 == 0) {
-          projectiles.add(new aProjectile("enemy", 0, getX(), getY(), 30, 30));
+          projectiles.add(new aProjectile("purple", 0, getX(), getY(), 20, 20));
+          projectiles.add(new aProjectile("purple", 0, getX() + getL() / 2, getY(), 20, 20));
+          projectiles.add(new aProjectile("purple", 0, getX() + getL(), getY(), 20, 20));
         }
-        fill(#05A010);
+
+        break;
+
+
+      case "yellow":
+        fill(#FFF646);
+        setL = 80;
+        setW = 100;
+        speed = 5;
+        velocityY = 0;
+
+        if ( world.levelTimer % 100 == 0) {
+          projectileLeft(getX(), getY(), 3);
+          projectileRight(getX()+ 40, getY(), 3);
+        }
 
 
       default:
@@ -150,8 +190,8 @@ public class aEnemy extends aGameObject {
         closeY = player.getY();
         // }
       }
-      println(closeY);
-      println(getY());
+      // println(closeY);
+      //println(getY());
     }
 
     if (world.levelTimer % 10 == 0) {

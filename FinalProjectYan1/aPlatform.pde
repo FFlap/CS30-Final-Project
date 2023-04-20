@@ -2,27 +2,30 @@ public class aPlatform extends aGameObject {
   protected int platformStart, platformDistance, platformColor;
   private float platformSpeed;
   protected Boolean platformCheck, platformInfinite;
-  private String platformDirection;
+  private String setType, platformDirection;
 
-  public aPlatform(int visibility, int setX, int setY, int setL, int setW, int platformColor) {
+  public aPlatform(String setType, int visibility, int setX, int setY, int setL, int setW, int platformColor) {
     super(visibility, setX, setY, setL, setW);
     this.platformColor = platformColor;
+    this.setType = setType;
   }
 
-  public aPlatform(int visibility, int setX, int setY, int setL, int setW, String platformDirection, int platformDistance, float platformSpeed, int platformColor) {
+  public aPlatform(String setType, int visibility, int setX, int setY, int setL, int setW, String platformDirection, int platformDistance, float platformSpeed, int platformColor) {
     super(visibility, setX, setY, setL, setW);
     this.platformDistance = platformDistance;
     this.platformDirection = platformDirection;
     this.platformSpeed = platformSpeed;
     this.platformColor = platformColor;
+    this.setType = setType;
   }
 
-  public aPlatform(int visibility, int setX, int setY, int setL, int setW, String platformDirection, boolean platformInfinite, float platformSpeed, int platformColor) {
+  public aPlatform(String setType, int visibility, int setX, int setY, int setL, int setW, String platformDirection, boolean platformInfinite, float platformSpeed, int platformColor) {
     super(visibility, setX, setY, setL, setW);
     this.platformInfinite = platformInfinite;
     this.platformDirection = platformDirection;
     this.platformSpeed = platformSpeed;
     this.platformColor = platformColor;
+    this.setType = setType;
   }
 
 
@@ -100,27 +103,77 @@ public class aPlatform extends aGameObject {
     if (visibility == 0 || visibility == getViewVisibility()) {
       float xOverlap = Math.min(player.getX() + player.getL() - getX(), getX() + getL() - player.getX());
       float yOverlap = Math.min(player.getY() + player.getW() - getY(), getY() + getW() - player.getY());
+      switch(setType) {
 
-      if (xOverlap > 0 && yOverlap > 0) {
-        if (xOverlap < yOverlap) {
-          // Resolve the collision horizontally
-          if (player.getX() < getX()) {
-            player.stopRight();
-            player.setX(getX() - player.getL());
+      case "platform":
+
+
+
+        if (xOverlap > 0 && yOverlap > 0) {
+          if (xOverlap < yOverlap) {
+            // Resolve the collision horizontally
+            if (player.getX() < getX()) {
+              player.stopRight();
+              player.setX(getX() - player.getL());
+            } else {
+              player.stopLeft();
+              player.setX(getX() + getL());
+            }
           } else {
-            player.stopLeft();
-            player.setX(getX() + getL());
-          }
-        } else {
-          // Resolve the collision vertically
-          if (player.getY() < getY()) {
-            player.land();
-            player.setY(getY() - player.getW());
-          } else {
-            player.velocityY = 0;
-            player.setY(getY() + getW());
+            // Resolve the collision vertically
+            if (player.getY() < getY()) {
+              player.land();
+              player.gravity = 0.5;
+              player.setY(getY() - player.getW());
+            } else {
+              player.velocityY = 0;
+              player.setY(getY() + getW());
+            }
           }
         }
+        break;
+
+      case "oneway":
+        if (player.getY() + player.getW() > getY() && player.getY() < getY() && player.getX() + player.getL() > getX() && player.getX() < getX() + getL()) {
+          player.land();
+          player.setY(getY() - player.getW());
+        }
+        break;
+
+      case "walljump":
+
+
+
+        if (xOverlap > 0 && yOverlap > 0) {
+          if (xOverlap < yOverlap) {
+            // Resolve the collision horizontally
+            if (player.getX() < getX()) {
+              player.stopRight();
+              player.setX(getX() - player.getL());
+              player.jumpNum = 1;
+              player.gravity = 0.05;
+            } else {
+              player.stopLeft();
+              player.setX(getX() + getL());
+
+              player.jumpNum = 1;
+              player.gravity = 0.05;
+            }
+          } else {
+            // Resolve the collision vertically
+            player.gravity = 0.5;
+            if (player.getY() < getY()) {
+              player.land();
+              player.setY(getY() - player.getW());
+            } else {
+              player.velocityY = 0;
+              player.setY(getY() + getW());
+            }
+          }
+        } else {
+          player.gravity = 0.5;
+        }
+        break;
       }
     }
   }
@@ -137,7 +190,7 @@ public class aPlatform extends aGameObject {
           if (enemy.getX() < getX()) {
             enemy.stopRight();
             enemy.setX(getX() - enemy.getL());
-           // enemy.moveLeft();
+            // enemy.moveLeft();
           } else {
             enemy.stopLeft();
             enemy.setX(getX() + getL());

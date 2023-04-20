@@ -21,6 +21,8 @@ public class aProjectile extends aGameObject {
     this.projectileX =   players.get(0).getX();
     this.projectileY =    players.get(0).getY();
     this.projectileAngle = atan2(projectileMouseY - getY(), projectileMouseX - getX());
+    this.projectileSpeedX = speed * cos(projectileAngle);
+    this.projectileSpeedY = speed * sin(projectileAngle);
   }
 
   public void targetPlayer() {
@@ -28,7 +30,14 @@ public class aProjectile extends aGameObject {
     this.projectileX =  getX();
     this.projectileY =   getY();
     this.projectileAngle = atan2(players.get(0).getY() - projectileY, players.get(0).getX()  - projectileX);
+    this.projectileSpeedX = speed * cos(projectileAngle);
+    this.projectileSpeedY = speed * sin(projectileAngle);
   }
+
+  public void targetGround() {
+    this.projectileSpeedY = speed;
+  }
+
 
 
 
@@ -40,12 +49,19 @@ public class aProjectile extends aGameObject {
         speed = 6;
         break;
 
-      case "enemy":
+      case "purple":
+        fill(#7B4CEA);
         speed = 10;
-        if ( world.levelTimer % 75 == 0) {
-          targetPlayer();
-        }
+        targetPlayer();
 
+
+        break;
+
+
+      case "orange":
+        fill(#FFAC46);
+        speed = 10;
+        targetGround();
         break;
 
       default:
@@ -53,17 +69,14 @@ public class aProjectile extends aGameObject {
       }
 
 
+      rect(setX, setY, setL, setW);
+
+      projectileTimer++;
       if (projectileTimer == 50) {
         projectileActive = false;
       }
-      
-      
-      projectileTimer++;
-      //Projectile
-      fill(#7B4CEA);
-      rect(setX, setY, 20, 20);
-      projectileSpeedX = speed * cos(projectileAngle);
-      projectileSpeedY = speed * sin(projectileAngle);
+
+
       setX += projectileSpeedX;
       setY += projectileSpeedY;
     }
