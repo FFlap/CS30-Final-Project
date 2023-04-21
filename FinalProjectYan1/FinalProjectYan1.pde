@@ -10,14 +10,7 @@ ArrayList<aPowerup> powerups = new ArrayList<aPowerup>();
 ArrayList<aProjectile> projectiles = new ArrayList<aProjectile>();
 
 aWorld world = new aWorld();
-
-//Current Preset GUI Variables
 aGUI GUI = new aGUI(true, false, false );
-
-//Previous Variables
-
-int levelSelect = 0;
-
 
 void setup() {
   size(700, 700);
@@ -103,7 +96,7 @@ public void keyPressed() {
 
 
 
-  if ( !GUI.getPauseMenu() && levelSelect == 0) {
+  if ( !GUI.getPauseMenu() && GUI.levelSelect == 0) {
 
     // Movement
     if (key == 'w' || key == 'W' || keyCode == UP || key == ' ') {
@@ -124,7 +117,7 @@ public void keyPressed() {
 
     if (key == 's' || key == 'S' || keyCode == DOWN) {
       for (aPlayer player : players) {
-        if (player.getLadder()) {
+        if (player.getLadder() || player.allowDown) {
           player.moveDown();
         }
       }
@@ -166,11 +159,7 @@ public void keyPressed() {
     }
     if (!GUI.getPauseMenu()) {
       if ( key == 'l' || key == 'L') {
-        if (levelSelect == -1) {
-          levelSelect = 0;
-        } else {
-          levelSelect = -1;
-        }
+        GUI.levelSelectToggle();
       }
     }
   }
@@ -191,7 +180,9 @@ public void mousePressed() {
     if (pow.getType() == "projectile" && pow.activatedPowerup == true) {
       projectiles.add(new aProjectile("player", 0, players.get(0).getX(), players.get(0).getY(), 20, 20));
       for (aProjectile projectile : projectiles) {
-        projectile.targetMouse(mouseX, mouseY);
+        if (projectile.projectileActive) {
+          projectile.targetMouse(mouseX, mouseY);
+        }
       }
       break;
     }

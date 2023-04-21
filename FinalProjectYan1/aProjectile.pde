@@ -1,6 +1,7 @@
 public class aProjectile extends aGameObject {
-  private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer, speed;
+  private float projectileX, projectileY, projectileSpeedX, projectileSpeedY, projectileAngle, projectileTimer, speed, timeLimit;
   private boolean projectileActive = true;
+  private boolean targetGround, targetRight, targetLeft;
   private String setType;
 
   public aProjectile(String setType, int visibility, int setX, int setY, int setL, int setW) {
@@ -21,22 +22,15 @@ public class aProjectile extends aGameObject {
     this.projectileX =   players.get(0).getX();
     this.projectileY =    players.get(0).getY();
     this.projectileAngle = atan2(projectileMouseY - getY(), projectileMouseX - getX());
-    this.projectileSpeedX = speed * cos(projectileAngle);
-    this.projectileSpeedY = speed * sin(projectileAngle);
   }
-
   public void targetPlayer() {
 
     this.projectileX =  getX();
     this.projectileY =   getY();
     this.projectileAngle = atan2(players.get(0).getY() - projectileY, players.get(0).getX()  - projectileX);
-    this.projectileSpeedX = speed * cos(projectileAngle);
-    this.projectileSpeedY = speed * sin(projectileAngle);
   }
 
-  public void targetGround() {
-    this.projectileSpeedY = speed;
-  }
+
 
 
 
@@ -46,14 +40,16 @@ public class aProjectile extends aGameObject {
       switch(setType) {
 
       case "player":
+        fill(#7B4CEA);
         speed = 6;
+        timeLimit = 50;
         break;
 
       case "purple":
         fill(#7B4CEA);
         speed = 10;
         targetPlayer();
-
+        timeLimit = 50;
 
         break;
 
@@ -61,7 +57,15 @@ public class aProjectile extends aGameObject {
       case "orange":
         fill(#FFAC46);
         speed = 10;
-        targetGround();
+        targetGround = true;
+        timeLimit = 100;
+        break;
+
+      case "brown":
+        fill(#AA6832);
+        speed = 10;
+        targetLeft = true;
+        timeLimit = 100;
         break;
 
       default:
@@ -72,11 +76,25 @@ public class aProjectile extends aGameObject {
       rect(setX, setY, setL, setW);
 
       projectileTimer++;
-      if (projectileTimer == 50) {
+      if (projectileTimer == timeLimit) {
         projectileActive = false;
       }
+      if (!targetGround && !targetLeft && !targetRight) {
+        projectileSpeedX = speed * cos(projectileAngle);
+        projectileSpeedY = speed * sin(projectileAngle);
+      }
 
+      if (targetGround) {
+        projectileSpeedY = speed;
+      }
 
+      if (targetLeft) {
+        projectileSpeedX = -speed;
+      }
+
+      if (targetRight) {
+        projectileSpeedX = speed;
+      }
       setX += projectileSpeedX;
       setY += projectileSpeedY;
     }

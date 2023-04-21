@@ -1,7 +1,16 @@
 public class aGUI {
   private boolean toolTip, pauseMenu, developerOptions;
-  private int mX, mY, worldUnlocked, levelUnlocked;
+  private int mX, mY, levelSelect, worldUnlocked, levelUnlocked, statSelect;
+  private int levelStat = 1;
+  private int worldStat = 1;
   private PImage titleImage, endImage, comingImage, world1DataImage, world2DataImage, world1, world2;
+
+  private float[] timeStats = new float[10];
+  private int[] deathStats = new int[10];
+  private int[] jumpStats = new int[10];
+  private int[] rightStats = new int[10];
+  private int[] leftStats = new int[10];
+
   public aGUI(boolean toolTip, boolean pauseMenu, boolean developerOptions) {
     this.toolTip = toolTip;
     this.pauseMenu = pauseMenu;
@@ -18,23 +27,6 @@ public class aGUI {
     world2DataImage = loadImage("world2Data.png");
     world1 = loadImage("world1.png");
     world2 = loadImage("world2.png");
-
-    int getWorld = 1; 
-    int getLevel = 2; 
-
-    // Get the worldArray and levelArray
-    JSONArray worldArray = saveData.getJSONArray(getWorld - 1);
-    JSONArray levelArray = worldArray.getJSONArray(getLevel - 1);
-
-    for (int i = 0; i < levelArray.size(); i++) {
-      JSONObject levelData = levelArray.getJSONObject(i);
-      float timeData = levelData.getInt("levelTime");
-      int deathData = levelData.getInt("deaths");
-      int jumpData = levelData.getInt("jumps");
-      int rightData = levelData.getInt("right");
-      int leftData = levelData.getInt("left");
-      println( "Level Time: " + (timeData / 100) + ", Jumps: " + jumpData + ", Deaths: " + deathData + ", Right: " + rightData + ", Lefts: " + leftData );
-    }
   }
 
   public void getData() {
@@ -74,6 +66,30 @@ public class aGUI {
     }
   }
 
+  private void insertionSort(int[] arr) {
+    for (int i = 1; i < arr.length; i++) {
+      int curNumber = arr[i];
+      int curIndex = i-1;
+      while ( curIndex >= 0 && arr[curIndex] > curNumber) {
+        arr[curIndex+1] = arr[curIndex];
+        curIndex--;
+      }
+      arr[curIndex + 1] = curNumber;
+    }
+  }
+
+  private void insertionSort(float[] arr) {
+    for (int i = 1; i < arr.length; i++) {
+      float curNumber = arr[i];
+      int curIndex = i-1;
+      while ( curIndex >= 0 && arr[curIndex] > curNumber) {
+        arr[curIndex+1] = arr[curIndex];
+        curIndex--;
+      }
+      arr[curIndex + 1] = curNumber;
+    }
+  }
+
 
 
   public boolean getPauseMenu() {
@@ -97,6 +113,13 @@ public class aGUI {
       } else {
         pauseMenu = false;
       }
+    }
+  }
+
+  public void levelSelectToggle() {
+    levelSelect--;
+    if (levelSelect < -2) {
+      levelSelect = 0;
     }
   }
 
@@ -186,16 +209,24 @@ public class aGUI {
     rect(30, 440, 200, 100);
 
 
-    rect(480, 440, 200, 100);
-
-
-    //Text
-
     fill(255);
     textSize(20);
     text("Back", 100, 495);
 
-    text("Next", 555, 495);
+    if (levelSelect == 1) {
+
+      fill(128, 128, 128);
+      rect(480, 440, 200, 100);
+
+      fill(255);
+      textSize(20);
+      text("Next", 555, 495);
+    }
+
+
+
+
+
 
 
     for (int levelBox = 130; levelBox < 540; levelBox = levelBox+100) {
@@ -389,6 +420,31 @@ public class aGUI {
     }
   }
 
+  public void dataReset() {
+    for (int i = 0; i < 10; i++) {
+      timeStats[i] = 0;
+      deathStats[i]  = 0;
+      jumpStats[i]  = 0;
+      rightStats[i]  = 0;
+      leftStats[i] = 0;
+    }
+  }
+
+
+  public void setData (int levelStat) {
+    getData();
+    JSONArray worldArray = saveData.getJSONArray(worldStat - 1);
+    JSONArray levelArray = worldArray.getJSONArray(levelStat - 1);
+    for (int i = 0; i < levelArray.size(); i++) {
+      JSONObject levelData = levelArray.getJSONObject(i);
+      timeStats[i] = levelData.getInt("levelTime");
+      deathStats[i]  = levelData.getInt("deaths");
+      jumpStats[i]  = levelData.getInt("jumps");
+      rightStats[i]  = levelData.getInt("right");
+      leftStats[i] = levelData.getInt("left");
+    }
+  }
+
 
   public void displayDeveloperButtons() {
 
@@ -475,8 +531,12 @@ public class aGUI {
       image(comingImage, 180, 165);
     }
 
-    if (levelSelect == 999) {
-      image(world1DataImage, 180, 30);
+    if (levelSelect == 999 || levelSelect == 1000) {
+      if (levelSelect == 999) {
+        image(world1DataImage, 180, 30);
+      } else if (levelSelect == 1000) {
+        image(world2DataImage, 180, 30);
+      }
 
       fill(128, 128, 128);
       stroke(255);
@@ -499,33 +559,118 @@ public class aGUI {
         line(40, i, 660, i);
       }
 
-      //Text
+      fill(0, 220);
+      switch(levelStat) {
+      case 1:
+
+        rect(40, 162, 120, 42);
+        break;
+      case 2:
+        rect(40, 204, 120, 42);
+        break;
+      case 3:
+        rect(40, 246, 120, 42);
+        break;
+      case 4:
+        rect(40, 289, 120, 42);
+        break;
+      case 5:
+        rect(40, 330, 120, 42);
+        break;
+      case 6:
+        rect(40, 372, 120, 42);
+        break;
+      case 7:
+        rect(40, 415, 120, 42);
+
+        break;
+
+      case 8:
+        rect(40, 455, 120, 42);
+        break;
+
+      case 9:
+        rect(40, 500, 120, 42);
+        break;
+      }
+
+      if ( statSelect == 0) {
+        dataReset();
+        fill(255);
+        textSize(15);
+        text("Overall Level Data:", 180, 145);
+        getData();
+        setData(levelStat);
+        JSONArray worldArray = saveData.getJSONArray(worldStat - 1);
+        JSONArray levelArray = worldArray.getJSONArray(levelStat - 1);
+        for (int i = 0; i < levelArray.size(); i++) {
+          JSONObject levelData = levelArray.getJSONObject(i);
+          float timeData = levelData.getInt("levelTime");
+          int deathData = levelData.getInt("deaths");
+          int jumpData = levelData.getInt("jumps");
+          int rightData = levelData.getInt("right");
+          int leftData = levelData.getInt("left");
+          fill(255);
+          textSize(15);
+          text( "Level Time: " + (timeData / 100) + "s , Jumps: " + jumpData + ", Deaths: " + deathData + ", Right: " + rightData + ", Lefts: " + leftData, 180, (i * 42) + 190);
+        }
+      }
 
 
       fill(255);
       textSize(15);
-      text("Level Data: Unsorted", 180, 145);
+      switch(statSelect) {
+      case 1:
+        text("Sorted Time:", 180, 145);
+        insertionSort(timeStats);
+        break;
+      case 2:
+        text("Sorted Jumps:", 180, 145);
+        insertionSort(jumpStats);
+        break;
+      case 3:
+        text("Sorted Deaths:", 180, 145);
+        insertionSort(deathStats);
+        break;
+      case 4:
+        text("Sorted Rights", 180, 145);
+        insertionSort(rightStats);
+        break;
 
-      getData();
-      int getWorld = 1; 
-      int getLevel = 2; 
+      case 5:
+        text("Sorted Lefts", 180, 145);
+        insertionSort(leftStats);
+        break;
+      }
 
-      // Get the worldArray and levelArray
-      JSONArray worldArray = saveData.getJSONArray(getWorld - 1);
-      JSONArray levelArray = worldArray.getJSONArray(getLevel - 1);
-
-      for (int i = 0; i < levelArray.size(); i++) {
-        JSONObject levelData = levelArray.getJSONObject(i);
-        float timeData = levelData.getInt("levelTime");
-        int deathData = levelData.getInt("deaths");
-        int jumpData = levelData.getInt("jumps");
-        int rightData = levelData.getInt("right");
-        int leftData = levelData.getInt("left");
-        //use array.push to add data then do a sort
+      for (int i = 0; i < 10; i++) {
         fill(255);
         textSize(15);
-        text( "Level Time: " + (timeData / 100) + ", Jumps: " + jumpData + ", Deaths: " + deathData + ", Right: " + rightData + ", Lefts: " + leftData, 180, (i * 45) + 190);
+        switch(statSelect) {
+        case 1:
+          text( "Level Time: " + (timeStats[i] / 100), 180, (i * 42) + 190);
+          break;
+        case 2:
+
+          text( "Jumps: " + (jumpStats[i]), 180, (i * 42) + 190);
+          break;
+        case 3:
+
+          text( "Deaths: " + (deathStats[i]), 180, (i * 42) + 190);
+          break;
+        case 4:
+
+          text( "Rights: " + (rightStats[i]), 180, (i * 42) + 190);
+          break;
+
+        case 5:
+
+          text( "Lefts: " + (leftStats[i]), 180, (i * 42) + 190);
+          break;
+        }
       }
+
+
 
 
 
@@ -533,13 +678,17 @@ public class aGUI {
       strokeWeight(2);
       stroke(255, 0, 0);
       rect(30, 580, 200, 100);
-      rect(480, 580, 200, 100);
+      if (levelSelect == 999) {
+
+        rect(480, 580, 200, 100);
+        fill(255);
+        textSize(20);
+        text("Next", 555, 635);
+      }
 
       fill(255);
       textSize(20);
       text("Back", 100, 635);
-
-      text("Next", 555, 635);
     }
   }
 
@@ -564,9 +713,12 @@ public class aGUI {
       }
 
       if  (mY <= 500 && mY >= 400 && mX > 245 && mX < 445) {
-        world.spawn();
+
+        world.world = 1;
         world.level = 0;
         levelSelect = 0;
+        setWindow(700, 700);
+        world.spawn();
         pauseMenu = false;
         return;
       }
@@ -704,7 +856,6 @@ public class aGUI {
       world.world = levelSelect;
 
       if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
-        world.spawn();
         world. level = 0;
         levelSelect--;
         pauseMenu = false;
@@ -793,14 +944,80 @@ public class aGUI {
       }
 
 
-      if  (mY <= 540 && mY >= 440 && mX > 480 && mX < 680 + 50 && world.level == 0) {
+      if  (mY <= 540 && mY >= 440 && mX > 480 && mX < 680 + 50 && world.level == 0 && levelSelect == 1) {
 
         levelSelect++;
       }
     }
 
 
-    if (levelSelect == 999) {
+    if (levelSelect == 999 || levelSelect == 1000) {
+      if  (mY <= 202 && mY >= 120 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 1;
+        dataReset();
+        setData(1);
+      }
+      if  (mY <= 246 && mY >= 202 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 2;
+        dataReset();
+        setData(2);
+      }
+      if  (mY <= 287 && mY >= 246 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 3;
+        dataReset();
+        setData(3);
+      }
+      if  (mY <= 332 && mY >= 288 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 4;
+        dataReset();
+        setData(4);
+      }
+      if  (mY <= 375 && mY >= 330 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 5;
+        dataReset();
+        setData(5);
+      }
+      if  (mY <= 414 && mY >= 370 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 6;
+        dataReset();
+        setData(6);
+      }
+      if  (mY <= 456 && mY >= 414 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 7;
+        dataReset();
+        setData(7);
+      }
+      if  (mY <= 498 && mY >= 455 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 8;
+        dataReset();
+        setData(8);
+      }
+      if  (mY <= 539 && mY >= 497 && mX > 40 && mX < 160 && world.level == 0) {
+        levelStat = 9;
+        dataReset();
+        setData(9);
+      }
+
+      if  (mY <= 160 && mY >= 120 && mX > 160 && mX < 660 && world.level == 0) {
+        statSelect++;
+        if (statSelect > 5) {
+          statSelect = 0;
+        }
+      }
+
+      if  (mY <= 679 && mY >= 579 && mX > 30 && mX < 230 && world.level == 0 && levelSelect == 999) {
+        levelSelect = 0;
+      }
+
+      if  (mY <= 679 && mY >= 579 && mX > 30 && mX < 230 && world.level == 0 && levelSelect == 1000) {
+        levelSelect--;
+        worldStat--;
+      }
+
+      if  (mY <= 681 && mY >= 580 && mX > 480 && mX < 680 && world.level == 0 && levelSelect == 999) {
+        levelSelect++;
+        worldStat++;
+      }
     }
 
 

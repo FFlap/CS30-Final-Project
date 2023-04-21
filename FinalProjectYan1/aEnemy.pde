@@ -100,7 +100,7 @@ public class aEnemy extends aGameObject {
         fill(#C93F3F);
         setL = 40;
         setW = 40;
-        speed = 2;
+        speed = 3;
         break;
 
       case "blue":
@@ -144,10 +144,23 @@ public class aEnemy extends aGameObject {
         speed = 5;
         velocityY = 0;
 
-        if ( world.levelTimer % 100 == 0) {
-          projectileLeft(getX(), getY(), 3);
-          projectileRight(getX()+ 40, getY(), 3);
+        if ( world.levelTimer % 50 == 0) {
+          projectileLeft(getX() - 40, getY(), 3);
+          projectileRight(getX(), getY(), 3);
         }
+        break;
+
+      case "brown":
+        fill(#DBB99D);
+        setL = 80;
+        setW = 100;
+        velocityY = 0;
+
+        if ( world.levelTimer % 40 == 0) {
+           projectiles.add(new aProjectile("brown", 0, getX(), getY(), 40, 40));
+        }
+        
+        break;
 
 
       default:

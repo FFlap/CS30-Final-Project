@@ -123,7 +123,8 @@ public class aPlatform extends aGameObject {
             // Resolve the collision vertically
             if (player.getY() < getY()) {
               player.land();
-              player.gravity = 0.5;
+              player.tempMoveRight = false;
+              player.tempMoveLeft = false;
               player.setY(getY() - player.getW());
             } else {
               player.velocityY = 0;
@@ -170,48 +171,48 @@ public class aPlatform extends aGameObject {
             }
           }
         }
-      
-      break;
+
+        break;
+      }
     }
   }
-}
 
 
-public void handleCollision(aEnemy enemy) {
-  if (visibility == 0 || visibility == getViewVisibility() ) {
-    float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
-    float yOverlap = Math.min(enemy.getY() + enemy.getW() - getY(), getY() + getW() - enemy.getY());
+  public void handleCollision(aEnemy enemy) {
+    if (visibility == 0 || visibility == getViewVisibility() ) {
+      float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
+      float yOverlap = Math.min(enemy.getY() + enemy.getW() - getY(), getY() + getW() - enemy.getY());
 
-    if (xOverlap > 0 && yOverlap > 0) {
-      if (xOverlap < yOverlap) {
-        // Resolve the collision horizontally
-        if (enemy.getX() < getX()) {
-          enemy.stopRight();
-          enemy.setX(getX() - enemy.getL());
-          // enemy.moveLeft();
+      if (xOverlap > 0 && yOverlap > 0) {
+        if (xOverlap < yOverlap) {
+          // Resolve the collision horizontally
+          if (enemy.getX() < getX()) {
+            enemy.stopRight();
+            enemy.setX(getX() - enemy.getL());
+            // enemy.moveLeft();
+          } else {
+            enemy.stopLeft();
+            enemy.setX(getX() + getL());
+            //enemy.moveRight();
+          }
         } else {
-          enemy.stopLeft();
-          enemy.setX(getX() + getL());
-          //enemy.moveRight();
-        }
-      } else {
-        // Resolve the collision vertically
-        if (enemy.getY() < getY()) {
-          enemy.land();
-          enemy.setY(getY() - enemy.getW());
-        } else {
-          enemy.velocityY = 0;
-          enemy.setY(getY() + getW());
+          // Resolve the collision vertically
+          if (enemy.getY() < getY()) {
+            enemy.land();
+            enemy.setY(getY() - enemy.getW());
+          } else {
+            enemy.velocityY = 0;
+            enemy.setY(getY() + getW());
+          }
         }
       }
     }
   }
-}
 
 
-public void data() {
-  if (world.levelTimer % 100 == 0) {
-    println("Time: " + world.levelTimer/100 + "s Check: " + platformStart);
+  public void data() {
+    if (world.levelTimer % 100 == 0) {
+      println("Time: " + world.levelTimer/100 + "s Check: " + platformStart);
+    }
   }
-}
 }

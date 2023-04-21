@@ -79,7 +79,7 @@ public class aObject extends aGameObject {
       if (projectile.getX() + projectile.getL() > getX() && projectile.getX() < getX() + getL() &&
         projectile.getY() + projectile.getW() > getY() && projectile.getY() < getY() + getW()) {
 
-        if (projectile.setType == "player") {
+        if (projectile.setType == "player" && setType == "projectileTarget") {
           if (getViewVisibility() == 2) {
             setViewVisibility(1);
           } else {
@@ -95,10 +95,18 @@ public class aObject extends aGameObject {
 
   public void handleCollision(aPlayer player) {
     if (visibility == 0 || visibility == getViewVisibility()) {
+      if (setType == "ladder") {
 
+        if (player.getY() + player.getW() > getY() && player.getY() < getY() && player.getX() + player.getL() > getX() && player.getX() < getX() + getL()) {
+          player.allowDown = true;
+          player.land();
+          player.setY(getY() - player.getW());
+        }
+      }
       if (player.getX() + player.getL() > getX() && player.getX() < getX() + getL() &&
         player.getY() + player.getW() > getY() && player.getY() < getY() + getW()) {
-
+        player.tempMoveRight = false;
+        player.tempMoveLeft = false;
         switch(setType) {
         case "deathZone":
 
@@ -114,11 +122,13 @@ public class aObject extends aGameObject {
               case "RV":
                 player.setX(obj.getX()+ 30);
                 player.setY(obj.getY());
+                player.tempMoveRight = true;
                 break;
 
               case "LV":
                 player.setX(obj.getX() - 30);
                 player.setY(obj.getY());
+                player.tempMoveLeft = true;
                 break;
 
               case "UH":
@@ -149,17 +159,17 @@ public class aObject extends aGameObject {
 
         case "jumpBoost":
           player.jump = objectValue;
+          player.jumpToggle = false;
           player.jump();
           player.reset();
           break;
 
         case "ladder":
-          if (player.getY() + player.getW() > getY() && player.getY() < getY() && player.getX() + player.getL() > getX() && player.getX() < getX() + getL() && !player.moveDown) {
-            player.land();
-            player.setY(getY() - player.getW());
-          }
+
           player.velocityY = 0;
           player.ladder = true;
+
+
           break;
 
 
@@ -194,15 +204,15 @@ public class aObject extends aGameObject {
           break;
 
         case "button":
-          if (getViewVisibility() == 2) {
-            setViewVisibility(1);
-          } else if (getViewVisibility() == 1) {
-            setViewVisibility(2);
-          }
+
+          setViewVisibility(2);
           updateVisibility();
           break;
         case "podium":
           saveData();
+          if (world.world == 9) {
+            world.world++;
+          }
           world.level++;
           world.spawn();
           world.statsReset();
@@ -244,6 +254,12 @@ public class aObject extends aGameObject {
 
     saveJSONArray(saveData, "data/stats.json");
 
+    if (world.level == 9) {
+      json = new JSONObject();
+      json.setInt("levelUnlocked", world.level + 1);
+      saveJSONObject(json, "data/data.json");
+    }
+
     if (world.world > GUI.worldUnlocked) {
       println(GUI.worldUnlocked);
       json.setInt("worldUnlocked", world.world);
@@ -257,6 +273,34 @@ public class aObject extends aGameObject {
         saveJSONObject(json, "data/data.json");
       }
     }
+  }
+
+
+  public void alternatingTarget(int x, int y, int l, int w, int copies) {
+    if (copies < 0) {
+      return;
+    }
+
+
+    if (copies % 2 == 0) {
+      fill(255);
+      rect(x, y, l, w);
+    } else {
+      fill(#FF3E3E);
+      rect(x, y, l, w);
+    }
+
+    alternatingTarget(x + 5, y + 5, l - 10, w - 10, copies -1);
+  }
+
+  public void multipleSteps(int x, int y, int l, int copies) {
+    if (copies < 0) {
+      return;
+    }
+    stroke(#3E290A);
+    line(x, y + 5, x + l, y + 5);
+
+    multipleSteps(x, y + 10, l, copies -1);
   }
 
 
@@ -401,26 +445,34 @@ public class aObject extends aGameObject {
 
 
       case "projectileTarget":
-        fill(#FF3E3E);
-        rect(setX, setY, setL, setW);
-        fill(255);
-        rect(setX + 10, setY + 10, setL - 20, setW -20);
-        fill(#FF3E3E);
-        rect(setX + 15, setY + 15, setL - 30, setW -30);
+        alternatingTarget(setX, setY, setL, setW, 3);
         break;
 
 
       case "ladder":
         fill(#C1740E);
         rect(setX, setY, setL, setW);
+        multipleSteps(setX, setY, setL, (setW / 5) / 2 - 1);
+
+
+        if (world.levelTimer % 25 == 0) {
+          for (aPlayer player : players) {
+            player.ladder = false;
+            player.allowDown = false;
+          }
+        }
 
 
         break;
 
       case "button":
-
+        setL = 35;
+        setW = 10;
         fill(#ACC3DE);
         rect(setX, setY, setL, setW);
+        setViewVisibility(1);
+        updateVisibility();
+        break;
 
       case "podium":
         setL = 35;

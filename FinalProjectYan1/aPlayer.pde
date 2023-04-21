@@ -1,7 +1,7 @@
 public class aPlayer extends aGameObject {
   private float jump, velocityY, originalJump;
   private int speed, jumpNum, playerNum, selectedPlayer;
-  private boolean jumpToggle, moveRight, moveLeft, moveUp, moveDown, flight, ladder;
+  private boolean jumpToggle, tempMoveRight, tempMoveLeft , moveRight, moveLeft, moveUp, moveDown, allowDown, flight, ladder;
   private float gravity = 0.5;
 
   // Original Constructed Variables
@@ -47,6 +47,8 @@ public class aPlayer extends aGameObject {
   }
 
 
+
+
   public void moveRight() {
     moveRight = true;
   }
@@ -89,12 +91,16 @@ public class aPlayer extends aGameObject {
 
 
   public void land() {
-    velocityY = 0;
-    jumpToggle = false;
-    for (aPowerup pow : powerups) {
-      if (pow.getType() == "setJump" && pow.activatedPowerup == true) {
-        jumpNum = pow.setPowerupValue;
-        break;
+
+    if (!(moveDown && allowDown)) {
+
+      velocityY = 0;
+      jumpToggle = false;
+      for (aPowerup pow : powerups) {
+        if (pow.getType() == "setJump" && pow.activatedPowerup == true) {
+          jumpNum = pow.setPowerupValue;
+          break;
+        }
       }
     }
   }
@@ -128,13 +134,9 @@ public class aPlayer extends aGameObject {
         } else {
           // Resolve the collision vertically
           if (enemy.getY() < getY()) {
-            enemy.moveRight();
-            jump();
-            // enemy.alive = false;
+            world.reset();
           } else {
-            enemy.moveRight();
-            jump();
-            // enemy.alive = false;
+            enemy.alive = false;
           }
         }
       }
@@ -171,11 +173,11 @@ public class aPlayer extends aGameObject {
 
 
       if (playerNum == selectedPlayer) {
-        if (moveRight == true) {
+        if (moveRight || tempMoveRight) {
           setX = setX + speed;
         }
 
-        if (moveLeft == true) {
+        if (moveLeft || tempMoveLeft) {
           setX = setX - speed;
         }
         setX = constrain(setX, 0, width - setL);
@@ -184,7 +186,7 @@ public class aPlayer extends aGameObject {
           setY = setY - speed;
         }
 
-        if (moveDown && ladder) {
+        if ((moveDown && ladder) || (moveDown && allowDown)) {
           setY = setY + speed;
         }
       }
@@ -212,9 +214,10 @@ public class aPlayer extends aGameObject {
   }
 
   public void data() {
-    if (world.levelTimer % 5 == 0) {
+    if (world.levelTimer % 100 == 0) {
       println("VelocityY: " + velocityY);
-      println("gravity: " + gravity);
+      println("ladder: " + ladder);
+      println("allowDown" + allowDown);
     }
   }
 }

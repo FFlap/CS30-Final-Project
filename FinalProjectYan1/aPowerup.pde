@@ -57,7 +57,6 @@ public class aPowerup extends aGameObject {
         case "newPlayer":
 
           if (!activatedPowerup) {
-   
           }
           activatedPowerup = true;
           break;
@@ -158,21 +157,30 @@ public class aPowerup extends aGameObject {
       case "changeWindow":
 
         if (activatedPowerup ==  false) {
-          fill(#150C0C);
+          fill(#B4B3B2);
           rect(setX, setY, 20, 20);
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
         } else {
           GUI.setTransitionWindow(800, 800);
+          if(width == 800){
+          world.worldWidth = 800;
+          }
         }
         break;
 
       case "newPlayer":
+
+
         if (activatedPowerup ==  false) {
           fill(#7AFF0F);
           rect(setX, setY, 20, 20);
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
+        } else {
+          fill(255);
+          textSize(15);
+          text("Use number pad to change characters! eg. 1, 2", 431, 40);
         }
         break;
 
