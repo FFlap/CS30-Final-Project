@@ -2,7 +2,7 @@ public class aWorld {
   private  float cameraX, cameraY;
   private int worldWidth, deathStat, jumpStat, leftStat, rightStat;
   private int world = 2;
-  private int level = 4;
+  private int level = 5;
   private float levelTimer;
 
   public void checkCollisions() {
@@ -496,6 +496,7 @@ public class aWorld {
         case 5:
           players.get(0).setX(88);
           players.get(0).setY(730);
+          objects.add(new aObject("deathZone", 0, 150, 755, 800, 5));
           platforms.add(new aPlatform("walljump", 0, 0, 610, 60, 80, #8E6A2F));
           objects.add(new aObject("jumpBoost", 0, 290, 580, 15));
           platforms.add(new aPlatform("walljump", 0, 670, 350, 100, 260, #8E6A2F));
@@ -505,6 +506,15 @@ public class aWorld {
           objects.add(new aObject("deathZone", 0, 290, 590, 35, 200));
           objects.add(new aObject("deathZone", 0, 520, 580, 60, 20));
           objects.add(new aObject("projectileTarget", 0, 600, 10, 150, 40));
+          platforms.add(new aPlatform("oneway", 2, 0, 350, 200, 50, #93A530));
+          platforms.add(new aPlatform("oneway", 3, 0, 350, 200, 50, #93A530));
+          objects.add(new aObject("deathZone", 0, 480, 150, 80, 10));
+          objects.add(new aObject("deathZone", 0, 250, 340, 280, 10));
+          objects.add(new aObject("deathZone", 0, 100, 230, 30, 30));
+          powerups.add(new aPowerup("levelUnlock", 0, 375, 210));
+          platforms.add(new aPlatform("platform", 0, 160, 0, 100, 350, #008080));
+          objects.add(new aObject("podium", 3, 0, 340));
+
           break;
         default:
           break;

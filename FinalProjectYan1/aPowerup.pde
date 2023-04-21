@@ -112,8 +112,13 @@ public class aPowerup extends aGameObject {
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
         } else {
-          setViewVisibility(2);
-          updateVisibility();
+          if (world.world == 2 || world.level == 5) {
+            setViewVisibility(3);
+            updateVisibility();
+          } else {
+            setViewVisibility(2);
+            updateVisibility();
+          }
         }
 
 
@@ -163,8 +168,8 @@ public class aPowerup extends aGameObject {
           rect(setX + 5, setY + 5, 10, 10);
         } else {
           GUI.setTransitionWindow(800, 800);
-          if(width == 800){
-          world.worldWidth = 800;
+          if (width == 800) {
+            world.worldWidth = 800;
           }
         }
         break;

@@ -89,6 +89,10 @@ public class aObject extends aGameObject {
           updateVisibility();
           projectile.projectileActive = false;
         }
+
+        if (setType == "projectileBlock") {
+          projectile.projectileActive = false;
+        }
       }
     }
   }
@@ -174,7 +178,7 @@ public class aObject extends aGameObject {
 
 
         case "projectileTarget":
-
+        case "projectileBlock":
 
           float xOverlap = Math.min(player.getX() + player.getL() - getX(), getX() + getL() - player.getX());
           float yOverlap = Math.min(player.getY() + player.getW() - getY(), getY() + getW() - player.getY());
@@ -448,6 +452,12 @@ public class aObject extends aGameObject {
         alternatingTarget(setX, setY, setL, setW, 3);
         break;
 
+      case "projectileBlock":
+        fill(#868686);
+        rect(setX, setY, setL, setW);
+        
+        break;
+
 
       case "ladder":
         fill(#C1740E);
@@ -464,6 +474,8 @@ public class aObject extends aGameObject {
 
 
         break;
+
+
 
       case "button":
         setL = 35;
