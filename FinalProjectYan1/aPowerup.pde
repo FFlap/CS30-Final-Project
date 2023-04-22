@@ -94,9 +94,11 @@ public class aPowerup extends aGameObject {
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
         } else {
-          fill(255);
-          textSize(15);
-          text("Toggle your glasses power On/Off \n by pressing R!", 420, 430);
+          if (world.world == 1 && world.level == 5) {
+            fill(255);
+            textSize(15);
+            text("Toggle your glasses power On/Off \n by pressing R!", 420, 430);
+          }
         }
 
 
@@ -112,7 +114,7 @@ public class aPowerup extends aGameObject {
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
         } else {
-          if (world.world == 2 || world.level == 5) {
+          if (world.world == 2 && world.level == 9) {
             setViewVisibility(3);
             updateVisibility();
           } else {
@@ -133,9 +135,11 @@ public class aPowerup extends aGameObject {
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
         } else {
-          fill(255);
-          textSize(15);
-          text("Click anywhere you want to shoot!", 230, 430);
+          if (world.world == 1 && world.level == 7) {
+            fill(255);
+            textSize(15);
+            text("Click anywhere you want to shoot!", 230, 430);
+          }
         }
 
         break;
@@ -183,9 +187,29 @@ public class aPowerup extends aGameObject {
           fill(#151515);
           rect(setX + 5, setY + 5, 10, 10);
         } else {
-          fill(255);
-          textSize(15);
-          text("Use number pad to change characters! eg. 1, 2", 431, 40);
+          if (world.world == 2 && world.level == 6) {
+            fill(255);
+            textSize(15);
+            text("Use number pad to change characters! eg. 1, 2", 431, 40);
+          }
+        }
+        break;
+
+      case "timedGlasses":
+        if (activatedPowerup ==  false) {
+          fill(#FFDF24);
+          rect(setX, setY, 20, 20);
+          fill(#151515);
+          rect(setX + 5, setY + 5, 10, 10);
+        } else {
+          if (world.world == 2 && world.level == 3) {
+            fill(255);
+            textSize(15);
+            text("Tip: Look at the time!", 500, 380);
+          }
+          if (world.levelTimer % 100 == 0) {
+            glassesPowerupToggle();
+          }
         }
         break;
 

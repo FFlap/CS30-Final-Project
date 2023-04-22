@@ -1,9 +1,10 @@
 public class aWorld {
   private  float cameraX, cameraY;
   private int worldWidth, deathStat, jumpStat, leftStat, rightStat;
-  private int world = 2;
-  private int level = 5;
+  private int world = 1;
+  private int level = 0;
   private float levelTimer;
+  private boolean followPlayer;
 
   public void checkCollisions() {
 
@@ -69,7 +70,9 @@ public class aWorld {
 
     pushMatrix();
     cameraFollow(players.get(0));
-    translate(-cameraX, -cameraY);
+    if (followPlayer) {
+      translate(-cameraX, -cameraY);
+    }
 
     for (aPlatform plat : platforms) {
 
@@ -108,105 +111,111 @@ public class aWorld {
 
 
   public void cameraFollow(aPlayer player) {
-    float cameraSpeed = 0.015;
+    float cameraSpeed = 0.03;
     float x = player.getX() - (width / 2) + (player.getL() / 2);
     float y = player.getY() - (height / 2) + (player.getW() / 2);
+    if (followPlayer) {
 
-    cameraX = lerp(cameraX, x, cameraSpeed);
-    cameraY = 0;
+      cameraX = lerp(cameraX, x, cameraSpeed);
+      cameraY = 0;
 
-    cameraX = constrain(cameraX, 0, width - worldWidth);
+      cameraX = constrain(cameraX, 0, worldWidth - width);
+    } else {
+      x = (width / 2);
+      y = (height / 2) ;
+    }
   }
 
 
   public void checkTimer() {
+    if (world == 1) {
+      switch(level) {
+      case 9:
 
-    switch(level) {
-    case 9:
+        if (levelTimer == 700) {
+          platforms.add(new aPlatform("platform", 0, 0, 660, 200, 50, #3AA54B));
+          platforms.add(new aPlatform("platform", 0, 510, 660, 200, 50, #3AA54B));
+        }
+        if (levelTimer >= 700 && levelTimer <= 900) {
+          fill(#A07F12);
+          triangle(300, 470, 300, 550, 240, 510);
+          fill(#A07F12);
+          rect(300, 500, 140, 20);
+          fill(#A07F12);
+          triangle(410, 470, 410, 550, 470, 510);
+        }
 
-      if (levelTimer == 700) {
-        platforms.add(new aPlatform("platform", 0, 0, 660, 200, 50, #3AA54B));
-        platforms.add(new aPlatform("platform", 0, 510, 660, 200, 50, #3AA54B));
+        if (levelTimer == 900) {
+          objects.add(new aObject("deathZone", 0, 200, 655, 310, 6));
+          objects.add(new aObject("deathZone", 0, 0, 0, 700, 6));
+          platforms.add(new aPlatform("platform", 0, 0, 700, 200, 50, "vertical", false, 3, #008080));
+          platforms.add(new aPlatform("platform", 0, 510, 700, 200, 50, "vertical", false, 3, #008080));
+          platforms.add(new aPlatform("platform", 0, 220, 350, 270, 50, #008080));
+        }
+
+
+
+        if (levelTimer == 1150) {
+          objects.add(new aObject("deathZone", 0, 0, 655, 700, 6));
+          objects.add(new aObject("deathZone", 0, 0, 0, 700, 6));
+          objects.add(new aObject("deathZone", 0, 220, 660, 210, 150, "vertical", false, 3));
+          objects.add(new aObject("deathZone", 0, 1010, 300, 50, 150, "horizontal", false, 3));
+          objects.add(new aObject("deathZone", 0, 220, -600, 220, 150, "vertical", true, 3));
+          objects.add(new aObject("deathZone", 0, 260, -850, 230, 150, "vertical", true, 3));
+          objects.add(new aObject("deathZone", 0, -1000, 300, 50, 150, "horizontal", true, 3));
+          objects.add(new aObject("deathZone", 0, 260, -1250, 230, 150, "vertical", true, 3));
+          objects.add(new aObject("deathZone", 0, 220, -1500, 110, 150, "vertical", true, 3));
+          objects.add(new aObject("deathZone", 0, 400, -1500, 110, 150, "vertical", true, 3));
+        }
+
+        if (levelTimer > 1800 && levelTimer < 2000) {
+
+          fill(#A07F12);
+          rect(300, 230, 140, 20);
+          fill(#A07F12);
+          triangle(410, 200, 410, 280, 470, 240);
+        }
+        if (levelTimer == 1900) {
+          objects.add(new aObject("podium", 2, 347, 342));
+          objects.add(new aObject("deathZone", 0, -750, 160, 110, 800, "horizontal", true, 4.2));
+        }
+
+        if (levelTimer == 2000) {
+          platforms.add(new aPlatform("platform", 0, 530, 300, 200, 50, #008080));
+        }
+        if (levelTimer == 2050) {
+          platforms.add(new aPlatform("platform", 0, 370, 230, 200, 50, #008080));
+        }
+        if (levelTimer == 2080) {
+          platforms.add(new aPlatform("platform", 0, 230, 150, 100, 50, #008080));
+        }
+
+
+        if (levelTimer == 2200) {
+          platforms.add(new aPlatform("platform", 0, 410, 550, 100, 50, #008080));
+        }
+
+        if (levelTimer == 2250) {
+          platforms.add(new aPlatform("platform", 0, 230, 520, 100, 50, #008080));
+          powerups.add(new aPowerup("levelUnlock", 0, 280, 501));
+          objects.add(new aObject("deathZone", 0, 900, 300, 110, 800, "horizontal", false, 3.4));
+          objects.add(new aObject("deathZone", 0, 900, 0, 110, 180, "horizontal", false, 3.4));
+        }
+        if (levelTimer == 2290) {
+          platforms.add(new aPlatform("platform", 0, 110, 445, 100, 50, #008080));
+        }
+
+        if (levelTimer == 2100 || levelTimer == 2125 || levelTimer == 2150 || levelTimer == 2320 || levelTimer == 2340 || levelTimer == 2360) {
+          platforms.remove(6);
+        }
+
+
+        break;
+
+      default:
+
+        break;
       }
-      if (levelTimer >= 700 && levelTimer <= 900) {
-        fill(#A07F12);
-        triangle(300, 470, 300, 550, 240, 510);
-        fill(#A07F12);
-        rect(300, 500, 140, 20);
-        fill(#A07F12);
-        triangle(410, 470, 410, 550, 470, 510);
-      }
-
-      if (levelTimer == 900) {
-        objects.add(new aObject("deathZone", 0, 200, 655, 310, 6));
-        objects.add(new aObject("deathZone", 0, 0, 0, 700, 6));
-        platforms.add(new aPlatform("platform", 0, 0, 700, 200, 50, "vertical", false, 3, #008080));
-        platforms.add(new aPlatform("platform", 0, 510, 700, 200, 50, "vertical", false, 3, #008080));
-        platforms.add(new aPlatform("platform", 0, 220, 350, 270, 50, #008080));
-      }
-
-
-
-      if (levelTimer == 1150) {
-        objects.add(new aObject("deathZone", 0, 0, 655, 700, 6));
-        objects.add(new aObject("deathZone", 0, 0, 0, 700, 6));
-        objects.add(new aObject("deathZone", 0, 220, 660, 210, 150, "vertical", false, 3));
-        objects.add(new aObject("deathZone", 0, 1010, 300, 50, 150, "horizontal", false, 3));
-        objects.add(new aObject("deathZone", 0, 220, -600, 220, 150, "vertical", true, 3));
-        objects.add(new aObject("deathZone", 0, 260, -850, 230, 150, "vertical", true, 3));
-        objects.add(new aObject("deathZone", 0, -1000, 300, 50, 150, "horizontal", true, 3));
-        objects.add(new aObject("deathZone", 0, 260, -1250, 230, 150, "vertical", true, 3));
-        objects.add(new aObject("deathZone", 0, 220, -1500, 110, 150, "vertical", true, 3));
-        objects.add(new aObject("deathZone", 0, 400, -1500, 110, 150, "vertical", true, 3));
-      }
-
-      if (levelTimer > 1800 && levelTimer < 2000) {
-
-        fill(#A07F12);
-        rect(300, 230, 140, 20);
-        fill(#A07F12);
-        triangle(410, 200, 410, 280, 470, 240);
-      }
-      if (levelTimer == 1900) {
-        objects.add(new aObject("podium", 2, 347, 342));
-        objects.add(new aObject("deathZone", 0, -750, 160, 110, 800, "horizontal", true, 4.2));
-      }
-
-      if (levelTimer == 2000) {
-        platforms.add(new aPlatform("platform", 0, 530, 300, 200, 50, #008080));
-      }
-      if (levelTimer == 2050) {
-        platforms.add(new aPlatform("platform", 0, 370, 230, 200, 50, #008080));
-      }
-      if (levelTimer == 2080) {
-        platforms.add(new aPlatform("platform", 0, 230, 150, 100, 50, #008080));
-      }
-
-
-      if (levelTimer == 2200) {
-        platforms.add(new aPlatform("platform", 0, 410, 550, 100, 50, #008080));
-      }
-
-      if (levelTimer == 2250) {
-        platforms.add(new aPlatform("platform", 0, 230, 520, 100, 50, #008080));
-        powerups.add(new aPowerup("levelUnlock", 0, 280, 501));
-        objects.add(new aObject("deathZone", 0, 900, 300, 110, 800, "horizontal", false, 3.4));
-        objects.add(new aObject("deathZone", 0, 900, 0, 110, 180, "horizontal", false, 3.4));
-      }
-      if (levelTimer == 2290) {
-        platforms.add(new aPlatform("platform", 0, 110, 445, 100, 50, #008080));
-      }
-
-      if (levelTimer == 2100 || levelTimer == 2125 || levelTimer == 2150 || levelTimer == 2320 || levelTimer == 2340 || levelTimer == 2360) {
-        platforms.remove(6);
-      }
-
-
-      break;
-
-    default:
-
-      break;
     }
   }
 
@@ -240,6 +249,7 @@ public class aWorld {
 
     if (levelTimer <= 0.5) {
       levelReset();
+      followPlayer = false;
       players.add(new aPlayer(0, 100, 100, 20, 20, 10, 10, 0));
       if (world == 1) {
 
@@ -276,13 +286,10 @@ public class aWorld {
         case 2:
           players.get(0).setX(50);
           players.get(0).setY(640);
-          //Platforms
           platforms.add(new aPlatform("platform", 0, 450, 580, 120, 30, 128));
           platforms.add(new aPlatform("platform", 0, 40, 480, 120, 30, 128));
           platforms.add(new aPlatform("platform", 0, 220, 330, 120, 30, 128));
-          //High Jump
           powerups.add(new aPowerup("highJump", 0, 500, 560, 15));
-          //End
           objects.add(new aObject("podium", 0, 260, 321));
           break;
 
@@ -427,9 +434,12 @@ public class aWorld {
           platforms.add(new aPlatform("platform", 0, -40, 660, 770, 45, #32CD32));
         } else {
           worldWidth = 800;
-          platforms.add(new aPlatform("platform", 0, -40, 760, 888, 45, #32CD32));
+          platforms.add(new aPlatform("platform", 0, -40, 760, 1700, 45, #32CD32));
         }
         switch(level) {
+
+
+
 
         case 1:
           players.get(0).setX(42);
@@ -445,6 +455,52 @@ public class aWorld {
           objects.add(new aObject("podium", 0, 17, 750));
           break;
         case 2:
+          players.get(0).setX(750);
+          players.get(0).setY(650);
+          platforms.add(new aPlatform("platform", 0, 630, 670, 150, 30, 128));
+          platforms.add(new aPlatform("platform", 0, 630, 90, 120, 30, 128));
+          platforms.add(new aPlatform("walljump", 0, 40, 320, 100, 200, #8E6A2F));
+          platforms.add(new aPlatform("walljump", 0, 270, 0, 100, 400, #8E6A2F));
+          platforms.add(new aPlatform("walljump", 0, 630, 120, 100, 200, #8E6A2F));
+          powerups.add(new aPowerup("setJump", 0, 680, 650, 2));
+          objects.add(new aObject("podium", 0, 675, 80));
+          objects.add(new aObject("deathZone", 0, 0, 755, 800, 5));
+          break;
+
+        case 3:
+
+
+          players.get(0).setX(405);
+          players.get(0).setY(740);
+          powerups.add(new aPowerup("timedGlasses", 0, 530, 740));
+          platforms.add(new aPlatform("walljump", 0, 780, 600, 60, 200, #8E6A2F));
+          platforms.add(new aPlatform("platform", 2, 390, 580, 260, 50, #008080));
+          platforms.add(new aPlatform("platform", 1, 300, 480, 100, 50, #B7060B));
+          platforms.add(new aPlatform("platform", 2, 150, 400, 100, 50, #008080));
+          platforms.add(new aPlatform("platform", 1, 0, 295, 100, 50, #B7060B));
+          platforms.add(new aPlatform("platform", 2, 154, 0, 50, 235, #008080));
+          platforms.add(new aPlatform("platform", 0, 154, 230, 260, 50, #008080));
+          objects.add(new aObject("podium", 0, 360, 222));
+          break;
+
+        case 4:
+          players.get(0).setX(375);
+          players.get(0).setY(740);
+          rightStair(520, 720, 7);
+          objects.add(new aObject("ladder", 0, 120, 320, 480, 100));
+          platforms.add(new aPlatform("platform", 0, 200, 530, 100, 300, #008080));
+          platforms.add(new aPlatform("platform", 0, 125, 150, 680, 100, #008080));
+          enemies.add(new aEnemy("yellow", 0, 220, 5));
+          enemies.add(new aEnemy("red", 0, 500, 100));
+          powerups.add(new aPowerup("projectile", 0, 72, 722));
+          platforms.add(new aPlatform("platform", 0, 146, 660, 100, 50, #008080));
+          platforms.add(new aPlatform("platform", 0, 0, 560, 50, 50, #008080));
+          platforms.add(new aPlatform("platform", 0, 0, 240, 50, 50, #008080));
+
+          objects.add(new aObject("podium", 0, 743, 143));
+          break;
+
+        case 5:
           players.get(0).setX(10);
           players.get(0).setY(740);
           platforms.add(new aPlatform("platform", 0, 330, 710, 200, 50, #008080));
@@ -457,24 +513,8 @@ public class aWorld {
           objects.add(new aObject("jumpBoost", 2, 420, 700, 10));
           break;
 
-        case 3:
-          players.get(0).setX(375);
-          players.get(0).setY(740);
-          rightStair(520, 720, 7);
-          objects.add(new aObject("ladder", 0, 120, 320, 480, 100));
-          platforms.add(new aPlatform("platform", 0, 200, 530, 100, 300, #008080));
-          platforms.add(new aPlatform("platform", 0, 125, 150, 680, 100, #008080));
-          enemies.add(new aEnemy("yellow", 0, 220, 5));
-          enemies.add(new aEnemy("red", 0, 500, 100));
-          powerups.add(new aPowerup("projectile", 0, 72, 722));
-          platforms.add(new aPlatform("platform", 0, 146, 660, 100, 50, #008080));
-          platforms.add(new aPlatform("platform", 0, 0, 560, 50, 50, #008080));
-          platforms.add(new aPlatform("platform", 0, 0, 222, 50, 50, #008080));
+        case 6:
 
-          objects.add(new aObject("podium", 0, 743, 143));
-          break;
-
-        case 4:
           players.get(0).setX(30);
           players.get(0).setY(730);
           platforms.add(new aPlatform("platform", 0, 300, 660, 200, 50, #008080));
@@ -493,29 +533,76 @@ public class aWorld {
           objects.add(new aObject("podium", 0, 743, 750));
           break;
 
-        case 5:
+        case 7:
+          players.get(0).setX(40);
+          players.get(0).setY(732);
+          objects.add(new aObject("portal", 0, "LV", 790, 680, 0));
+          objects.add(new aObject("portal", 0, "UH", 100, 400, 0 ));
+          platforms.add(new aPlatform("walljump", 0, 5, 250, 60, 200, #8E6A2F));
+          objects.add(new aObject("portal", 0, "LV", 300, 150, 1));
+          objects.add(new aObject("portal", 0, "UH", 500, 400, 1 ));
+          platforms.add(new aPlatform("platform", 0, 600, 310, 100, 30, #008080));
+          enemies.add(new aEnemy("brown", 0, 720, 230));
+          enemies.add(new aEnemy("purple", 0, 355, 700));
+          objects.add(new aObject("deathZone", 0, 0, 411, 800, 50));
+          objects.add(new aObject("deathZone", 0, 310, 0, 50, 411));
+          powerups.add(new aPowerup("levelUnlock", 0, 645, 290));
+          objects.add(new aObject("deathZone", 5, 230, 0, 50, 5));
+          objects.add(new aObject("podium", 2, 380, 750));
+          break;
+
+        case 8:
+          worldWidth = 1600;
+          followPlayer = true;
+          players.get(0).setX(40);
+          players.get(0).setY(732);
+          enemies.add(new aEnemy("green", 0, 85, 77));
+          enemies.add(new aEnemy("brown", 0, 1500, 500));
+          platforms.add(new aPlatform("platform", 0, 0, 580, 900, 30, #008080));
+          platforms.add(new aPlatform("platform", 0, 1100, 670, 500, 100, #008080));
+          platforms.add(new aPlatform("walljump", 0, 0, 414, 60, 200, #8E6A2F));
+          enemies.add(new aEnemy("red", 0, 1050, 228));
+          objects.add(new aObject("projectileBlock", 0, 300, 420, 50, 100));
+          objects.add(new aObject("projectileBlock", 0, 300, 230, 50, 100));
+          powerups.add(new aPowerup("levelUnlock", 0, 95, 460));
+          platforms.add(new aPlatform("platform", 0, 600, 256, 800, 30, #008080));
+          platforms.add(new aPlatform("walljump", 0, 290, 230, 20, 100, #8E6A2F));
+          objects.add(new aObject("portal", 0, "RV", 0, 230, 0));
+          objects.add(new aObject("portal", 0, "UH", 600, 245, 0 ));
+          objects.add(new aObject("deathZone", 0, 1000, 180, 100, 90));
+          objects.add(new aObject("podium", 0, 1300, 250));
+
+          break;
+
+
+        case 9:
+
           players.get(0).setX(88);
           players.get(0).setY(730);
-          objects.add(new aObject("deathZone", 0, 150, 755, 800, 5));
+          objects.add(new aObject("deathZone", 0, 150, 755, 370, 5));
+          objects.add(new aObject("deathZone", 0, 580, 755, 370, 5));
+          objects.add(new aObject("deathZone", 0, 0, 600, 60, 20));
           platforms.add(new aPlatform("walljump", 0, 0, 610, 60, 80, #8E6A2F));
           objects.add(new aObject("jumpBoost", 0, 290, 580, 15));
           platforms.add(new aPlatform("walljump", 0, 670, 350, 100, 260, #8E6A2F));
           platforms.add(new aPlatform("walljump", 0, 480, 160, 80, 200, #8E6A2F));
           platforms.add(new aPlatform("walljump", 0, 520, 600, 60, 200, #8E6A2F));
           powerups.add(new aPowerup("projectile", 0, 770, 450));
-          objects.add(new aObject("deathZone", 0, 290, 590, 35, 200));
+          objects.add(new aObject("deathZone", 0, 290, 590, 35, 80));
           objects.add(new aObject("deathZone", 0, 520, 580, 60, 20));
           objects.add(new aObject("projectileTarget", 0, 600, 10, 150, 40));
           platforms.add(new aPlatform("oneway", 2, 0, 350, 200, 50, #93A530));
           platforms.add(new aPlatform("oneway", 3, 0, 350, 200, 50, #93A530));
           objects.add(new aObject("deathZone", 0, 480, 150, 80, 10));
-          objects.add(new aObject("deathZone", 0, 250, 340, 280, 10));
-          objects.add(new aObject("deathZone", 0, 100, 230, 30, 30));
+          objects.add(new aObject("deathZone", 0, 250, 340, 230, 10));
+          objects.add(new aObject("deathZone", 0, 670, 350, 100, 20));
           powerups.add(new aPowerup("levelUnlock", 0, 375, 210));
           platforms.add(new aPlatform("platform", 0, 160, 0, 100, 350, #008080));
           objects.add(new aObject("podium", 3, 0, 340));
 
           break;
+
+
         default:
           break;
         }
@@ -548,6 +635,8 @@ public class aWorld {
     for (aPlayer player : players) {
       player.reset();
     }
+
+    followPlayer = false;
   }
 
   public void statsReset() {

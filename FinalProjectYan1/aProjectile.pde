@@ -49,7 +49,7 @@ public class aProjectile extends aGameObject {
         fill(#7B4CEA);
         speed = 10;
         targetPlayer();
-        timeLimit = 50;
+        timeLimit = 100;
 
         break;
 
@@ -65,7 +65,7 @@ public class aProjectile extends aGameObject {
         fill(#AA6832);
         speed = 10;
         targetLeft = true;
-        timeLimit = 100;
+        timeLimit = 80;
         break;
 
       default:

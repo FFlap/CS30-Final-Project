@@ -179,7 +179,7 @@ public class aObject extends aGameObject {
 
         case "projectileTarget":
         case "projectileBlock":
-
+ //NOTE: I DID NOT CREATE any code relating to xOverlap and yOverlap. Concept of the collsion retreived from: https://gamedev.stackexchange.com/questions/29786/a-simple-2d-rectangle-collision-algorithm-that-also-determines-which-sides-that
           float xOverlap = Math.min(player.getX() + player.getL() - getX(), getX() + getL() - player.getX());
           float yOverlap = Math.min(player.getY() + player.getW() - getY(), getY() + getW() - player.getY());
 
@@ -214,9 +214,12 @@ public class aObject extends aGameObject {
           break;
         case "podium":
           saveData();
-          if (world.world == 9) {
+          if (world.level == 9) {
             world.world++;
-          }
+            world.level = 0;
+          } 
+
+
           world.level++;
           world.spawn();
           world.statsReset();
@@ -242,8 +245,7 @@ public class aObject extends aGameObject {
     levelData.setInt("jumps", world.jumpStat);
     levelData.setInt("left", world.leftStat);
     levelData.setInt("right", world.rightStat);
-
-    // Get the worldArray and levelArray
+    
     JSONArray worldArray = saveData.getJSONArray(world.world - 1);
     JSONArray levelArray = worldArray.getJSONArray(world.level - 1);
 
@@ -258,15 +260,10 @@ public class aObject extends aGameObject {
 
     saveJSONArray(saveData, "data/stats.json");
 
-    if (world.level == 9) {
-      json = new JSONObject();
-      json.setInt("levelUnlocked", world.level + 1);
-      saveJSONObject(json, "data/data.json");
-    }
 
     if (world.world > GUI.worldUnlocked) {
       println(GUI.worldUnlocked);
-      json.setInt("worldUnlocked", world.world);
+      json.setInt("worldUnlocked", world.world + 1);
       json.setInt("levelUnlocked", world.level + 1);
       saveJSONObject(json, "data/data.json");
     } else if (world.world == GUI.worldUnlocked) {
@@ -274,6 +271,14 @@ public class aObject extends aGameObject {
         json = new JSONObject();
         json.setInt("worldUnlocked", world.world);
         json.setInt("levelUnlocked", world.level + 1);
+        saveJSONObject(json, "data/data.json");
+      }
+
+
+      if (world.level == 9) {
+        json = new JSONObject();
+        json.setInt("levelUnlocked", 1);
+        json.setInt("worldUnlocked", world.world + 1);
         saveJSONObject(json, "data/data.json");
       }
     }
@@ -394,8 +399,16 @@ public class aObject extends aGameObject {
         break;
 
       case "portal":
+        switch(linkedNum) {
+        case 0:
+          fill(#C062E3);
+          break;
+        case 1:
 
-        fill(#C062E3);
+          fill(#237DF7);
+          break;
+        }
+
 
         switch(portalType) {
 
@@ -455,7 +468,7 @@ public class aObject extends aGameObject {
       case "projectileBlock":
         fill(#868686);
         rect(setX, setY, setL, setW);
-        
+
         break;
 
 

@@ -18,12 +18,10 @@ void setup() {
 }
 void draw() {
   background(0);
-  // Levels
   world.load();
   world.display();
   world.checkTimer();
-  //players.get(0).data();
-  //GUI
+
   GUI.displayToolTip();
   GUI.displayPauseMenu();
   GUI.displayButtons();
@@ -175,6 +173,7 @@ public void mousePressed() {
   println("Mouse is at y: " + mouseY);
   println();
   GUI.setMouseValues(mouseX, mouseY);
+
   GUI.checkClick();
   for (aPowerup pow : powerups) {
     if (pow.getType() == "projectile" && pow.activatedPowerup == true) {

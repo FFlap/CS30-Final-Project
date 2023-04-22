@@ -176,28 +176,50 @@ public class aGUI {
 
     if ( pauseMenu == true && world.level != 0) {
       fill(0, 220);
-      rect(-10, -10, 800, 800);
+      rect(0, 0, 800, 800);
 
       strokeWeight(2);
       stroke(255, 0, 0);
-      fill(128, 128, 128);
-      rect(100, 200, 200, 100);
 
-      rect(400, 200, 200, 100);
+      if (width == 800) {
+        fill(128, 128, 128);
+        rect(150, 250, 200, 100);
+
+        rect(450, 250, 200, 100);
 
 
-      rect(245, 400, 200, 100);
+        rect(295, 450, 200, 100);
 
 
-      //Text
+        //Text
 
-      fill(255);
-      textSize(20);
-      text("Restart", 160, 255);
+        fill(255);
+        textSize(20);
+        text("Restart", 200, 300);
 
-      text("Reset Progress", 430, 255);
+        text("Reset Progress", 480, 300);
 
-      text("Main Menu", 290, 455);
+        text("Main Menu", 340, 500);
+      } else {
+        fill(128, 128, 128);
+        rect(100, 200, 200, 100);
+
+        rect(400, 200, 200, 100);
+
+
+        rect(245, 400, 200, 100);
+
+
+        //Text
+
+        fill(255);
+        textSize(20);
+        text("Restart", 160, 255);
+
+        text("Reset Progress", 430, 255);
+
+        text("Main Menu", 290, 455);
+      }
     }
   }
 
@@ -366,9 +388,11 @@ public class aGUI {
         rect(400, 200, 200, 100);
 
 
-        rect(245, 350, 200, 100);
+        rect(100, 350, 200, 100);
 
-        rect(245, 480, 200, 100);
+        rect(400, 350, 200, 100);
+
+
 
 
         //Text
@@ -379,9 +403,9 @@ public class aGUI {
 
         text("Exit", 475, 255);
 
-        text("Levels", 310, 405);
+        text("Levels", 165, 405);
 
-        text("Statistics", 300, 535);
+        text("Statistics", 450, 405);
       }
 
 
@@ -399,7 +423,7 @@ public class aGUI {
         displayLevelSelect();
       }
 
-      if (world.level == 10) {
+      if (world.level == 1 && world. world == 3) {
         image(endImage, 190, 160);
         strokeWeight(2);
         stroke(255, 0, 0);
@@ -598,7 +622,7 @@ public class aGUI {
         dataReset();
         fill(255);
         textSize(15);
-        text("Overall Level Data:", 180, 145);
+        text("Overall Level Data: (Click to view sorted data)", 180, 145);
         getData();
         setData(levelStat);
         JSONArray worldArray = saveData.getJSONArray(worldStat - 1);
@@ -621,24 +645,24 @@ public class aGUI {
       textSize(15);
       switch(statSelect) {
       case 1:
-        text("Sorted Time:", 180, 145);
+        text("Sorted Time: (Click to move to next sorted data)", 180, 145);
         insertionSort(timeStats);
         break;
       case 2:
-        text("Sorted Jumps:", 180, 145);
+        text("Sorted Jumps: (Click to move to next sorted data)", 180, 145);
         insertionSort(jumpStats);
         break;
       case 3:
-        text("Sorted Deaths:", 180, 145);
+        text("Sorted Deaths: (Click to move to next sorted data)", 180, 145);
         insertionSort(deathStats);
         break;
       case 4:
-        text("Sorted Rights", 180, 145);
+        text("Sorted Rights: (Click to move to next sorted data)", 180, 145);
         insertionSort(rightStats);
         break;
 
       case 5:
-        text("Sorted Lefts", 180, 145);
+        text("Sorted Lefts: (Click to go back to original data)", 180, 145);
         insertionSort(leftStats);
         break;
       }
@@ -694,33 +718,68 @@ public class aGUI {
 
   public void checkClick() {
     if (GUI.getPauseMenu()) {
-      if  (mY <= 300 && mY >= 200 && mX > 100 && mX < 300) {
+      if (width == 800) {
+        if  (mY <= 350 && mY >= 250 && mX > 150 && mX < 350) {
 
-        world.spawn();
-        pauseMenu = false;
-        return;
-      }
+          world.reset();
+          pauseMenu = false;
+          return;
+        }
 
-      if  (mY <= 300 && mY >= 200 && mX > 400 && mX < 600) {
-        world.spawn();
-        world.level = 1;
+        if  (mY <= 350 && mY >= 250 && mX > 450 && mX < 650) {
+          world.spawn();
+          world.world = 1;
+          world.level = 1;
 
-        json = new JSONObject();
-        json.setInt("levelUnlocked", world.level);
-        saveJSONObject(json, "data/data.json");
-        pauseMenu = false;
-        return;
-      }
+          json = new JSONObject();
+          json.setInt("levelUnlocked", world.level);
+          json.setInt("worldUnlocked", world.world);
+          saveJSONObject(json, "data/data.json");
+          pauseMenu = false;
+          return;
+        }
 
-      if  (mY <= 500 && mY >= 400 && mX > 245 && mX < 445) {
+        if  (mY <= 550 && mY >= 450 && mX > 295 && mX < 495) {
 
-        world.world = 1;
-        world.level = 0;
-        levelSelect = 0;
-        setWindow(700, 700);
-        world.spawn();
-        pauseMenu = false;
-        return;
+          world.world = 1;
+          world.level = 0;
+          levelSelect = 0;
+          setWindow(700, 700);
+          world.spawn();
+          pauseMenu = false;
+          return;
+        }
+      } else {
+        if  (mY <= 300 && mY >= 200 && mX > 100 && mX < 300) {
+
+          world.spawn();
+          pauseMenu = false;
+          return;
+        }
+
+        if  (mY <= 300 && mY >= 200 && mX > 400 && mX < 600) {
+          world.spawn();
+          world.world = 1;
+          world.level = 1;
+
+          json = new JSONObject();
+          json.setInt("levelUnlocked", world.level);
+          json.setInt("worldUnlocked", world.world);
+          saveJSONObject(json, "data/data.json");
+          pauseMenu = false;
+          return;
+        }
+
+        if  (mY <= 500 && mY >= 400 && mX > 245 && mX < 445) {
+
+          world.world = 1;
+          world.level = 0;
+          levelSelect = 0;
+          setWindow(700, 700);
+          world.spawn();
+          pauseMenu = false;
+          return;
+        }
       }
     }
     if (levelSelect == 0 ) {
@@ -734,6 +793,7 @@ public class aGUI {
         if (world.level >= levelUnlocked) {
           json = new JSONObject();
           json.setInt("levelUnlocked", world.level);
+          json.setInt("worldUnlocked", world.world);
           saveJSONObject(json, "data/data.json");
         }
       }
@@ -742,12 +802,12 @@ public class aGUI {
         exit();
       }
 
-      if  (mY <= 580 && mY >= 480 && mX > 245 && mX < 445 && world.level == 0) {
+      if  (mY <= 450 && mY >= 350 && mX > 400 && mX < 600 && world.level == 0) {
         levelSelect = 999;
       }
 
 
-      if  (mY <= 450 && mY >= 350 && mX > 245 && mX < 445 && world.level == 0 &&   levelSelect == 0) {
+      if  (mY <= 450 && mY >= 350 && mX > 0 && mX < 300 && world.level == 0 &&   levelSelect == 0) {
         levelSelect = 1;
         json = loadJSONObject("data/data.json");
         levelUnlocked = json.getInt("levelUnlocked");
@@ -839,7 +899,7 @@ public class aGUI {
       if  (mY <= 500 && mY >= 4 && mX > 480 && mX < 680 + 50) {
       }
 
-      if  (mY <= 540 && mY >= 440 && mX > 480 && mX < 680 + 50) {
+      if  (mY <= 540 && mY >= 440 && mX > 480 && mX < 680 + 50 ) {
 
         levelSelect--;
       }
@@ -852,7 +912,7 @@ public class aGUI {
       }
     }
 
-    if (levelSelect == 1 || levelSelect == 2) {
+    if (levelSelect == 1 ||levelSelect == 2 ) {
       world.world = levelSelect;
 
       if (mY <= 540 && mY >= 440 && mX > 30 && mX < 230 && world.level == 0) {
@@ -1025,12 +1085,12 @@ public class aGUI {
 
 
 
-    if  ( mY <= 450 && mY >= 350 && mX > 400 && mX < 600 && world.level == 10) {
+    if  ( mY <= 450 && mY >= 350 && mX > 400 && mX < 600 && world.level == 10&& world.world == 3) {
       exit();
     }
 
 
-    if  (mY <= 450 && mY >= 350 && mX > 100 && mX < 300 && world.level == 10) {
+    if  (mY <= 450 && mY >= 350 && mX > 100 && mX < 300 && world.level == 10 && world.world == 3) {
       world.spawn();
       world.level = 1;
     } else if (world.level == 10) {

@@ -98,7 +98,8 @@ public class aPlatform extends aGameObject {
     }
   }
 
-  // SAT AABB collision detection to resolve corner cases
+  // SAT AABB collision detection to resolve corner cases. 
+  //NOTE: I DID NOT CREATE any code relating to xOverlap and yOverlap. Concept of the collsion retreived from: https://gamedev.stackexchange.com/questions/29786/a-simple-2d-rectangle-collision-algorithm-that-also-determines-which-sides-that
   public void handleCollision(aPlayer player) {
     if (visibility == 0 || visibility == getViewVisibility()) {
       float xOverlap = Math.min(player.getX() + player.getL() - getX(), getX() + getL() - player.getX());
@@ -106,9 +107,6 @@ public class aPlatform extends aGameObject {
       switch(setType) {
 
       case "platform":
-
-
-
         if (xOverlap > 0 && yOverlap > 0) {
           if (xOverlap < yOverlap) {
             // Resolve the collision horizontally
@@ -142,9 +140,6 @@ public class aPlatform extends aGameObject {
         break;
 
       case "walljump":
-
-
-
         if (xOverlap > 0 && yOverlap > 0) {
           if (xOverlap < yOverlap) {
             // Resolve the collision horizontally
@@ -177,34 +172,46 @@ public class aPlatform extends aGameObject {
     }
   }
 
-
+ //NOTE: I DID NOT CREATE any code relating to xOverlap and yOverlap. Concept of the collsion retreived from: https://gamedev.stackexchange.com/questions/29786/a-simple-2d-rectangle-collision-algorithm-that-also-determines-which-sides-that
   public void handleCollision(aEnemy enemy) {
-    if (visibility == 0 || visibility == getViewVisibility() ) {
+    if (visibility == 0 || visibility == getViewVisibility()) {
       float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
       float yOverlap = Math.min(enemy.getY() + enemy.getW() - getY(), getY() + getW() - enemy.getY());
+      switch(setType) {
 
-      if (xOverlap > 0 && yOverlap > 0) {
-        if (xOverlap < yOverlap) {
-          // Resolve the collision horizontally
-          if (enemy.getX() < getX()) {
-            enemy.stopRight();
-            enemy.setX(getX() - enemy.getL());
-            // enemy.moveLeft();
+      case "platform":
+        case "walljump":
+
+
+          if (xOverlap > 0 && yOverlap > 0) {
+          if (xOverlap < yOverlap) {
+            // Resolve the collision horizontally
+            if (enemy.getX() < getX()) {
+              enemy.stopRight();
+              enemy.setX(getX() - enemy.getL());
+            } else {
+              enemy.stopLeft();
+              enemy.setX(getX() + getL());
+            }
           } else {
-            enemy.stopLeft();
-            enemy.setX(getX() + getL());
-            //enemy.moveRight();
-          }
-        } else {
-          // Resolve the collision vertically
-          if (enemy.getY() < getY()) {
-            enemy.land();
-            enemy.setY(getY() - enemy.getW());
-          } else {
-            enemy.velocityY = 0;
-            enemy.setY(getY() + getW());
+            // Resolve the collision vertically
+            if (enemy.getY() < getY()) {
+              enemy.land();
+              enemy.setY(getY() - enemy.getW());
+            } else {
+              enemy.velocityY = 0;
+              enemy.setY(getY() + getW());
+            }
           }
         }
+        break;
+
+      case "oneway":
+        if (enemy.getY() + enemy.getW() > getY() && enemy.getY() < getY() && enemy.getX() + enemy.getL() > getX() && enemy.getX() < getX() + getL()) {
+          enemy.land();
+          enemy.setY(getY() - enemy.getW());
+        }
+        break;
       }
     }
   }

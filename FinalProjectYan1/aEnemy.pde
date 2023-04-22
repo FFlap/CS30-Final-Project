@@ -179,7 +179,7 @@ public class aEnemy extends aGameObject {
       if (moveLeft) {
         setX -= speed;
       }
-      setX = constrain(setX, 0, width - setL);
+      setX = constrain(setX, 0, world.worldWidth - setL);
 
 
       velocityY += 0.5;

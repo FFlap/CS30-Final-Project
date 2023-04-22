@@ -1,7 +1,7 @@
 public class aPlayer extends aGameObject {
   private float jump, velocityY, originalJump;
   private int speed, jumpNum, playerNum, selectedPlayer;
-  private boolean jumpToggle, tempMoveRight, tempMoveLeft , moveRight, moveLeft, moveUp, moveDown, allowDown, flight, ladder;
+  private boolean jumpToggle, tempMoveRight, tempMoveLeft, moveRight, moveLeft, moveUp, moveDown, allowDown, flight, ladder;
   private float gravity = 0.5;
 
   // Original Constructed Variables
@@ -74,7 +74,7 @@ public class aPlayer extends aGameObject {
   }
 
   public void jump() {
-    if ((!jumpToggle || flight || jumpNum >= 1) && playerNum == selectedPlayer) {
+    if ((!jumpToggle || flight || jumpNum > 0) && playerNum == selectedPlayer) {
       jumpToggle = true;
       velocityY = -jump;
       jumpNum--;
@@ -117,7 +117,7 @@ public class aPlayer extends aGameObject {
       }
     }
   }
-
+ //NOTE: I DID NOT CREATE any code relating to xOverlap and yOverlap. Concept of the collsion retreived from: https://gamedev.stackexchange.com/questions/29786/a-simple-2d-rectangle-collision-algorithm-that-also-determines-which-sides-that
   public void handleCollision(aEnemy enemy) {
     if ((visibility == 0 || visibility == getViewVisibility()) && enemy.alive) {
       float xOverlap = Math.min(enemy.getX() + enemy.getL() - getX(), getX() + getL() - enemy.getX());
@@ -136,7 +136,9 @@ public class aPlayer extends aGameObject {
           if (enemy.getY() < getY()) {
             world.reset();
           } else {
-            enemy.alive = false;
+            if (enemy.setType == "red") {
+              enemy.alive = false;
+            }
           }
         }
       }
@@ -180,7 +182,7 @@ public class aPlayer extends aGameObject {
         if (moveLeft || tempMoveLeft) {
           setX = setX - speed;
         }
-        setX = constrain(setX, 0, width - setL);
+        setX = constrain(setX, 0, world.worldWidth - setL);
 
         if (moveUp && ladder) {
           setY = setY - speed;
@@ -215,9 +217,8 @@ public class aPlayer extends aGameObject {
 
   public void data() {
     if (world.levelTimer % 100 == 0) {
-      println("VelocityY: " + velocityY);
-      println("ladder: " + ladder);
-      println("allowDown" + allowDown);
+      println("jumpNum: " + jumpNum);
+
     }
   }
 }
