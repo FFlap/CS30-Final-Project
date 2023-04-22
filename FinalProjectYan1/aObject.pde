@@ -179,7 +179,7 @@ public class aObject extends aGameObject {
 
         case "projectileTarget":
         case "projectileBlock":
- //NOTE: I DID NOT CREATE any code relating to xOverlap and yOverlap. Concept of the collsion retreived from: https://gamedev.stackexchange.com/questions/29786/a-simple-2d-rectangle-collision-algorithm-that-also-determines-which-sides-that
+          //NOTE: I DID NOT CREATE any code relating to xOverlap and yOverlap. Concept of the collsion retreived from: https://gamedev.stackexchange.com/questions/29786/a-simple-2d-rectangle-collision-algorithm-that-also-determines-which-sides-that
           float xOverlap = Math.min(player.getX() + player.getL() - getX(), getX() + getL() - player.getX());
           float yOverlap = Math.min(player.getY() + player.getW() - getY(), getY() + getW() - player.getY());
 
@@ -214,7 +214,14 @@ public class aObject extends aGameObject {
           break;
         case "podium":
           saveData();
-          if (world.level == 9) {
+          if (world.level == 9 && world.world == 2) {
+            world.world = 1;
+            world.level = 0;
+            GUI.levelSelect = 0;
+            GUI.setWindow(700, 700);
+            world.spawn();
+            break;
+          } else if (world.level == 9 && world.world == 1) {
             world.world++;
             world.level = 0;
           } 
@@ -245,7 +252,7 @@ public class aObject extends aGameObject {
     levelData.setInt("jumps", world.jumpStat);
     levelData.setInt("left", world.leftStat);
     levelData.setInt("right", world.rightStat);
-    
+
     JSONArray worldArray = saveData.getJSONArray(world.world - 1);
     JSONArray levelArray = worldArray.getJSONArray(world.level - 1);
 
@@ -267,7 +274,7 @@ public class aObject extends aGameObject {
       json.setInt("levelUnlocked", world.level + 1);
       saveJSONObject(json, "data/data.json");
     } else if (world.world == GUI.worldUnlocked) {
-      if (world.level + 1 >= GUI.levelUnlocked) {
+      if (world.level + 1 >= GUI.levelUnlocked && world.level + 1 != 10) {
         json = new JSONObject();
         json.setInt("worldUnlocked", world.world);
         json.setInt("levelUnlocked", world.level + 1);
@@ -275,7 +282,7 @@ public class aObject extends aGameObject {
       }
 
 
-      if (world.level == 9) {
+      if (world.level == 9 && world.world == 1) {
         json = new JSONObject();
         json.setInt("levelUnlocked", 1);
         json.setInt("worldUnlocked", world.world + 1);

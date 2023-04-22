@@ -586,12 +586,12 @@ public class aWorld {
           objects.add(new aObject("jumpBoost", 0, 290, 580, 15));
           platforms.add(new aPlatform("walljump", 0, 670, 350, 100, 260, #8E6A2F));
           platforms.add(new aPlatform("walljump", 0, 480, 160, 80, 200, #8E6A2F));
+          platforms.add(new aPlatform("platform", 1, 480, 0, 80, 200, #008080));
           platforms.add(new aPlatform("walljump", 0, 520, 600, 60, 200, #8E6A2F));
           powerups.add(new aPowerup("projectile", 0, 770, 450));
           objects.add(new aObject("deathZone", 0, 290, 590, 35, 80));
           objects.add(new aObject("deathZone", 0, 520, 580, 60, 20));
           objects.add(new aObject("projectileTarget", 0, 600, 10, 150, 40));
-          platforms.add(new aPlatform("oneway", 2, 0, 350, 200, 50, #93A530));
           platforms.add(new aPlatform("oneway", 3, 0, 350, 200, 50, #93A530));
           objects.add(new aObject("deathZone", 0, 480, 150, 80, 10));
           objects.add(new aObject("deathZone", 0, 250, 340, 230, 10));
